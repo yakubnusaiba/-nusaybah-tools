@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nusaybah Hub – Multi-Function Tools</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* ============================================================
+           ROOT & RESET
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0a2463;
+            --secondary: #d4af37;
+            --accent: #3e92cc;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --radius: 12px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f9f9f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ============================================================
+           HEADER
+           ============================================================ */
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .header .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--secondary);
+        }
+        .header .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .header .logo-text .brand {
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        .header .logo-text .brand span {
+            color: var(--secondary);
+        }
+        .header .logo-text .tagline {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            letter-spacing: 2px;
+            color: var(--secondary);
+        }
+        .header .tools-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            background: rgba(255,255,255,0.1);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            border: 1px solid var(--secondary);
+        }
+
+        /* ============================================================
+           NAVIGATION
+           ============================================================ */
+        .nav {
+            background: var(--dark);
+            padding: 0.7rem 0;
+            position: sticky;
+            top: 60px;
+            z-index: 999;
+        }
+        .nav .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+        .nav button {
+            background: transparent;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .nav button:hover {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+        .nav button.active {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        /* ============================================================
+           CONTENT
+           ============================================================ */
+        .content {
+            padding: 2rem 0;
+        }
+        .page {
+            display: none;
+            animation: fade 0.3s ease;
+        }
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================================
+           CARDS & TOOLS
+           ============================================================ */
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+        .card h2 i {
+            color: var(--secondary);
+            margin-right: 0.5rem;
+        }
+        .card p.sub {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.7rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        .btn:hover {
+            background: var(--secondary);
+            color: var(--primary);
+            transform: scale(1.02);
+        }
+        .btn-gold {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+        .btn-gold:hover {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-sm {
+            padding: 0.4rem 1.2rem;
+            font-size: 0.85rem;
+        }
+
+        .output-box {
+            background: #f5f5f5;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .output-box.show {
+            display: block;
+        }
+        .output-box h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* ============================================================
+           HOME GRID
+           ============================================================ */
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .tool-card {
+            background: white;
+            padding: 1.8rem 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            border-bottom: 4px solid var(--secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .tool-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+        .tool-card i {
+            font-size: 2.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .tool-card h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        .tool-card p {
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-top: 0.2rem;
+        }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        .footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        .footer p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        .footer .heart {
+            color: #e74c3c;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 768px) {
+            .header .container {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.3rem;
+            }
+            .header .logo-wrapper {
+                flex-direction: column;
+                text-align: center;
+            }
+            .header .logo-text .brand {
+                font-size: 1.4rem;
+            }
+            .header .logo-img {
+                width: 60px;
+                height: 60px;
+            }
+            .nav .container {
+                gap: 0.2rem;
+            }
+            .nav button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.75rem;
+            }
+            .card {
+                padding: 1.2rem;
+            }
+            .card h2 {
+                font-size: 1.4rem;
+            }
+            .home-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .tool-card {
+                padding: 1rem;
+            }
+            .tool-card i {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .home-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav button {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.6rem;
+            }
+            .header .logo-text .brand {
+                font-size: 1.2rem;
+            }
+            .header .logo-img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         HEADER
+         ============================================================ -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-wrapper">
+                <img src="logo.webp" alt="Nusaybah Hub Logo" class="logo-img" />
+                <div class="logo-text">
+                    <div class="brand">Nusaybah <span>Hub</span></div>
+                    <div class="tagline">YOUR TRUSTED SHOPPING HUB</div>
+                </div>
+            </div>
+            <div class="tools-label"><i class="fas fa-tools"></i> Multi-Function Tools</div>
+        </div>
+    </header>
+
+    <!-- ============================================================
+         NAVIGATION
+         ============================================================ -->
+    <nav class="nav">
+        <div class="container">
+            <button class="active" data-page="home">Home</button>
+            <button data-page="recipe">🍳 Recipe</button>
+            <button data-page="resume">📄 Resume</button>
+            <button data-page="content">✍️ Content</button>
+            <button data-page="leads">🎯 Leads</button>
+            <button data-page="assistant">🤖 Assistant</button>
+            <button data-page="qr">📱 QR Code</button>
+            <button data-page="password">🔐 Password</button>
+            <button data-page="summarizer">📝 Summarizer</button>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+         CONTENT
+         ============================================================ -->
+    <div class="container content">
+
+        <!-- ===== HOME ===== -->
+        <div class="page active" id="page-home">
+            <div class="card" style="border-left-color: var(--primary);">
+                <h2>🏠 Welcome to Nusaybah Hub</h2>
+                <p class="sub">Your all-in-one platform with AI-powered tools for business, creativity, and productivity.</p>
+                <p>Select a tool from the navigation above or click a card below to get started.</p>
+            </div>
+            <div class="home-grid">
+                <div class="tool-card" onclick="goTo('recipe')">
+                    <i class="fas fa-utensils"></i>
+                    <h3>Recipe Generator</h3>
+                    <p>Turn ingredients into meals</p>
+                </div>
+                <div class="tool-card" onclick="goTo('resume')">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>Resume Builder</h3>
+                    <p>Create professional resumes</p>
+                </div>
+                <div class="tool-card" onclick="goTo('content')">
+                    <i class="fas fa-pen-fancy"></i>
+                    <h3>Content Writer</h3>
+                    <p>Generate content with AI</p>
+                </div>
+                <div class="tool-card" onclick="goTo('leads')">
+                    <i class="fas fa-bullseye"></i>
+                    <h3>Lead Generator</h3>
+                    <p>Find business leads</p>
+                </div>
+                <div class="tool-card" onclick="goTo('assistant')">
+                    <i class="fas fa-robot"></i>
+                    <h3>AI Assistant</h3>
+                    <p>Business chatbot</p>
+                </div>
+                <div class="tool-card" onclick="goTo('qr')">
+                    <i class="fas fa-qrcode"></i>
+                    <h3>QR Code Generator</h3>
+                    <p>Create QR codes instantly</p>
+                </div>
+                <div class="tool-card" onclick="goTo('password')">
+                    <i class="fas fa-lock"></i>
+                    <h3>Password Generator</h3>
+                    <p>Strong secure passwords</p>
+                </div>
+                <div class="tool-card" onclick="goTo('summarizer')">
+                    <i class="fas fa-compress-alt"></i>
+                    <h3>Text Summarizer</h3>
+                    <p>Summarize long text</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== RECIPE GENERATOR ===== -->
+        <div class="page" id="page-recipe">
+            <div class="card">
+                <h2><i class="fas fa-utensils"></i> AI Recipe Generator</h2>
+                <p class="sub">Enter your ingredients and get a delicious recipe.</p>
+                <div class="form-group">
+                    <label>Ingredients (separated by commas)</label>
+                    <textarea id="recipeInput" rows="3" placeholder="e.g., chicken, rice, tomatoes, onions, garlic, pepper"></textarea>
+                </div>
+                <div class="form-group" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                    <div>
+                        <label>Meal Type</label>
+                        <select id="recipeMealType">
+                            <option value="Any">Any</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Lunch">Lunch</option>
+                            <option value="Dinner">Dinner</option>
+                            <option value="Snack">Snack</option>
+                            <option value="Dessert">Dessert</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Cuisine</label>
+                        <select id="recipeCuisine">
+                            <option value="Any">Any</option>
+                            <option value="Nigerian">Nigerian</option>
+                            <option value="Italian">Italian</option>
+                            <option value="Chinese">Chinese</option>
+                            <option value="Mexican">Mexican</option>
+                            <option value="Indian">Indian</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn" onclick="generateRecipe()">✨ Generate Recipe</button>
+                <div class="output-box" id="recipeOutput">
+                    <h4>🍽️ Your Recipe</h4>
+                    <div id="recipeResult"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== RESUME BUILDER ===== -->
+        <div class="page" id="page-resume">
+            <div class="card">
+                <h2><i class="fas fa-file-alt"></i> AI Resume Builder</h2>
+                <p class="sub">Enter your details and get a professional resume.</p>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input id="resumeName" placeholder="e.g., Maryam Yakub" />
+                </div>
+                <div class="form-group">
+                    <label>Job Title</label>
+                    <input id="resumeTitle" placeholder="e.g., Software Developer" />
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input id="resumeEmail" placeholder="maryam@example.com" />
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input id="resumePhone" placeholder="+234 810 525 7672" />
+                </div>
+                <div class="form-group">
+                    <label>Experience, Education & Skills</label>
+                    <textarea id="resumeDetails" rows="4" placeholder="Experience: Software Developer at Tech Corp (2022-2024)..."></textarea>
+                </div>
+                <button class="btn" onclick="generateResume()">📄 Generate Resume</button>
+                <div class="output-box" id="resumeOutput">
+                    <h4>📄 Your Resume</h4>
+                    <div id="resumeResult"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== CONTENT WRITER ===== -->
+        <div class="page" id="page-content">
+            <div class="card">
+                <h2><i class="fas fa-pen-fancy"></i> AI Content Writer</h2>
+                <p class="sub">Generate blog posts, social media captions, and more.</p>
+                <div class="form-group">
+                    <label>Topic</label>
+                    <input id="contentTopic" placeholder="e.g., Why modest fashion is growing in Nigeria" />
+                </div>
+                <div class="form-group">
+                    <label>Content Type</label>
+                    <select id="contentType">
+                        <option value="Blog Post">Blog Post</option>
+                        <option value="Social Media Post">Social Media Post</option>
+                        <option value="Product Description">Product Description</option>
+                        <option value="Email Newsletter">Email Newsletter</option>
+                        <option value="Advertisement Copy">Advertisement Copy</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tone</label>
+                    <select id="contentTone">
+                        <option value="Professional">Professional</option>
+                        <option value="Casual">Casual</option>
+                        <option value="Inspiring">Inspiring</option>
+                        <option value="Persuasive">Persuasive</option>
+                        <option value="Warm">Warm</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="generateContent()">✍️ Generate Content</button>
+                <div class="output-box" id="contentOutput">
+                    <h4>✍️ Generated Content</h4>
+                    <div id="contentResult"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== LEAD GENERATOR ===== -->
+        <div class="page" id="page-leads">
+            <div class="card">
+                <h2><i class="fas fa-bullseye"></i> AI Lead Generator</h2>
+                <p class="sub">Find potential customers for any business.</p>
+                <div class="form-group">
+                    <label>Business Type</label>
+                    <input id="leadBusiness" placeholder="e.g., Modest fashion store" />
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input id="leadLocation" placeholder="e.g., Jos, Nigeria" />
+                </div>
+                <div class="form-group">
+                    <label>Target Audience</label>
+                    <input id="leadAudience" placeholder="e.g., Women aged 18-45" />
+                </div>
+                <button class="btn" onclick="generateLeads()">🎯 Generate Leads</button>
+                <div class="output-box" id="leadOutput">
+                    <h4>🎯 Lead Generation Report</h4>
+                    <div id="leadResult"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== AI ASSISTANT ===== -->
+        <div class="page" id="page-assistant">
+            <div class="card">
+                <h2><i class="fas fa-robot"></i> Nusaybah Hub AI Assistant</h2>
+                <p class="sub">Ask me anything about Nusaybah Hub.</p>
+                <div class="form-group">
+                    <label>Your Question</label>
+                    <input id="assistantInput" placeholder="e.g., What is your address?" />
+                </div>
+                <button class="btn" onclick="askAssistant()">🤖 Ask</button>
+                <div class="output-box" id="assistantOutput">
+                    <h4>🤖 Answer</h4>
+                    <div id="assistantResult"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== QR CODE GENERATOR ===== -->
+        <div class="page" id="page-qr">
+            <div class="card">
+                <h2><i class="fas fa-qrcode"></i> QR Code Generator</h2>
+                <p class="sub">Generate a QR code for any text or link.</p>
+                <div class="form-group">
+                    <label>Enter Text or URL</label>
+                    <input id="qrInput" placeholder="https://nusaybahhub.com" />
+                </div>
+                <button class="btn" onclick="generateQR()">📱 Generate QR Code</button>
+                <div class="output-box" id="qrOutput">
+                    <h4>📱 Your QR Code</h4>
+                    <div id="qrResult" style="text-align:center;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PASSWORD GENERATOR ===== -->
+        <div class="page" id="page-password">
+            <div class="card">
+                <h2><i class="fas fa-lock"></i> Password Generator</h2>
+                <p class="sub">Generate strong, secure passwords instantly.</p>
+                <div class="form-group">
+                    <label>Password Length</label>
+                    <input id="passLength" type="number" value="12" min="6" max="32" />
+                </div>
+                <div class="form-group" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
+                    <label><input type="checkbox" id="passUpper" checked /> Uppercase</label>
+                    <label><input type="checkbox" id="passLower" checked /> Lowercase</label>
+                    <label><input type="checkbox" id="passNumbers" checked /> Numbers</label>
+                    <label><input type="checkbox" id="passSymbols" checked /> Symbols</label>
+                </div>
+                <button class="btn" onclick="generatePassword()">🔐 Generate Password</button>
+                <div class="output-box" id="passOutput">
+                    <h4>🔐 Your Password</h4>
+                    <div id="passResult" style="font-size:1.2rem; font-weight:bold; word-break:break-all;"></div>
+                    <button class="btn btn-sm btn-gold" style="margin-top:0.5rem;" onclick="copyPassword()">📋 Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TEXT SUMMARIZER ===== -->
+        <div class="page" id="page-summarizer">
+            <div class="card">
+                <h2><i class="fas fa-compress-alt"></i> Text Summarizer</h2>
+                <p class="sub">Summarize long text into key points.</p>
+                <div class="form-group">
+                    <label>Enter Text to Summarize</label>
+                    <textarea id="summarizerInput" rows="6" placeholder="Paste your long text here..."></textarea>
+                </div>
+                <button class="btn" onclick="summarizeText()">📝 Summarize</button>
+                <div class="output-box" id="summarizerOutput">
+                    <h4>📝 Summary</h4>
+                    <div id="summarizerResult"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <footer class="footer">
+        <div class="container">
+            <p>Nusaybah Hub — All-in-One AI Tools &copy; 2025</p>
+            <p style="font-size:0.8rem; opacity:0.5;">Made with <span class="heart">❤</span> for learning and innovation</p>
+        </div>
+    </footer>
+
+    <!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+    <script>
+        // ============================================================
+        // NAVIGATION
+        // ============================================================
+
+        document.querySelectorAll('.nav button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const page = this.dataset.page;
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                document.getElementById('page-' + page).classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        function goTo(page) {
+            document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.nav button[data-page="${page}"]`).classList.add('active');
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + page).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ============================================================
+        // SHOW OUTPUT HELPER
+        // ============================================================
+
+        function showOutput(id, html) {
+            const el = document.getElementById(id);
+            const resultEl = document.getElementById(id.replace('Output', 'Result'));
+            el.classList.add('show');
+            resultEl.innerHTML = html;
+        }
+
+        // ============================================================
+        // RECIPE GENERATOR
+        // ============================================================
+
+        function generateRecipe() {
+            const ingredients = document.getElementById('recipeInput').value.trim();
+            const mealType = document.getElementById('recipeMealType').value;
+            const cuisine = document.getElementById('recipeCuisine').value;
+
+            if (!ingredients) {
+                alert('Please enter some ingredients.');
+                return;
+            }
+
+            const sampleRecipes = {
+                'chicken, rice, tomatoes': `🍗 **Chicken Jollof Rice**\n\n⏱️ 45 mins | 🍽️ 4 servings\n\n**Ingredients:**\n- 500g chicken\n- 2 cups rice\n- 3 tomatoes (blended)\n- 1 onion (chopped)\n- 2 cloves garlic\n- Salt & pepper\n\n**Instructions:**\n1. Season chicken with salt and pepper. Fry until golden.\n2. In the same pot, sauté onions and garlic.\n3. Add blended tomatoes and cook for 5 minutes.\n4. Add rice and 4 cups of water. Cover and cook for 20 mins.\n5. Add the chicken back, cook for 10 more mins.\n6. Serve hot with plantains! 🍌`,
+                'eggs, flour, milk': `🥞 **Fluffy Pancakes**\n\n⏱️ 20 mins | 🍽️ 2 servings\n\n**Ingredients:**\n- 2 eggs\n- 1 cup flour\n- 1 cup milk\n- 2 tbsp sugar\n- 1 tsp baking powder\n\n**Instructions:**\n1. Mix all ingredients until smooth.\n2. Heat a pan with butter.\n3. Pour batter and cook until bubbles appear.\n4. Flip and cook until golden.\n5. Serve with honey or syrup! 🍯`
+            };
+
+            let result = sampleRecipes[ingredients.toLowerCase()];
+            if (!result) {
+                result = `🍽️ **Creative Recipe with ${ingredients}**\n\n⏱️ 30 mins | 🍽️ 2 servings\n\n**Ingredients:**\n- ${ingredients.replace(/,/g, '\n- ')}\n\n**Instructions:**\n1. Prepare all ingredients.\n2. Heat oil in a pan.\n3. Add ingredients and cook for 15-20 mins.\n4. Season to taste.\n5. Serve hot and enjoy! 🍽️\n\n💡 *Tip: Add your OpenAI API key for real AI-generated recipes!*`;
+            }
+
+            showOutput('recipeOutput', `<p style="white-space:pre-wrap;">${result}</p>`);
+        }
+
+        // ============================================================
+        // RESUME BUILDER
+        // ============================================================
+
+        function generateResume() {
+            const name = document.getElementById('resumeName').value.trim();
+            const title = document.getElementById('resumeTitle').value.trim();
+            const email = document.getElementById('resumeEmail').value.trim();
+            const phone = document.getElementById('resumePhone').value.trim();
+            const details = document.getElementById('resumeDetails').value.trim();
+
+            if (!name || !title) {
+                alert('Please enter your name and job title.');
+                return;
+            }
+
+            const resume = `
+        📄 **${name}**
+        ${title}
+
+        📧 ${email || 'email@example.com'} | 📞 ${phone || '+234 800 000 0000'}
+
+        ---
+        **Professional Summary**
+        ${details || 'A dedicated professional with experience in ' + title + '. Passionate about delivering results and continuous learning.'}
+
+        ---
+        **Experience**
+        ${details ? details : '• [Company Name] - [Role] (20XX-20XX)\n• [Company Name] - [Role] (20XX-20XX)'}
+
+        ---
+        **Education**
+        ${details ? details : '• [Degree] - [University] (20XX-20XX)'}
+
+        ---
+        **Skills**
+        ${details ? details : '• Communication • Teamwork • Problem Solving • Leadership'}
+
+        ---
+        *Generated by AI Resume Builder | ${new Date().toLocaleDateString()}*
+        `;
+
+            showOutput('resumeOutput', `<p style="white-space:pre-wrap;">${resume}</p>`);
+        }
+
+        // ============================================================
+        // CONTENT WRITER
+        // ============================================================
+
+        function generateContent() {
+            const topic = document.getElementById('contentTopic').value.trim();
+            const type = document.getElementById('contentType').value;
+            const tone = document.getElementById('contentTone').value;
+
+            if (!topic) {
+                alert('Please enter a topic.');
+                return;
+            }
+
+            const samples = {
+                'Blog Post': `**${topic}**\n\nA ${tone.toLowerCase()} blog post on ${topic} would explore the latest trends, share practical tips, and offer actionable advice for readers. This is a sample – connect your OpenAI API key for real content generation.`,
+                'Social Media Post': `📱 **${topic}**\n\n🌟 Did you know? ${topic} is changing the way we think about [industry]. Here's why you should care...\n\n👇 Drop a comment if you agree!\n\n#${topic.replace(/ /g,'')} #Trending #NusaybahHub`,
+                'Product Description': `🛍️ **${topic}**\n\nIntroducing our latest product: ${topic}! Designed with quality and affordability in mind. Perfect for [target audience].\n\n✅ Premium quality\n✅ Affordable price\n✅ Satisfaction guaranteed\n\nOrder now via WhatsApp! 📲`,
+                'Email Newsletter': `📧 **Subject:** ${topic}\n\nHello [Name],\n\nWe are excited to share this update on ${topic}.\n\n[Content goes here]\n\nThank you for being part of our community!\n\nBest regards,\nNusaybah Hub Team`,
+                'Advertisement Copy': `🔥 **${topic}** – Limited Offer!\n\nDon't miss out on this amazing opportunity to experience ${topic}.\n\n✅ [Key Benefit 1]\n✅ [Key Benefit 2]\n✅ [Key Benefit 3]\n\n📞 Call us now: +234 810 525 7672\n\n*Offer valid while stocks last!*`
+            };
+
+            const result = samples[type] || `**${topic}**\n\nA ${tone.toLowerCase()} ${type.toLowerCase()} about ${topic}. Connect your OpenAI API key for real content generation.`;
+
+            showOutput('contentOutput', `<p style="white-space:pre-wrap;">${result}</p>`);
+        }
+
+        // ============================================================
+        // LEAD GENERATOR
+        // ============================================================
+
+        function generateLeads() {
+            const business = document.getElementById('leadBusiness').value.trim();
+            const location = document.getElementById('leadLocation').value.trim();
+            const audience = document.getElementById('leadAudience').value.trim();
+
+            if (!business) {
+                alert('Please enter a business type.');
+                return;
+            }
+
+            const leads = `
+        🎯 **Lead Generation Report**
+        Business: ${business}
+        Location: ${location || 'Any'}
+        Target: ${audience || 'General'}
+
+        ---
+        **Top 5 Customer Segments**
+
+        1. **Segment A** – ${audience || 'Primary customers'} who need ${business}
+           📍 Where to find: Social media, local events
+           📝 Outreach: "Hello! We offer premium ${business} in ${location || 'your area'}. Would you be interested?"
+
+        2. **Segment B** – Secondary market
+           📍 Where to find: Online directories, referrals
+           📝 Outreach: "Hi there! We specialize in ${business}. Can we help you today?"
+
+        3. **Segment C** – Niche audience
+           📍 Where to find: Community groups, platforms
+           📝 Outreach: "Looking for quality ${business}? We've got you covered!"
+
+        4. **Segment D** – Corporate clients
+           📍 Where to find: LinkedIn, business networks
+           📝 Outreach: "We provide ${business} solutions for businesses like yours."
+
+        5. **Segment E** – Repeat customers
+           📍 Where to find: Past clients, email lists
+           📝 Outreach: "We value your loyalty. Here's a special offer just for you!"
+
+        ---
+        **Priority:** Start with Segments A and B for quick results.
+        **Next Steps:** Reach out via WhatsApp, email, and social media.
+        `;
+
+            showOutput('leadOutput', `<p style="white-space:pre-wrap;">${leads}</p>`);
+        }
+
+        // ============================================================
+        // AI ASSISTANT
+        // ============================================================
+
+        function askAssistant() {
+            const input = document.getElementById('assistantInput').value.trim();
+
+            if (!input) {
+                alert('Please ask a question.');
+                return;
+            }
+
+            const answers = {
+                'address': '📍 Our address is **C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria**.',
+                'phone': '📞 Call or WhatsApp us at **+234 810 525 7672**.',
+                'hours': '🕐 We are open Monday–Thursday & Saturday–Sunday: **8:00 AM – 6:00 PM**. Friday: **8:00 AM – 5:00 PM**.',
+                'offer': '🛍️ We offer **custom tailoring, modest fashion, thrift abayas (₦7,000), hand sleeves (₦800), pins (₦700), visor hats, web development, digital marketing, and tech accessories.**',
+                'shipping': '📦 We deliver locally in Jos and ship **nationwide across Nigeria**.',
+                'abaya': '👗 Yes! We have **thrift abayas for ₦7,000**. Contact us to see current stock.',
+                'tailoring': '✂️ Yes! We do **custom tailoring** at Nusaybah Power & Stitch.',
+                'power bank': '🔋 Yes! We sell power banks in **20,000mAh, 30,000mAh, 40,000mAh, and 50,000mAh**. Prices vary by capacity.',
+                'facebook': '📱 Follow us on Facebook: https://www.facebook.com/100077686659565/',
+                'instagram': '📱 Follow us on Instagram: https://www.instagram.com/nusaybahyaaqub/'
+            };
+
+            let result = null;
+            const lowerInput = input.toLowerCase();
+
+            for (const [key, value] of Object.entries(answers)) {
+                if (lowerInput.includes(key)) {
+                    result = value;
+                    break;
+                }
+            }
+
+            if (!result) {
+                result = `🤖 I'm sorry, I don't have an answer for that yet. Please contact us directly at **+234 810 525 7672** or visit our store at **C/73 Alhaji Ango Street, Jos North, Plateau State**. We'd love to help! 😊`;
+            }
+
+            showOutput('assistantOutput', `<p>${result}</p>`);
+        }
+
+        // ============================================================
+        // QR CODE GENERATOR
+        // ============================================================
+
+        function generateQR() {
+            const text = document.getElementById('qrInput').value.trim();
+
+            if (!text) {
+                alert('Please enter some text or a URL.');
+                return;
+            }
+
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(text)}`;
+
+            showOutput('qrOutput', `
+                <img src="${qrUrl}" alt="QR Code" style="max-width:300px; width:100%; margin:0 auto; display:block;" />
+                <p style="text-align:center; margin-top:0.5rem; font-size:0.8rem; color:#888;">Scan me! 📱</p>
+            `);
+        }
+
+        // ============================================================
+        // PASSWORD GENERATOR
+        // ============================================================
+
+        let generatedPassword = '';
+
+        function generatePassword() {
+            const length = parseInt(document.getElementById('passLength').value) || 12;
+            const upper = document.getElementById('passUpper').checked;
+            const lower = document.getElementById('passLower').checked;
+            const numbers = document.getElementById('passNumbers').checked;
+            const symbols = document.getElementById('passSymbols').checked;
+
+            let chars = '';
+            if (upper) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (lower) chars += 'abcdefghijklmnopqrstuvwxyz';
+            if (numbers) chars += '0123456789';
+            if (symbols) chars += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+            if (!chars) {
+                alert('Please select at least one character type.');
+                return;
+            }
+
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+
+            generatedPassword = password;
+            showOutput('passOutput', `<p style="font-size:1.2rem; font-weight:bold; word-break:break-all;">${password}</p>
+                <button class="btn btn-sm btn-gold" style="margin-top:0.5rem;" onclick="copyPassword()">📋 Copy</button>`);
+        }
+
+        function copyPassword() {
+            if (!generatedPassword) {
+                alert('Generate a password first.');
+                return;
+            }
+            navigator.clipboard.writeText(generatedPassword).then(() => {
+                alert('✅ Password copied to clipboard!');
+            }).catch(() => {
+                // Fallback
+                const textarea = document.createElement('textarea');
+                textarea.value = generatedPassword;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('✅ Password copied to clipboard!');
+            });
+        }
+
+        // ============================================================
+        // TEXT SUMMARIZER
+        // ============================================================
+
+        function summarizeText() {
+            const text = document.getElementById('summarizerInput').value.trim();
+
+            if (!text) {
+                alert('Please enter some text to summarize.');
+                return;
+            }
+
+            // Simple summarization: extract first 3 sentences or first 150 words
+            const words = text.split(/\s+/);
+            let summary = '';
+
+            if (words.length <= 50) {
+                summary = text;
+            } else {
+                // Take first 3 sentences
+                const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+                const firstSentences = sentences.slice(0, 3).join(' ');
+                const remaining = sentences.slice(3).join(' ');
+                if (remaining.length > 0) {
+                    summary = firstSentences + ' ... [Summary continues]';
+                } else {
+                    summary = firstSentences;
+                }
+            }
+
+            showOutput('summarizerOutput', `
+                <p><strong>Original Length:</strong> ${text.length} characters, ${words.length} words</p>
+                <p><strong>Summary Length:</strong> ${summary.length} characters, ${summary.split(/\s+/).length} words</p>
+                <hr />
+                <p style="white-space:pre-wrap;">${summary}</p>
+            `);
+        }
+
+        // ============================================================
+        // KEYBOARD SHORTCUT: Enter to generate
+        // ============================================================
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'TEXTAREA') {
+                const activePage = document.querySelector('.page.active');
+                if (activePage) {
+                    const id = activePage.id;
+                    if (id === 'page-recipe') generateRecipe();
+                    else if (id === 'page-resume') generateResume();
+                    else if (id === 'page-content') generateContent();
+                    else if (id === 'page-leads') generateLeads();
+                    else if (id === 'page-assistant') askAssistant();
+                    else if (id === 'page-qr') generateQR();
+                    else if (id === 'page-password') generatePassword();
+                    else if (id === 'page-summarizer') summarizeText();
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
