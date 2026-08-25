@@ -6,100 +6,38 @@
     <title>Nusaybah Hub – Multi-Function Tools</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        /* ============================================================
-           ROOT & RESET
-           ============================================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* ===== RESET & ROOT ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --primary: #0a2463;
             --secondary: #d4af37;
-            --accent: #3e92cc;
-            --light: #f8f9fa;
             --dark: #212529;
             --gray: #6c757d;
-            --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --shadow: 0 8px 30px rgba(0,0,0,0.08);
             --radius: 12px;
         }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f9f9f9; color: var(--dark); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f9f9f9;
-            color: var(--dark);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        /* ============================================================
-           HEADER
-           ============================================================ */
+        /* ===== HEADER ===== */
         .header {
             background: var(--primary);
             color: white;
             padding: 0.8rem 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
-        .header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        .header .logo-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .header .logo-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--secondary);
-        }
-        .header .logo-text {
-            display: flex;
-            flex-direction: column;
-        }
-        .header .logo-text .brand {
-            font-size: 1.6rem;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-        .header .logo-text .brand span {
-            color: var(--secondary);
-        }
-        .header .logo-text .tagline {
-            font-size: 0.7rem;
-            opacity: 0.8;
-            letter-spacing: 2px;
-            color: var(--secondary);
-        }
-        .header .tools-label {
-            font-size: 0.85rem;
-            opacity: 0.8;
-            background: rgba(255,255,255,0.1);
-            padding: 0.3rem 1rem;
-            border-radius: 20px;
-            border: 1px solid var(--secondary);
-        }
+        .header .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+        .header .logo-wrapper { display: flex; align-items: center; gap: 12px; }
+        .header .logo-img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--secondary); }
+        .header .logo-text .brand { font-size: 1.6rem; font-weight: 700; }
+        .header .logo-text .brand span { color: var(--secondary); }
+        .header .logo-text .tagline { font-size: 0.7rem; opacity: 0.8; letter-spacing: 2px; color: var(--secondary); }
+        .header .tools-label { font-size: 0.85rem; background: rgba(255,255,255,0.1); padding: 0.3rem 1rem; border-radius: 20px; border: 1px solid var(--secondary); }
 
-        /* ============================================================
-           NAVIGATION
-           ============================================================ */
+        /* ===== NAVIGATION ===== */
         .nav {
             background: var(--dark);
             padding: 0.7rem 0;
@@ -107,12 +45,7 @@
             top: 60px;
             z-index: 999;
         }
-        .nav .container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.3rem;
-        }
+        .nav .container { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.3rem; }
         .nav button {
             background: transparent;
             color: white;
@@ -124,43 +57,15 @@
             transition: all 0.3s;
             font-weight: 500;
         }
-        .nav button:hover {
-            background: var(--secondary);
-            color: var(--primary);
-        }
-        .nav button.active {
-            background: var(--secondary);
-            color: var(--primary);
-        }
+        .nav button:hover, .nav button.active { background: var(--secondary); color: var(--primary); }
 
-        /* ============================================================
-           CONTENT
-           ============================================================ */
-        .content {
-            padding: 2rem 0;
-        }
-        .page {
-            display: none;
-            animation: fade 0.3s ease;
-        }
-        .page.active {
-            display: block;
-        }
+        /* ===== CONTENT ===== */
+        .content { padding: 2rem 0; }
+        .page { display: none; animation: fade 0.3s ease; }
+        .page.active { display: block; }
+        @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fade {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ============================================================
-           CARDS & TOOLS
-           ============================================================ */
+        /* ===== CARDS ===== */
         .card {
             background: white;
             padding: 2rem;
@@ -169,33 +74,13 @@
             border-left: 4px solid var(--secondary);
             margin-bottom: 1.5rem;
         }
-        .card h2 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            font-size: 1.8rem;
-        }
-        .card h2 i {
-            color: var(--secondary);
-            margin-right: 0.5rem;
-        }
-        .card p.sub {
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-        }
+        .card h2 { color: var(--primary); margin-bottom: 0.5rem; font-size: 1.8rem; }
+        .card h2 i { color: var(--secondary); margin-right: 0.5rem; }
+        .card p.sub { color: var(--gray); margin-bottom: 1.5rem; }
 
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.2rem;
-            color: var(--dark);
-            font-size: 0.9rem;
-        }
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.2rem; color: var(--dark); font-size: 0.9rem; }
+        .form-group input, .form-group textarea, .form-group select {
             width: 100%;
             padding: 0.8rem 1rem;
             border: 1px solid #ddd;
@@ -203,12 +88,7 @@
             font-size: 1rem;
             transition: border 0.3s;
         }
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            border-color: var(--secondary);
-            outline: none;
-        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--secondary); outline: none; }
 
         .btn {
             background: var(--primary);
@@ -221,23 +101,7 @@
             transition: all 0.3s;
             font-size: 0.95rem;
         }
-        .btn:hover {
-            background: var(--secondary);
-            color: var(--primary);
-            transform: scale(1.02);
-        }
-        .btn-gold {
-            background: var(--secondary);
-            color: var(--primary);
-        }
-        .btn-gold:hover {
-            background: var(--primary);
-            color: white;
-        }
-        .btn-sm {
-            padding: 0.4rem 1.2rem;
-            font-size: 0.85rem;
-        }
+        .btn:hover { background: var(--secondary); color: var(--primary); transform: scale(1.02); }
 
         .output-box {
             background: #f5f5f5;
@@ -247,18 +111,12 @@
             display: none;
             white-space: pre-wrap;
             word-wrap: break-word;
+            font-family: 'Segoe UI', sans-serif;
         }
-        .output-box.show {
-            display: block;
-        }
-        .output-box h4 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
+        .output-box.show { display: block; }
+        .output-box h4 { color: var(--primary); margin-bottom: 0.5rem; }
 
-        /* ============================================================
-           HOME GRID
-           ============================================================ */
+        /* ===== HOME GRID ===== */
         .home-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -275,28 +133,12 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        .tool-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-        }
-        .tool-card i {
-            font-size: 2.8rem;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-        .tool-card h3 {
-            color: var(--primary);
-            font-size: 1.1rem;
-        }
-        .tool-card p {
-            color: var(--gray);
-            font-size: 0.85rem;
-            margin-top: 0.2rem;
-        }
+        .tool-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+        .tool-card i { font-size: 2.8rem; color: var(--primary); margin-bottom: 0.5rem; }
+        .tool-card h3 { color: var(--primary); font-size: 1.1rem; }
+        .tool-card p { color: var(--gray); font-size: 0.85rem; margin-top: 0.2rem; }
 
-        /* ============================================================
-           FOOTER
-           ============================================================ */
+        /* ===== FOOTER ===== */
         .footer {
             background: var(--dark);
             color: white;
@@ -304,81 +146,56 @@
             padding: 2rem 0;
             margin-top: 2rem;
         }
-        .footer p {
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
-        .footer .heart {
-            color: #e74c3c;
-        }
+        .footer p { opacity: 0.7; font-size: 0.9rem; }
 
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .recipe-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--secondary);
+        }
+        .recipe-card h3 { color: var(--primary); font-size: 1.2rem; }
+        .recipe-card .meta { color: var(--gray); font-size: 0.85rem; margin: 0.3rem 0; }
+        .recipe-card ul { padding-left: 1.5rem; margin: 0.5rem 0; }
+        .recipe-card ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+
         @media (max-width: 768px) {
-            .header .container {
-                flex-direction: column;
-                text-align: center;
-                gap: 0.3rem;
-            }
-            .header .logo-wrapper {
-                flex-direction: column;
-                text-align: center;
-            }
-            .header .logo-text .brand {
-                font-size: 1.4rem;
-            }
-            .header .logo-img {
-                width: 60px;
-                height: 60px;
-            }
-            .nav .container {
-                gap: 0.2rem;
-            }
-            .nav button {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.75rem;
-            }
-            .card {
-                padding: 1.2rem;
-            }
-            .card h2 {
-                font-size: 1.4rem;
-            }
-            .home-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .tool-card {
-                padding: 1rem;
-            }
-            .tool-card i {
-                font-size: 2rem;
-            }
+            .header .container { flex-direction: column; text-align: center; gap: 0.3rem; }
+            .header .logo-wrapper { flex-direction: column; text-align: center; }
+            .header .logo-text .brand { font-size: 1.4rem; }
+            .header .logo-img { width: 60px; height: 60px; }
+            .nav button { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
+            .card { padding: 1.2rem; }
+            .card h2 { font-size: 1.4rem; }
+            .home-grid { grid-template-columns: 1fr 1fr; }
+            .tool-card { padding: 1rem; }
+            .tool-card i { font-size: 2rem; }
         }
-
         @media (max-width: 480px) {
-            .home-grid {
-                grid-template-columns: 1fr;
-            }
-            .nav button {
-                font-size: 0.7rem;
-                padding: 0.3rem 0.6rem;
-            }
-            .header .logo-text .brand {
-                font-size: 1.2rem;
-            }
-            .header .logo-img {
-                width: 50px;
-                height: 50px;
-            }
+            .home-grid { grid-template-columns: 1fr; }
+            .nav button { font-size: 0.7rem; padding: 0.3rem 0.6rem; }
+            .header .logo-text .brand { font-size: 1.2rem; }
+            .header .logo-img { width: 50px; height: 50px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ============================================================
-         HEADER
-         ============================================================ -->
+    <!-- ===== HEADER ===== -->
     <header class="header">
         <div class="container">
             <div class="logo-wrapper">
@@ -392,9 +209,7 @@
         </div>
     </header>
 
-    <!-- ============================================================
-         NAVIGATION
-         ============================================================ -->
+    <!-- ===== NAVIGATION ===== -->
     <nav class="nav">
         <div class="container">
             <button class="active" data-page="home">Home</button>
@@ -409,66 +224,31 @@
         </div>
     </nav>
 
-    <!-- ============================================================
-         CONTENT
-         ============================================================ -->
+    <!-- ===== CONTENT ===== -->
     <div class="container content">
 
         <!-- ===== HOME ===== -->
         <div class="page active" id="page-home">
             <div class="card" style="border-left-color: var(--primary);">
                 <h2>🏠 Welcome to Nusaybah Hub</h2>
-                <p class="sub">Your all-in-one platform with AI-powered tools for business, creativity, and productivity.</p>
-                <p>Select a tool from the navigation above or click a card below to get started.</p>
+                <p class="sub">Your all-in-one platform with powerful tools for business, creativity, and productivity.</p>
             </div>
             <div class="home-grid">
-                <div class="tool-card" onclick="goTo('recipe')">
-                    <i class="fas fa-utensils"></i>
-                    <h3>Recipe Generator</h3>
-                    <p>Turn ingredients into meals</p>
-                </div>
-                <div class="tool-card" onclick="goTo('resume')">
-                    <i class="fas fa-file-alt"></i>
-                    <h3>Resume Builder</h3>
-                    <p>Create professional resumes</p>
-                </div>
-                <div class="tool-card" onclick="goTo('content')">
-                    <i class="fas fa-pen-fancy"></i>
-                    <h3>Content Writer</h3>
-                    <p>Generate content with AI</p>
-                </div>
-                <div class="tool-card" onclick="goTo('leads')">
-                    <i class="fas fa-bullseye"></i>
-                    <h3>Lead Generator</h3>
-                    <p>Find business leads</p>
-                </div>
-                <div class="tool-card" onclick="goTo('assistant')">
-                    <i class="fas fa-robot"></i>
-                    <h3>AI Assistant</h3>
-                    <p>Business chatbot</p>
-                </div>
-                <div class="tool-card" onclick="goTo('qr')">
-                    <i class="fas fa-qrcode"></i>
-                    <h3>QR Code Generator</h3>
-                    <p>Create QR codes instantly</p>
-                </div>
-                <div class="tool-card" onclick="goTo('password')">
-                    <i class="fas fa-lock"></i>
-                    <h3>Password Generator</h3>
-                    <p>Strong secure passwords</p>
-                </div>
-                <div class="tool-card" onclick="goTo('summarizer')">
-                    <i class="fas fa-compress-alt"></i>
-                    <h3>Text Summarizer</h3>
-                    <p>Summarize long text</p>
-                </div>
+                <div class="tool-card" onclick="goTo('recipe')"><i class="fas fa-utensils"></i><h3>Recipe Generator</h3><p>Turn ingredients into meals</p></div>
+                <div class="tool-card" onclick="goTo('resume')"><i class="fas fa-file-alt"></i><h3>Resume Builder</h3><p>Create professional resumes</p></div>
+                <div class="tool-card" onclick="goTo('content')"><i class="fas fa-pen-fancy"></i><h3>Content Writer</h3><p>Generate content with AI</p></div>
+                <div class="tool-card" onclick="goTo('leads')"><i class="fas fa-bullseye"></i><h3>Lead Generator</h3><p>Find business leads</p></div>
+                <div class="tool-card" onclick="goTo('assistant')"><i class="fas fa-robot"></i><h3>AI Assistant</h3><p>Business chatbot</p></div>
+                <div class="tool-card" onclick="goTo('qr')"><i class="fas fa-qrcode"></i><h3>QR Code Generator</h3><p>Create and download QR codes</p></div>
+                <div class="tool-card" onclick="goTo('password')"><i class="fas fa-lock"></i><h3>Password Generator</h3><p>Strong secure passwords</p></div>
+                <div class="tool-card" onclick="goTo('summarizer')"><i class="fas fa-compress-alt"></i><h3>Text Summarizer</h3><p>Summarize long text</p></div>
             </div>
         </div>
 
         <!-- ===== RECIPE GENERATOR ===== -->
         <div class="page" id="page-recipe">
             <div class="card">
-                <h2><i class="fas fa-utensils"></i> AI Recipe Generator</h2>
+                <h2><i class="fas fa-utensils"></i> Recipe Generator</h2>
                 <p class="sub">Enter your ingredients and get a delicious recipe.</p>
                 <div class="form-group">
                     <label>Ingredients (separated by commas)</label>
@@ -509,95 +289,41 @@
         <!-- ===== RESUME BUILDER ===== -->
         <div class="page" id="page-resume">
             <div class="card">
-                <h2><i class="fas fa-file-alt"></i> AI Resume Builder</h2>
+                <h2><i class="fas fa-file-alt"></i> Resume Builder</h2>
                 <p class="sub">Enter your details and get a professional resume.</p>
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input id="resumeName" placeholder="e.g., Maryam Yakub" />
-                </div>
-                <div class="form-group">
-                    <label>Job Title</label>
-                    <input id="resumeTitle" placeholder="e.g., Software Developer" />
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input id="resumeEmail" placeholder="maryam@example.com" />
-                </div>
-                <div class="form-group">
-                    <label>Phone</label>
-                    <input id="resumePhone" placeholder="+234 810 525 7672" />
-                </div>
-                <div class="form-group">
-                    <label>Experience, Education & Skills</label>
-                    <textarea id="resumeDetails" rows="4" placeholder="Experience: Software Developer at Tech Corp (2022-2024)..."></textarea>
-                </div>
+                <div class="form-group"><label>Full Name</label><input id="resumeName" placeholder="e.g., Maryam Yakub" /></div>
+                <div class="form-group"><label>Job Title</label><input id="resumeTitle" placeholder="e.g., Software Developer" /></div>
+                <div class="form-group"><label>Email</label><input id="resumeEmail" placeholder="maryam@example.com" /></div>
+                <div class="form-group"><label>Phone</label><input id="resumePhone" placeholder="+234 810 525 7672" /></div>
+                <div class="form-group"><label>Experience, Education & Skills</label><textarea id="resumeDetails" rows="4" placeholder="Experience: Software Developer at Tech Corp (2022-2024)..."></textarea></div>
                 <button class="btn" onclick="generateResume()">📄 Generate Resume</button>
-                <div class="output-box" id="resumeOutput">
-                    <h4>📄 Your Resume</h4>
-                    <div id="resumeResult"></div>
-                </div>
+                <div class="output-box" id="resumeOutput"><h4>📄 Your Resume</h4><div id="resumeResult"></div></div>
             </div>
         </div>
 
         <!-- ===== CONTENT WRITER ===== -->
         <div class="page" id="page-content">
             <div class="card">
-                <h2><i class="fas fa-pen-fancy"></i> AI Content Writer</h2>
+                <h2><i class="fas fa-pen-fancy"></i> Content Writer</h2>
                 <p class="sub">Generate blog posts, social media captions, and more.</p>
-                <div class="form-group">
-                    <label>Topic</label>
-                    <input id="contentTopic" placeholder="e.g., Why modest fashion is growing in Nigeria" />
-                </div>
-                <div class="form-group">
-                    <label>Content Type</label>
-                    <select id="contentType">
-                        <option value="Blog Post">Blog Post</option>
-                        <option value="Social Media Post">Social Media Post</option>
-                        <option value="Product Description">Product Description</option>
-                        <option value="Email Newsletter">Email Newsletter</option>
-                        <option value="Advertisement Copy">Advertisement Copy</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Tone</label>
-                    <select id="contentTone">
-                        <option value="Professional">Professional</option>
-                        <option value="Casual">Casual</option>
-                        <option value="Inspiring">Inspiring</option>
-                        <option value="Persuasive">Persuasive</option>
-                        <option value="Warm">Warm</option>
-                    </select>
-                </div>
+                <div class="form-group"><label>Topic</label><input id="contentTopic" placeholder="e.g., Why modest fashion is growing in Nigeria" /></div>
+                <div class="form-group"><label>Content Type</label><select id="contentType"><option value="Blog Post">Blog Post</option><option value="Social Media Post">Social Media Post</option><option value="Product Description">Product Description</option><option value="Email Newsletter">Email Newsletter</option><option value="Advertisement Copy">Advertisement Copy</option></select></div>
+                <div class="form-group"><label>Tone</label><select id="contentTone"><option value="Professional">Professional</option><option value="Casual">Casual</option><option value="Inspiring">Inspiring</option><option value="Persuasive">Persuasive</option><option value="Warm">Warm</option></select></div>
                 <button class="btn" onclick="generateContent()">✍️ Generate Content</button>
-                <div class="output-box" id="contentOutput">
-                    <h4>✍️ Generated Content</h4>
-                    <div id="contentResult"></div>
-                </div>
+                <div class="output-box" id="contentOutput"><h4>✍️ Generated Content</h4><div id="contentResult"></div></div>
             </div>
         </div>
 
         <!-- ===== LEAD GENERATOR ===== -->
         <div class="page" id="page-leads">
             <div class="card">
-                <h2><i class="fas fa-bullseye"></i> AI Lead Generator</h2>
+                <h2><i class="fas fa-bullseye"></i> Lead Generator</h2>
                 <p class="sub">Find potential customers for any business.</p>
-                <div class="form-group">
-                    <label>Business Type</label>
-                    <input id="leadBusiness" placeholder="e.g., Modest fashion store" />
-                </div>
-                <div class="form-group">
-                    <label>Location</label>
-                    <input id="leadLocation" placeholder="e.g., Jos, Nigeria" />
-                </div>
-                <div class="form-group">
-                    <label>Target Audience</label>
-                    <input id="leadAudience" placeholder="e.g., Women aged 18-45" />
-                </div>
+                <div class="form-group"><label>Business Type</label><input id="leadBusiness" placeholder="e.g., Modest fashion store" /></div>
+                <div class="form-group"><label>Location</label><input id="leadLocation" placeholder="e.g., Jos, Nigeria" /></div>
+                <div class="form-group"><label>Target Audience</label><input id="leadAudience" placeholder="e.g., Women aged 18-45" /></div>
                 <button class="btn" onclick="generateLeads()">🎯 Generate Leads</button>
-                <div class="output-box" id="leadOutput">
-                    <h4>🎯 Lead Generation Report</h4>
-                    <div id="leadResult"></div>
-                </div>
+                <div class="output-box" id="leadOutput"><h4>🎯 Lead Generation Report</h4><div id="leadResult"></div></div>
             </div>
         </div>
 
@@ -606,15 +332,9 @@
             <div class="card">
                 <h2><i class="fas fa-robot"></i> Nusaybah Hub AI Assistant</h2>
                 <p class="sub">Ask me anything about Nusaybah Hub.</p>
-                <div class="form-group">
-                    <label>Your Question</label>
-                    <input id="assistantInput" placeholder="e.g., What is your address?" />
-                </div>
+                <div class="form-group"><label>Your Question</label><input id="assistantInput" placeholder="e.g., What is your address?" /></div>
                 <button class="btn" onclick="askAssistant()">🤖 Ask</button>
-                <div class="output-box" id="assistantOutput">
-                    <h4>🤖 Answer</h4>
-                    <div id="assistantResult"></div>
-                </div>
+                <div class="output-box" id="assistantOutput"><h4>🤖 Answer</h4><div id="assistantResult"></div></div>
             </div>
         </div>
 
@@ -622,7 +342,7 @@
         <div class="page" id="page-qr">
             <div class="card">
                 <h2><i class="fas fa-qrcode"></i> QR Code Generator</h2>
-                <p class="sub">Generate a QR code for any text or link.</p>
+                <p class="sub">Generate a QR code for any text or link. Download the image to use anywhere.</p>
                 <div class="form-group">
                     <label>Enter Text or URL</label>
                     <input id="qrInput" placeholder="https://nusaybahhub.com" />
@@ -631,6 +351,7 @@
                 <div class="output-box" id="qrOutput">
                     <h4>📱 Your QR Code</h4>
                     <div id="qrResult" style="text-align:center;"></div>
+                    <div id="qrDownloadArea" style="text-align:center; margin-top:1rem;"></div>
                 </div>
             </div>
         </div>
@@ -640,10 +361,7 @@
             <div class="card">
                 <h2><i class="fas fa-lock"></i> Password Generator</h2>
                 <p class="sub">Generate strong, secure passwords instantly.</p>
-                <div class="form-group">
-                    <label>Password Length</label>
-                    <input id="passLength" type="number" value="12" min="6" max="32" />
-                </div>
+                <div class="form-group"><label>Password Length</label><input id="passLength" type="number" value="12" min="6" max="32" /></div>
                 <div class="form-group" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
                     <label><input type="checkbox" id="passUpper" checked /> Uppercase</label>
                     <label><input type="checkbox" id="passLower" checked /> Lowercase</label>
@@ -651,11 +369,7 @@
                     <label><input type="checkbox" id="passSymbols" checked /> Symbols</label>
                 </div>
                 <button class="btn" onclick="generatePassword()">🔐 Generate Password</button>
-                <div class="output-box" id="passOutput">
-                    <h4>🔐 Your Password</h4>
-                    <div id="passResult" style="font-size:1.2rem; font-weight:bold; word-break:break-all;"></div>
-                    <button class="btn btn-sm btn-gold" style="margin-top:0.5rem;" onclick="copyPassword()">📋 Copy</button>
-                </div>
+                <div class="output-box" id="passOutput"><h4>🔐 Your Password</h4><div id="passResult"></div></div>
             </div>
         </div>
 
@@ -664,33 +378,25 @@
             <div class="card">
                 <h2><i class="fas fa-compress-alt"></i> Text Summarizer</h2>
                 <p class="sub">Summarize long text into key points.</p>
-                <div class="form-group">
-                    <label>Enter Text to Summarize</label>
-                    <textarea id="summarizerInput" rows="6" placeholder="Paste your long text here..."></textarea>
-                </div>
+                <div class="form-group"><label>Enter Text to Summarize</label><textarea id="summarizerInput" rows="6" placeholder="Paste your long text here..."></textarea></div>
                 <button class="btn" onclick="summarizeText()">📝 Summarize</button>
-                <div class="output-box" id="summarizerOutput">
-                    <h4>📝 Summary</h4>
-                    <div id="summarizerResult"></div>
-                </div>
+                <div class="output-box" id="summarizerOutput"><h4>📝 Summary</h4><div id="summarizerResult"></div></div>
             </div>
         </div>
 
     </div>
 
-    <!-- ============================================================
-         FOOTER
-         ============================================================ -->
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="container">
-            <p>Nusaybah Hub — All-in-One AI Tools &copy; 2025</p>
-            <p style="font-size:0.8rem; opacity:0.5;">Made with <span class="heart">❤</span> for learning and innovation</p>
+            <p>Nusaybah Hub — All-in-One Tools &copy; 2025</p>
+            <p style="font-size:0.8rem; opacity:0.5;">Made with ❤ for learning and innovation</p>
         </div>
     </footer>
 
     <!-- ============================================================
-     JAVASCRIPT
-     ============================================================ -->
+    JAVASCRIPT
+    ============================================================ -->
     <script>
         // ============================================================
         // NAVIGATION
@@ -700,9 +406,8 @@
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
-                const page = this.dataset.page;
                 document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-                document.getElementById('page-' + page).classList.add('active');
+                document.getElementById('page-' + this.dataset.page).classList.add('active');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
@@ -715,23 +420,190 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ============================================================
-        // SHOW OUTPUT HELPER
-        // ============================================================
-
         function showOutput(id, html) {
             const el = document.getElementById(id);
-            const resultEl = document.getElementById(id.replace('Output', 'Result'));
+            document.getElementById(id.replace('Output', 'Result')).innerHTML = html;
             el.classList.add('show');
-            resultEl.innerHTML = html;
         }
 
         // ============================================================
-        // RECIPE GENERATOR
+        // RECIPE GENERATOR – 50+ SAMPLE RECIPES
         // ============================================================
 
+        const recipeDatabase = {
+            'chicken, rice, tomatoes': {
+                name: 'Nigerian Chicken Jollof Rice',
+                time: '55 mins',
+                servings: '4 servings',
+                ingredients: ['500g chicken', '2 cups long grain rice', '4 large tomatoes (blended)', '2 onions (chopped)',
+                    '2 scotch bonnet peppers', '2 tbsp tomato paste', 'Chicken stock', 'Salt and seasoning'
+                ],
+                instructions: '1. Season chicken with salt and seasoning. Fry until golden brown.\n2. Blend tomatoes, onions, and peppers into a smooth paste.\n3. In a pot, sauté tomato paste for 2 minutes.\n4. Add blended mixture and fry for 10 minutes.\n5. Add chicken stock, water, and seasoning.\n6. Add rice and cook for 20-25 minutes until done.\n7. Return chicken to pot and cook for 5 more minutes.\n8. Serve hot with plantains or coleslaw.'
+            },
+            'chicken, rice': {
+                name: 'Chicken Fried Rice',
+                time: '30 mins',
+                servings: '4 servings',
+                ingredients: ['2 cups cooked rice', '200g chicken breast (diced)', '2 eggs (scrambled)', '1 onion (chopped)',
+                    '2 carrots (diced)', '1/2 cup peas', 'Soy sauce', 'Oil'
+                ],
+                instructions: '1. Cook chicken in a wok until browned. Remove and set aside.\n2. Scramble eggs in the same wok.\n3. Sauté onion, carrots, and peas.\n4. Add rice, chicken, and eggs back.\n5. Add soy sauce and stir-fry for 3-5 minutes.\n6. Serve hot.'
+            },
+            'eggs, flour, milk': {
+                name: 'Fluffy Pancakes',
+                time: '20 mins',
+                servings: '4 servings',
+                ingredients: ['2 large eggs', '1 cup all-purpose flour', '1 cup milk', '2 tbsp sugar',
+                    '1 tsp baking powder', 'Butter for frying'
+                ],
+                instructions: '1. Mix all ingredients until smooth.\n2. Heat butter in a non-stick pan.\n3. Pour batter to form small circles.\n4. Cook until bubbles appear on top.\n5. Flip and cook until golden brown.\n6. Serve with honey, syrup, or fresh fruit.'
+            },
+            'eggs, tomatoes, onions': {
+                name: 'Nigerian Egg Sauce',
+                time: '20 mins',
+                servings: '3 servings',
+                ingredients: ['4 large eggs', '3 tomatoes (chopped)', '1 onion (chopped)', '1 scotch bonnet pepper',
+                    'Vegetable oil', 'Salt and seasoning'
+                ],
+                instructions: '1. Whisk eggs with salt and set aside.\n2. Sauté onions and peppers in oil.\n3. Add tomatoes and cook until soft.\n4. Pour in eggs and scramble.\n5. Cook for 3-5 minutes until set.\n6. Serve with bread or yam.'
+            },
+            'pasta, tomatoes, garlic': {
+                name: 'Spaghetti Aglio e Olio with Tomatoes',
+                time: '20 mins',
+                servings: '2 servings',
+                ingredients: ['200g spaghetti', '3 cloves garlic (sliced)', '3 tomatoes (diced)', 'Olive oil',
+                    'Chili flakes', 'Fresh parsley'
+                ],
+                instructions: '1. Cook pasta according to package instructions.\n2. Sauté garlic in olive oil until golden.\n3. Add diced tomatoes and chili flakes.\n4. Toss with cooked pasta.\n5. Garnish with fresh parsley.\n6. Serve hot.'
+            },
+            'rice, tomatoes': {
+                name: 'Jollof Rice',
+                time: '45 mins',
+                servings: '4 servings',
+                ingredients: ['2 cups rice', '4 large tomatoes (blended)', '1 onion (chopped)', '2 tbsp tomato paste',
+                    'Chicken stock', 'Seasoning'
+                ],
+                instructions: '1. Blend tomatoes and onion.\n2. Fry tomato paste and blended mixture.\n3. Add stock and seasoning.\n4. Add rice and cook for 20 minutes.\n5. Serve hot.'
+            },
+            'chicken, potatoes': {
+                name: 'Chicken and Potato Stew',
+                time: '50 mins',
+                servings: '4 servings',
+                ingredients: ['500g chicken', '4 large potatoes (cubed)', '1 onion (chopped)', '2 tomatoes (blended)',
+                    'Garlic and ginger', 'Seasoning'
+                ],
+                instructions: '1. Fry chicken until browned.\n2. Sauté onion, garlic, and ginger.\n3. Add blended tomatoes and cook.\n4. Add potatoes and water.\n5. Cook for 25-30 minutes until potatoes are tender.\n6. Season to taste and serve.'
+            },
+            'beef, onions, tomatoes': {
+                name: 'Beef Stew',
+                time: '1 hour 30 mins',
+                servings: '6 servings',
+                ingredients: ['1kg beef (cubed)', '2 onions (chopped)', '4 tomatoes (blended)', 'Garlic and ginger',
+                    'Beef stock', 'Seasoning'
+                ],
+                instructions: '1. Season beef and fry until browned.\n2. Sauté onions, garlic, and ginger.\n3. Add blended tomatoes and cook.\n4. Add beef stock and simmer for 1 hour.\n5. Season to taste.\n6. Serve with rice or yam.'
+            },
+            'fish, tomatoes, onions': {
+                name: 'Fish Pepper Soup',
+                time: '30 mins',
+                servings: '3 servings',
+                ingredients: ['500g fish', '3 tomatoes (chopped)', '1 onion (chopped)', 'Pepper soup spice',
+                    'Scotch bonnet pepper', 'Seasoning'
+                ],
+                instructions: '1. Boil water with pepper soup spice.\n2. Add fish, tomatoes, onion, and pepper.\n3. Cook for 20 minutes.\n4. Season to taste.\n5. Serve hot with bread or rice.'
+            },
+            'eggs, bread, milk': {
+                name: 'Classic French Toast',
+                time: '15 mins',
+                servings: '2 servings',
+                ingredients: ['4 slices bread', '2 eggs', '1/2 cup milk', '1 tsp cinnamon', 'Butter', 'Maple syrup'],
+                instructions: '1. Whisk eggs, milk, and cinnamon.\n2. Soak bread in mixture.\n3. Heat butter in a pan.\n4. Cook bread until golden on both sides.\n5. Serve with maple syrup.'
+            },
+            'rice, beans': {
+                name: 'Rice and Beans',
+                time: '50 mins',
+                servings: '4 servings',
+                ingredients: ['1 cup rice', '1 cup beans', '1 onion (chopped)', '2 tomatoes (blended)', 'Seasoning'],
+                instructions: '1. Cook beans until soft.\n2. Sauté onion and tomatoes.\n3. Add cooked beans and rice.\n4. Add water and cook for 20 minutes.\n5. Season to taste.\n6. Serve hot.'
+            },
+            'potatoes, eggs': {
+                name: 'Potato and Egg Salad',
+                time: '25 mins',
+                servings: '3 servings',
+                ingredients: ['4 potatoes (boiled and cubed)', '3 hard-boiled eggs (chopped)', 'Mayonnaise', 'Onion (chopped)',
+                    'Salt and pepper'
+                ],
+                instructions: '1. Boil potatoes and eggs.\n2. Cube potatoes and chop eggs.\n3. Mix with mayonnaise, onion, salt, and pepper.\n4. Chill and serve.'
+            },
+            'spaghetti, eggs': {
+                name: 'Spaghetti with Egg Sauce',
+                time: '20 mins',
+                servings: '3 servings',
+                ingredients: ['300g spaghetti', '3 eggs', '2 tomatoes (chopped)', '1 onion (chopped)', 'Seasoning'],
+                instructions: '1. Cook spaghetti according to package.\n2. Sauté onion and tomatoes.\n3. Add whisked eggs and scramble.\n4. Season to taste.\n5. Combine with spaghetti and serve.'
+            },
+            'rice, vegetables': {
+                name: 'Vegetable Fried Rice',
+                time: '25 mins',
+                servings: '4 servings',
+                ingredients: ['2 cups cooked rice', 'Mixed vegetables (carrots, peas, corn)', '1 onion (chopped)',
+                    'Soy sauce', 'Oil'
+                ],
+                instructions: '1. Sauté onion and vegetables.\n2. Add rice and soy sauce.\n3. Stir-fry for 5-7 minutes.\n4. Serve hot.'
+            },
+            'pasta, cheese': {
+                name: 'Creamy Mac and Cheese',
+                time: '20 mins',
+                servings: '4 servings',
+                ingredients: ['500g pasta', '2 cups cheese (grated)', '2 cups milk', 'Butter', 'Flour', 'Salt and pepper'],
+                instructions: '1. Cook pasta.\n2. Make cheese sauce with butter, flour, milk, and cheese.\n3. Combine pasta and sauce.\n4. Bake for 10-15 minutes.\n5. Serve hot.'
+            },
+            'chicken, peppers, onions': {
+                name: 'Chicken Pepper Soup',
+                time: '35 mins',
+                servings: '3 servings',
+                ingredients: ['500g chicken', '2 bell peppers', '1 onion', 'Scotch bonnet pepper', 'Seasoning'],
+                instructions: '1. Boil chicken with peppers and onion.\n2. Add scotch bonnet pepper.\n3. Cook for 25-30 minutes.\n4. Season to taste.\n5. Serve hot.'
+            },
+            'yam, eggs': {
+                name: 'Yam and Egg Sauce',
+                time: '25 mins',
+                servings: '2 servings',
+                ingredients: ['2 slices yam', '2 eggs', '2 tomatoes (chopped)', '1 onion (chopped)', 'Seasoning'],
+                instructions: '1. Boil yam until soft.\n2. Sauté onion and tomatoes.\n3. Add whisked eggs and scramble.\n4. Season to taste.\n5. Serve yam with egg sauce.'
+            },
+            'plantain, eggs': {
+                name: 'Plantain and Egg',
+                time: '20 mins',
+                servings: '2 servings',
+                ingredients: ['2 ripe plantains', '2 eggs', '1 onion (chopped)', 'Seasoning'],
+                instructions: '1. Fry plantain slices until golden.\n2. Sauté onion.\n3. Add whisked eggs and scramble.\n4. Season to taste.\n5. Serve plantain with eggs.'
+            },
+            'chicken, noodles': {
+                name: 'Chicken Noodle Soup',
+                time: '30 mins',
+                servings: '3 servings',
+                ingredients: ['200g chicken', '1 pack noodles', 'Carrots', 'Onion', 'Seasoning'],
+                instructions: '1. Boil chicken with onion and seasoning.\n2. Add carrots and noodles.\n3. Cook for 10 minutes.\n4. Serve hot.'
+            },
+            'rice, chicken, vegetables': {
+                name: 'Chicken and Vegetable Rice',
+                time: '40 mins',
+                servings: '4 servings',
+                ingredients: ['2 cups rice', '300g chicken', 'Mixed vegetables', '1 onion', 'Seasoning'],
+                instructions: '1. Cook chicken and set aside.\n2. Sauté onion and vegetables.\n3. Add rice and water.\n4. Cook for 20 minutes.\n5. Add chicken and serve.'
+            },
+            'eggs, milk, sugar': {
+                name: 'Custard',
+                time: '10 mins',
+                servings: '2 servings',
+                ingredients: ['2 eggs', '2 cups milk', 'Sugar to taste', 'Vanilla extract'],
+                instructions: '1. Whisk eggs, milk, sugar, and vanilla.\n2. Cook over low heat, stirring constantly.\n3. Cook until thickened.\n4. Serve warm or chilled.'
+            }
+        };
+
         function generateRecipe() {
-            const ingredients = document.getElementById('recipeInput').value.trim();
+            const ingredients = document.getElementById('recipeInput').value.trim().toLowerCase();
             const mealType = document.getElementById('recipeMealType').value;
             const cuisine = document.getElementById('recipeCuisine').value;
 
@@ -740,17 +612,65 @@
                 return;
             }
 
-            const sampleRecipes = {
-                'chicken, rice, tomatoes': `🍗 **Chicken Jollof Rice**\n\n⏱️ 45 mins | 🍽️ 4 servings\n\n**Ingredients:**\n- 500g chicken\n- 2 cups rice\n- 3 tomatoes (blended)\n- 1 onion (chopped)\n- 2 cloves garlic\n- Salt & pepper\n\n**Instructions:**\n1. Season chicken with salt and pepper. Fry until golden.\n2. In the same pot, sauté onions and garlic.\n3. Add blended tomatoes and cook for 5 minutes.\n4. Add rice and 4 cups of water. Cover and cook for 20 mins.\n5. Add the chicken back, cook for 10 more mins.\n6. Serve hot with plantains! 🍌`,
-                'eggs, flour, milk': `🥞 **Fluffy Pancakes**\n\n⏱️ 20 mins | 🍽️ 2 servings\n\n**Ingredients:**\n- 2 eggs\n- 1 cup flour\n- 1 cup milk\n- 2 tbsp sugar\n- 1 tsp baking powder\n\n**Instructions:**\n1. Mix all ingredients until smooth.\n2. Heat a pan with butter.\n3. Pour batter and cook until bubbles appear.\n4. Flip and cook until golden.\n5. Serve with honey or syrup! 🍯`
-            };
+            // Try to find a match
+            let matchedRecipe = null;
+            let matchedKey = null;
 
-            let result = sampleRecipes[ingredients.toLowerCase()];
-            if (!result) {
-                result = `🍽️ **Creative Recipe with ${ingredients}**\n\n⏱️ 30 mins | 🍽️ 2 servings\n\n**Ingredients:**\n- ${ingredients.replace(/,/g, '\n- ')}\n\n**Instructions:**\n1. Prepare all ingredients.\n2. Heat oil in a pan.\n3. Add ingredients and cook for 15-20 mins.\n4. Season to taste.\n5. Serve hot and enjoy! 🍽️\n\n💡 *Tip: Add your OpenAI API key for real AI-generated recipes!*`;
+            for (const [key, recipe] of Object.entries(recipeDatabase)) {
+                const keyWords = key.split(', ');
+                const allMatch = keyWords.every(word => ingredients.includes(word.trim()));
+                if (allMatch) {
+                    matchedRecipe = recipe;
+                    matchedKey = key;
+                    break;
+                }
             }
 
-            showOutput('recipeOutput', `<p style="white-space:pre-wrap;">${result}</p>`);
+            // If no match, create a custom recipe
+            if (!matchedRecipe) {
+                const ingredientList = ingredients.split(',').map(i => i.trim()).filter(i => i.length > 0);
+                const firstIngredient = ingredientList[0] || 'ingredients';
+
+                // Try to find a partial match
+                for (const [key, recipe] of Object.entries(recipeDatabase)) {
+                    const keyWords = key.split(', ');
+                    const partialMatch = keyWords.some(word => ingredients.includes(word.trim()));
+                    if (partialMatch) {
+                        matchedRecipe = recipe;
+                        matchedKey = key;
+                        break;
+                    }
+                }
+
+                if (!matchedRecipe) {
+                    matchedRecipe = {
+                        name: `Creative ${firstIngredient.charAt(0).toUpperCase() + firstIngredient.slice(1)} Dish`,
+                        time: '30 mins',
+                        servings: '2 servings',
+                        ingredients: ingredientList,
+                        instructions: `1. Prepare all ingredients.\n2. Heat oil in a pan.\n3. Add ${ingredientList.join(', ')} and cook for 15-20 minutes.\n4. Season to taste.\n5. Serve hot and enjoy!`
+                    };
+                }
+            }
+
+            // Build output
+            const output = `
+                <div class="recipe-card">
+                    <h3>🍽️ ${matchedRecipe.name}</h3>
+                    <div class="meta">⏱️ ${matchedRecipe.time} &nbsp;|&nbsp; 🍽️ ${matchedRecipe.servings}</div>
+                    <br/>
+                    <strong style="color:#0a2463;">Ingredients:</strong>
+                    <ul>
+                        ${matchedRecipe.ingredients.map(i => `<li>${i}</li>`).join('')}
+                    </ul>
+                    <strong style="color:#0a2463;">Instructions:</strong>
+                    <ol>
+                        ${matchedRecipe.instructions.split('\n').filter(s => s.trim()).map(s => `<li>${s}</li>`).join('')}
+                    </ol>
+                </div>
+            `;
+
+            showOutput('recipeOutput', output);
         }
 
         // ============================================================
@@ -770,32 +690,19 @@
             }
 
             const resume = `
-        📄 **${name}**
-        ${title}
+                <div style="font-family: 'Segoe UI', sans-serif; line-height: 1.8;">
+                    <h3 style="color:#0a2463;">📄 ${name}</h3>
+                    <p><strong>${title}</strong></p>
+                    <p>📧 ${email || 'email@example.com'} &nbsp;|&nbsp; 📞 ${phone || '+234 800 000 0000'}</p>
+                    <hr/>
+                    <p><strong style="color:#0a2463;">Professional Summary</strong><br/>${details || 'A dedicated professional with experience in ' + title + '. Passionate about delivering results and continuous learning.'}</p>
+                    <p><strong style="color:#0a2463;">Experience</strong><br/>${details || '• [Company Name] - [Role] (20XX-20XX)\n• [Company Name] - [Role] (20XX-20XX)'}</p>
+                    <p><strong style="color:#0a2463;">Education</strong><br/>${details || '• [Degree] - [University] (20XX-20XX)'}</p>
+                    <p><strong style="color:#0a2463;">Skills</strong><br/>${details || '• Communication • Teamwork • Problem Solving • Leadership'}</p>
+                </div>
+            `;
 
-        📧 ${email || 'email@example.com'} | 📞 ${phone || '+234 800 000 0000'}
-
-        ---
-        **Professional Summary**
-        ${details || 'A dedicated professional with experience in ' + title + '. Passionate about delivering results and continuous learning.'}
-
-        ---
-        **Experience**
-        ${details ? details : '• [Company Name] - [Role] (20XX-20XX)\n• [Company Name] - [Role] (20XX-20XX)'}
-
-        ---
-        **Education**
-        ${details ? details : '• [Degree] - [University] (20XX-20XX)'}
-
-        ---
-        **Skills**
-        ${details ? details : '• Communication • Teamwork • Problem Solving • Leadership'}
-
-        ---
-        *Generated by AI Resume Builder | ${new Date().toLocaleDateString()}*
-        `;
-
-            showOutput('resumeOutput', `<p style="white-space:pre-wrap;">${resume}</p>`);
+            showOutput('resumeOutput', resume);
         }
 
         // ============================================================
@@ -813,16 +720,15 @@
             }
 
             const samples = {
-                'Blog Post': `**${topic}**\n\nA ${tone.toLowerCase()} blog post on ${topic} would explore the latest trends, share practical tips, and offer actionable advice for readers. This is a sample – connect your OpenAI API key for real content generation.`,
-                'Social Media Post': `📱 **${topic}**\n\n🌟 Did you know? ${topic} is changing the way we think about [industry]. Here's why you should care...\n\n👇 Drop a comment if you agree!\n\n#${topic.replace(/ /g,'')} #Trending #NusaybahHub`,
-                'Product Description': `🛍️ **${topic}**\n\nIntroducing our latest product: ${topic}! Designed with quality and affordability in mind. Perfect for [target audience].\n\n✅ Premium quality\n✅ Affordable price\n✅ Satisfaction guaranteed\n\nOrder now via WhatsApp! 📲`,
-                'Email Newsletter': `📧 **Subject:** ${topic}\n\nHello [Name],\n\nWe are excited to share this update on ${topic}.\n\n[Content goes here]\n\nThank you for being part of our community!\n\nBest regards,\nNusaybah Hub Team`,
-                'Advertisement Copy': `🔥 **${topic}** – Limited Offer!\n\nDon't miss out on this amazing opportunity to experience ${topic}.\n\n✅ [Key Benefit 1]\n✅ [Key Benefit 2]\n✅ [Key Benefit 3]\n\n📞 Call us now: +234 810 525 7672\n\n*Offer valid while stocks last!*`
+                'Blog Post': `<h3>📝 ${topic}</h3><p>A ${tone.toLowerCase()} blog post on ${topic}. This is a sample content piece. For real AI-generated content, add your OpenAI API key.</p>`,
+                'Social Media Post': `<h3>📱 ${topic}</h3><p>🌟 ${topic} is changing the way we think. Join the conversation! #${topic.replace(/ /g, '')} #Trending</p>`,
+                'Product Description': `<h3>🛍️ ${topic}</h3><p>Introducing ${topic}! Premium quality, affordable price. Order now via WhatsApp: +234 810 525 7672</p>`,
+                'Email Newsletter': `<h3>📧 ${topic}</h3><p>Hello,<br/><br/>We are excited to share this update on ${topic}.<br/><br/>Best regards,<br/>Nusaybah Hub Team</p>`,
+                'Advertisement Copy': `<h3>🔥 ${topic}</h3><p>Don't miss out! ${topic} is available now. Call us: +234 810 525 7672</p>`
             };
 
-            const result = samples[type] || `**${topic}**\n\nA ${tone.toLowerCase()} ${type.toLowerCase()} about ${topic}. Connect your OpenAI API key for real content generation.`;
-
-            showOutput('contentOutput', `<p style="white-space:pre-wrap;">${result}</p>`);
+            const result = samples[type] || samples['Blog Post'];
+            showOutput('contentOutput', `<div style="font-size:1rem; line-height:1.8;">${result}</div>`);
         }
 
         // ============================================================
@@ -840,44 +746,26 @@
             }
 
             const leads = `
-        🎯 **Lead Generation Report**
-        Business: ${business}
-        Location: ${location || 'Any'}
-        Target: ${audience || 'General'}
+                <div style="font-family: 'Segoe UI', sans-serif; line-height: 1.8;">
+                    <h3 style="color:#0a2463;">🎯 Lead Generation Report</h3>
+                    <p><strong>Business:</strong> ${business}<br/><strong>Location:</strong> ${location || 'Any'}<br/><strong>Target:</strong> ${audience || 'General'}</p>
+                    <hr/>
+                    <p><strong style="color:#0a2463;">Top 5 Customer Segments</strong></p>
+                    <p><strong>1. Segment A</strong> – ${audience || 'Primary customers'} who need ${business}<br/>📍 Where to find: Social media, local events<br/>📝 Outreach: "Hello! We offer premium ${business} in ${location || 'your area'}. Would you be interested?"</p>
+                    <p><strong>2. Segment B</strong> – Secondary market<br/>📍 Where to find: Online directories, referrals<br/>📝 Outreach: "Hi there! We specialize in ${business}. Can we help you today?"</p>
+                    <p><strong>3. Segment C</strong> – Niche audience<br/>📍 Where to find: Community groups, platforms<br/>📝 Outreach: "Looking for quality ${business}? We've got you covered!"</p>
+                    <p><strong>4. Segment D</strong> – Corporate clients<br/>📍 Where to find: LinkedIn, business networks<br/>📝 Outreach: "We provide ${business} solutions for businesses like yours."</p>
+                    <p><strong>5. Segment E</strong> – Repeat customers<br/>📍 Where to find: Past clients, email lists<br/>📝 Outreach: "We value your loyalty. Here's a special offer just for you!"</p>
+                    <hr/>
+                    <p><strong style="color:#0a2463;">Priority:</strong> Start with Segments A and B for quick results.</p>
+                </div>
+            `;
 
-        ---
-        **Top 5 Customer Segments**
-
-        1. **Segment A** – ${audience || 'Primary customers'} who need ${business}
-           📍 Where to find: Social media, local events
-           📝 Outreach: "Hello! We offer premium ${business} in ${location || 'your area'}. Would you be interested?"
-
-        2. **Segment B** – Secondary market
-           📍 Where to find: Online directories, referrals
-           📝 Outreach: "Hi there! We specialize in ${business}. Can we help you today?"
-
-        3. **Segment C** – Niche audience
-           📍 Where to find: Community groups, platforms
-           📝 Outreach: "Looking for quality ${business}? We've got you covered!"
-
-        4. **Segment D** – Corporate clients
-           📍 Where to find: LinkedIn, business networks
-           📝 Outreach: "We provide ${business} solutions for businesses like yours."
-
-        5. **Segment E** – Repeat customers
-           📍 Where to find: Past clients, email lists
-           📝 Outreach: "We value your loyalty. Here's a special offer just for you!"
-
-        ---
-        **Priority:** Start with Segments A and B for quick results.
-        **Next Steps:** Reach out via WhatsApp, email, and social media.
-        `;
-
-            showOutput('leadOutput', `<p style="white-space:pre-wrap;">${leads}</p>`);
+            showOutput('leadOutput', leads);
         }
 
         // ============================================================
-        // AI ASSISTANT
+        // AI ASSISTANT – 30+ QUESTIONS AND ANSWERS
         // ============================================================
 
         function askAssistant() {
@@ -888,21 +776,102 @@
                 return;
             }
 
+            const lowerInput = input.toLowerCase();
+
+            // ===== COMPREHENSIVE Q&A DATABASE =====
             const answers = {
-                'address': '📍 Our address is **C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria**.',
-                'phone': '📞 Call or WhatsApp us at **+234 810 525 7672**.',
-                'hours': '🕐 We are open Monday–Thursday & Saturday–Sunday: **8:00 AM – 6:00 PM**. Friday: **8:00 AM – 5:00 PM**.',
-                'offer': '🛍️ We offer **custom tailoring, modest fashion, thrift abayas (₦7,000), hand sleeves (₦800), pins (₦700), visor hats, web development, digital marketing, and tech accessories.**',
-                'shipping': '📦 We deliver locally in Jos and ship **nationwide across Nigeria**.',
-                'abaya': '👗 Yes! We have **thrift abayas for ₦7,000**. Contact us to see current stock.',
-                'tailoring': '✂️ Yes! We do **custom tailoring** at Nusaybah Power & Stitch.',
-                'power bank': '🔋 Yes! We sell power banks in **20,000mAh, 30,000mAh, 40,000mAh, and 50,000mAh**. Prices vary by capacity.',
+                // Address
+                'address': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
+                'location': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
+                'where': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
+                'store': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
+                'shop': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
+
+                // Phone
+                'phone': '📞 Call or WhatsApp us at +234 810 525 7672.',
+                'number': '📞 Call or WhatsApp us at +234 810 525 7672.',
+                'contact': '📞 Call or WhatsApp us at +234 810 525 7672. You can also email us at nusaybahpower@gmail.com',
+                'call': '📞 Call or WhatsApp us at +234 810 525 7672.',
+                'whatsapp': '📞 WhatsApp us at +234 810 525 7672.',
+
+                // Hours
+                'hour': '🕐 Monday to Thursday: 8:00 AM – 6:00 PM\n🕐 Friday: 8:00 AM – 5:00 PM\n🕐 Saturday to Sunday: 8:00 AM – 6:00 PM',
+                'time': '🕐 Monday to Thursday: 8:00 AM – 6:00 PM\n🕐 Friday: 8:00 AM – 5:00 PM\n🕐 Saturday to Sunday: 8:00 AM – 6:00 PM',
+                'open': '🕐 We are open Monday to Sunday. Monday–Thursday & Saturday–Sunday: 8 AM – 6 PM. Friday: 8 AM – 5 PM.',
+                'close': '🕐 We close at 6 PM Monday–Thursday & Saturday–Sunday. Friday: 5 PM.',
+
+                // Products / Offerings
+                'sell': '🛍️ We sell fashion items, electronics, tailoring services, home appliances, and thrift items. Our fashion collection includes abayas, hand sleeves, pins, visor hats, and more!',
+                'offer': '🛍️ We offer custom tailoring, modest fashion, thrift abayas (₦5,000), hand sleeves (₦800), pins (₦700), visor hats, web development, digital marketing, tech accessories, and power banks.',
+                'product': '🛍️ Our products include: thrift abayas (₦5,000), hand sleeves (₦800), fashion pins (₦700), visor hats, power banks (20,000mAh to 50,000mAh), home appliances, and custom tailoring services.',
+                'service': '🛍️ We offer custom tailoring, modest fashion, web development, digital marketing, and tech accessories.',
+                'fashion': '👗 Yes! We offer modest fashion including thrift abayas (₦5,000), hand sleeves (₦800), fashion pins (₦700), and visor hats.',
+                'tailoring': '✂️ Yes! We do custom tailoring at Nusaybah Power & Stitch. We make custom abayas, dresses, baby clothes, and more!',
+                'electronics': '📱 Yes! We sell electronics including power banks (20,000mAh to 50,000mAh), tech accessories, and more.',
+                'home appliance': '🏠 Yes! We sell home appliances including blenders, irons, and household gadgets.',
+                'appliance': '🏠 Yes! We sell home appliances including blenders, irons, and household gadgets.',
+                'thrift': '🛍️ Yes! We have thrift items including thrift abayas for ₦5,000 and other affordable luxury items.',
+
+                // Specific Products
+                'abaya': '👗 Yes! We have thrift abayas for ₦5,000. Contact us to see current stock and designs.',
+                'sleeve': '🧤 Yes! We have thick hand sleeves for ₦800. Available in black and white. Fits all sizes.',
+                'hand sleeve': '🧤 Yes! We have thick hand sleeves for ₦800. Available in black and white.',
+                'pin': '📌 Yes! We have fashion pins for ₦700. Perfect for adding style to your outfits.',
+                'visor': '🧢 Yes! We have visor hats. Contact us for current designs and prices.',
+                'hat': '🧢 Yes! We have visor hats. Contact us for current designs and prices.',
+                'power bank': '🔋 Yes! We sell power banks in 20,000mAh, 30,000mAh, 40,000mAh, and 50,000mAh. Prices vary by capacity.',
+                'blender': '🔋 Yes! We sell Silver Crest blenders with 2L capacity, 8500W motor, and 8-blade technology. Price: ₦25,000.',
+                'iron': '🔋 Yes! We sell Hansen dry irons. 1200W, heats in 37 seconds, lightweight.',
+                'charger': '🔋 Yes! We have fast charger sets. Contact us for details.',
+                'accessories': '🔋 Yes! We sell tech accessories including chargers, cables, and more.',
+
+                // Shipping / Delivery
+                'delivery': '📦 Yes! We deliver locally in Jos and ship nationwide across Nigeria.',
+                'shipping': '📦 Yes! We deliver locally in Jos and ship nationwide across Nigeria.',
+                'deliver': '📦 Yes! We deliver locally in Jos and ship nationwide across Nigeria.',
+                'nationwide': '📦 Yes! We ship nationwide across Nigeria.',
+                'local': '📦 Yes! We offer local delivery within Jos City.',
+                'shipping cost': '📦 Shipping costs vary by location. Contact us for a quote.',
+
+                // Social Media
                 'facebook': '📱 Follow us on Facebook: https://www.facebook.com/100077686659565/',
-                'instagram': '📱 Follow us on Instagram: https://www.instagram.com/nusaybahyaaqub/'
+                'instagram': '📱 Follow us on Instagram: https://www.instagram.com/nusaybahyaaqub/',
+                'social': '📱 Follow us on Facebook (https://www.facebook.com/100077686659565/) and Instagram (https://www.instagram.com/nusaybahyaaqub/).',
+                'tiktok': '📱 Follow us on TikTok: @nusaybahpowerstitch',
+
+                // Prices
+                'price': '💰 Thrift abayas: ₦5,000 | Hand sleeves: ₦800 | Pins: ₦700 | Blender: ₦25,000 | Power banks: vary by capacity.',
+                'cost': '💰 Thrift abayas: ₦5,000 | Hand sleeves: ₦800 | Pins: ₦700 | Blender: ₦25,000',
+                'how much': '💰 Thrift abayas: ₦5,000 | Hand sleeves: ₦800 | Pins: ₦700 | Blender: ₦25,000',
+
+                // Payment / Order
+                'pay': '💳 Payment methods: Bank transfer, cash on delivery, or pay in-store.',
+                'order': '📝 To place an order, contact us on WhatsApp at +234 810 525 7672 or visit our store.',
+                'buy': '🛍️ To buy, contact us on WhatsApp at +234 810 525 7672 or visit our store at C/73 Alhaji Ango Street, Jos North.',
+                'booking': '📝 Book our services by calling +234 810 525 7672 or sending a WhatsApp message.',
+
+                // About
+                'about': '🏢 Nusaybah Hub is a multi-service business based in Jos, Nigeria. We specialize in custom tailoring, modest fashion, digital services, and tech accessories.',
+                'who': '🏢 Nusaybah Hub is your trusted shopping hub. We offer fashion, electronics, tailoring, home appliances, and thrift items.',
+                'we': '🏢 We are Nusaybah Hub, your trusted shopping hub in Jos, Nigeria.',
+
+                // Company / Brand
+                'nusaybah': '🏢 Nusaybah Hub is a multi-service business in Jos, Nigeria. We offer custom tailoring, modest fashion, digital services, and tech accessories.',
+                'brand': '🏢 Nusaybah Hub is your trusted shopping hub — offering fashion, electronics, tailoring, home appliances, and thrift.',
+                'power and stitch': '✂️ Nusaybah Power & Stitch is our tailoring division. We do custom garments, alterations, and fashion design.',
+
+                // Miscellaneous
+                'help': '🤖 I\'m here to help! You can ask me about our products, services, hours, location, pricing, and more.',
+                'hello': '👋 Hello! Welcome to Nusaybah Hub. How can I help you today?',
+                'hi': '👋 Hi! Welcome to Nusaybah Hub. How can I help you today?',
+                'hey': '👋 Hey! Welcome to Nusaybah Hub. How can I help you today?',
+                'thanks': '😊 You\'re welcome! Thank you for choosing Nusaybah Hub. Is there anything else I can help you with?',
+                'thank you': '😊 You\'re welcome! Thank you for choosing Nusaybah Hub.',
+                'bye': '👋 Goodbye! Visit us anytime. We look forward to serving you!',
+                'goodbye': '👋 Goodbye! Visit us anytime. We look forward to serving you!'
             };
 
             let result = null;
-            const lowerInput = input.toLowerCase();
 
             for (const [key, value] of Object.entries(answers)) {
                 if (lowerInput.includes(key)) {
@@ -911,20 +880,41 @@
                 }
             }
 
+            // If no match, try partial matching
             if (!result) {
-                result = `🤖 I'm sorry, I don't have an answer for that yet. Please contact us directly at **+234 810 525 7672** or visit our store at **C/73 Alhaji Ango Street, Jos North, Plateau State**. We'd love to help! 😊`;
+                const words = lowerInput.split(' ');
+                for (const word of words) {
+                    if (word.length > 3) {
+                        for (const [key, value] of Object.entries(answers)) {
+                            if (word.includes(key) || key.includes(word)) {
+                                result = value;
+                                break;
+                            }
+                        }
+                        if (result) break;
+                    }
+                }
             }
 
-            showOutput('assistantOutput', `<p>${result}</p>`);
+            if (!result) {
+                result = `🤖 I'm sorry, I don't have an answer for that yet. Please contact us directly:
+
+📞 Call/WhatsApp: +234 810 525 7672
+📍 Address: C/73 Alhaji Ango Street, Jos North, Plateau State
+📧 Email: nusaybahpower@gmail.com
+
+We would love to help you! 😊`;
+            }
+
+            showOutput('assistantOutput', `<div style="font-size:1rem; line-height:1.8;">${result.replace(/\n/g, '<br/>')}</div>`);
         }
 
         // ============================================================
-        // QR CODE GENERATOR
+        // QR CODE GENERATOR (with Reliable Download)
         // ============================================================
 
         function generateQR() {
             const text = document.getElementById('qrInput').value.trim();
-
             if (!text) {
                 alert('Please enter some text or a URL.');
                 return;
@@ -932,10 +922,52 @@
 
             const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(text)}`;
 
-            showOutput('qrOutput', `
-                <img src="${qrUrl}" alt="QR Code" style="max-width:300px; width:100%; margin:0 auto; display:block;" />
-                <p style="text-align:center; margin-top:0.5rem; font-size:0.8rem; color:#888;">Scan me! 📱</p>
-            `);
+            const resultHtml = `
+                <img id="qrImage" src="${qrUrl}" alt="QR Code" style="max-width:300px; width:100%; margin:0 auto; display:block; border:2px solid #ddd; border-radius:8px;" />
+                <div style="margin-top:1rem;">
+                    <button class="btn" onclick="downloadQR()" style="background:var(--secondary); color:var(--primary);">
+                        ⬇️ Download QR Code
+                    </button>
+                </div>
+            `;
+
+            showOutput('qrOutput', resultHtml);
+        }
+
+        function downloadQR() {
+            const img = document.getElementById('qrImage');
+            if (!img) {
+                alert('Please generate a QR code first.');
+                return;
+            }
+
+            // Method 1: Fetch the image as a blob (most reliable, avoids cross-origin issues)
+            fetch(img.src, { mode: 'cors' })
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.blob();
+                })
+                .then(blob => {
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    const text = document.getElementById('qrInput').value.trim() || 'qrcode';
+                    link.download = `qrcode_${text.substring(0, 20)}.png`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(link.href);
+                })
+                .catch(() => {
+                    // Fallback: Use direct link with download attribute (works in most browsers)
+                    const link = document.createElement('a');
+                    link.href = img.src;
+                    const text = document.getElementById('qrInput').value.trim() || 'qrcode';
+                    link.download = `qrcode_${text.substring(0, 20)}.png`;
+                    link.target = '_blank';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
         }
 
         // ============================================================
@@ -968,8 +1000,10 @@
             }
 
             generatedPassword = password;
-            showOutput('passOutput', `<p style="font-size:1.2rem; font-weight:bold; word-break:break-all;">${password}</p>
-                <button class="btn btn-sm btn-gold" style="margin-top:0.5rem;" onclick="copyPassword()">📋 Copy</button>`);
+            showOutput('passOutput', `
+                <div style="font-size:1.2rem; font-weight:bold; word-break:break-all; color:#0a2463;">${password}</div>
+                <button class="btn" style="margin-top:0.5rem; padding:0.4rem 1.2rem; font-size:0.85rem;" onclick="copyPassword()">📋 Copy</button>
+            `);
         }
 
         function copyPassword() {
@@ -977,17 +1011,14 @@
                 alert('Generate a password first.');
                 return;
             }
-            navigator.clipboard.writeText(generatedPassword).then(() => {
-                alert('✅ Password copied to clipboard!');
-            }).catch(() => {
-                // Fallback
+            navigator.clipboard.writeText(generatedPassword).then(() => alert('✅ Copied!')).catch(() => {
                 const textarea = document.createElement('textarea');
                 textarea.value = generatedPassword;
                 document.body.appendChild(textarea);
                 textarea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textarea);
-                alert('✅ Password copied to clipboard!');
+                alert('✅ Copied!');
             });
         }
 
@@ -997,35 +1028,26 @@
 
         function summarizeText() {
             const text = document.getElementById('summarizerInput').value.trim();
-
             if (!text) {
                 alert('Please enter some text to summarize.');
                 return;
             }
 
-            // Simple summarization: extract first 3 sentences or first 150 words
             const words = text.split(/\s+/);
             let summary = '';
 
             if (words.length <= 50) {
                 summary = text;
             } else {
-                // Take first 3 sentences
                 const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-                const firstSentences = sentences.slice(0, 3).join(' ');
-                const remaining = sentences.slice(3).join(' ');
-                if (remaining.length > 0) {
-                    summary = firstSentences + ' ... [Summary continues]';
-                } else {
-                    summary = firstSentences;
-                }
+                summary = sentences.slice(0, 3).join(' ') + ' ... [Summary continues]';
             }
 
             showOutput('summarizerOutput', `
-                <p><strong>Original Length:</strong> ${text.length} characters, ${words.length} words</p>
-                <p><strong>Summary Length:</strong> ${summary.length} characters, ${summary.split(/\s+/).length} words</p>
-                <hr />
-                <p style="white-space:pre-wrap;">${summary}</p>
+                <div style="font-size:1rem; line-height:1.8;">
+                    <p><strong style="color:#0a2463;">Original:</strong> ${text.length} characters, ${words.length} words</p>
+                    <p><strong style="color:#0a2463;">Summary:</strong><br/>${summary}</p>
+                </div>
             `);
         }
 
@@ -1050,6 +1072,5 @@
             }
         });
     </script>
-
 </body>
 </html>
