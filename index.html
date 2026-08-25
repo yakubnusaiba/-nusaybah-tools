@@ -102,6 +102,12 @@
             font-size: 0.95rem;
         }
         .btn:hover { background: var(--secondary); color: var(--primary); transform: scale(1.02); }
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        .btn-outline:hover { background: var(--primary); color: white; }
 
         .output-box {
             background: #f5f5f5;
@@ -173,6 +179,61 @@
         .recipe-card ul { padding-left: 1.5rem; margin: 0.5rem 0; }
         .recipe-card ol { padding-left: 1.5rem; margin: 0.5rem 0; }
 
+        /* ===== RECIPE LIST ===== */
+        .recipe-list-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .recipe-list-item {
+            background: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border-left: 3px solid var(--secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .recipe-list-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            background: #f9f9f9;
+        }
+        .recipe-list-item .cuisine-tag {
+            background: var(--primary);
+            color: white;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .recipe-list-item .dish-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        .cuisine-group {
+            margin-top: 1.5rem;
+        }
+        .cuisine-group h4 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.3rem;
+            margin-bottom: 0.8rem;
+        }
+        .recipe-list-wrapper {
+            display: none;
+            margin-top: 1rem;
+        }
+        .recipe-list-wrapper.show {
+            display: block;
+        }
+
         @media (max-width: 768px) {
             .header .container { flex-direction: column; text-align: center; gap: 0.3rem; }
             .header .logo-wrapper { flex-direction: column; text-align: center; }
@@ -184,12 +245,14 @@
             .home-grid { grid-template-columns: 1fr 1fr; }
             .tool-card { padding: 1rem; }
             .tool-card i { font-size: 2rem; }
+            .recipe-list-grid { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 480px) {
             .home-grid { grid-template-columns: 1fr; }
             .nav button { font-size: 0.7rem; padding: 0.3rem 0.6rem; }
             .header .logo-text .brand { font-size: 1.2rem; }
             .header .logo-img { width: 50px; height: 50px; }
+            .recipe-list-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -249,9 +312,9 @@
         <div class="page" id="page-recipe">
             <div class="card">
                 <h2><i class="fas fa-utensils"></i> Recipe Generator</h2>
-                <p class="sub">Enter your ingredients and get a delicious recipe.</p>
+                <p class="sub">Enter your ingredients and get a delicious recipe from any cuisine.</p>
                 <div class="form-group">
-                    <label>Ingredients (separated by commas)</label>
+                    <label>Ingredients</label>
                     <textarea id="recipeInput" rows="3" placeholder="e.g., chicken, rice, tomatoes, onions, garlic, pepper"></textarea>
                 </div>
                 <div class="form-group" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
@@ -275,6 +338,11 @@
                             <option value="Chinese">Chinese</option>
                             <option value="Mexican">Mexican</option>
                             <option value="Indian">Indian</option>
+                            <option value="Japanese">Japanese</option>
+                            <option value="French">French</option>
+                            <option value="American">American</option>
+                            <option value="Thai">Thai</option>
+                            <option value="Mediterranean">Mediterranean</option>
                         </select>
                     </div>
                 </div>
@@ -282,6 +350,22 @@
                 <div class="output-box" id="recipeOutput">
                     <h4>🍽️ Your Recipe</h4>
                     <div id="recipeResult"></div>
+                </div>
+            </div>
+
+            <!-- ===== BROWSE ALL RECIPES (Hidden by default) ===== -->
+            <div class="card" style="border-left-color: var(--primary);">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <h2 style="margin:0;"><i class="fas fa-list"></i> Browse All Recipes</h2>
+                    <button class="btn btn-outline" onclick="toggleRecipeList()" id="toggleRecipeBtn">
+                        <i class="fas fa-chevron-down"></i> Show All Recipes
+                    </button>
+                </div>
+                <p class="sub">Click on any dish to load its ingredients and generate the recipe.</p>
+                <div class="recipe-list-wrapper" id="recipeListWrapper">
+                    <div id="recipeListContainer">
+                        <!-- Loaded by JavaScript -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -305,10 +389,11 @@
         <div class="page" id="page-content">
             <div class="card">
                 <h2><i class="fas fa-pen-fancy"></i> Content Writer</h2>
-                <p class="sub">Generate blog posts, social media captions, and more.</p>
+                <p class="sub">Generate professional content for any purpose.</p>
                 <div class="form-group"><label>Topic</label><input id="contentTopic" placeholder="e.g., Why modest fashion is growing in Nigeria" /></div>
-                <div class="form-group"><label>Content Type</label><select id="contentType"><option value="Blog Post">Blog Post</option><option value="Social Media Post">Social Media Post</option><option value="Product Description">Product Description</option><option value="Email Newsletter">Email Newsletter</option><option value="Advertisement Copy">Advertisement Copy</option></select></div>
-                <div class="form-group"><label>Tone</label><select id="contentTone"><option value="Professional">Professional</option><option value="Casual">Casual</option><option value="Inspiring">Inspiring</option><option value="Persuasive">Persuasive</option><option value="Warm">Warm</option></select></div>
+                <div class="form-group"><label>Content Type</label><select id="contentType"><option value="Blog Post">📝 Blog Post</option><option value="Social Media Post">📱 Social Media Post</option><option value="Product Description">🛍️ Product Description</option><option value="Email Newsletter">📧 Email Newsletter</option><option value="Advertisement Copy">🔥 Advertisement Copy</option><option value="Press Release">📰 Press Release</option><option value="Case Study">📊 Case Study</option><option value="How-To Guide">📖 How-To Guide</option><option value="Video Script">🎬 Video Script</option><option value="Landing Page Copy">🌐 Landing Page Copy</option></select></div>
+                <div class="form-group"><label>Tone</label><select id="contentTone"><option value="Professional">Professional</option><option value="Casual">Casual</option><option value="Inspiring">Inspiring</option><option value="Persuasive">Persuasive</option><option value="Warm">Warm</option><option value="Authoritative">Authoritative</option><option value="Playful">Playful</option><option value="Urgent">Urgent</option></select></div>
+                <div class="form-group"><label>Target Audience</label><input id="contentAudience" placeholder="e.g., Women aged 18-45, business owners" value="General audience" /></div>
                 <button class="btn" onclick="generateContent()">✍️ Generate Content</button>
                 <div class="output-box" id="contentOutput"><h4>✍️ Generated Content</h4><div id="contentResult"></div></div>
             </div>
@@ -318,10 +403,11 @@
         <div class="page" id="page-leads">
             <div class="card">
                 <h2><i class="fas fa-bullseye"></i> Lead Generator</h2>
-                <p class="sub">Find potential customers for any business.</p>
+                <p class="sub">Find potential customers for any business with detailed outreach strategies.</p>
                 <div class="form-group"><label>Business Type</label><input id="leadBusiness" placeholder="e.g., Modest fashion store" /></div>
                 <div class="form-group"><label>Location</label><input id="leadLocation" placeholder="e.g., Jos, Nigeria" /></div>
                 <div class="form-group"><label>Target Audience</label><input id="leadAudience" placeholder="e.g., Women aged 18-45" /></div>
+                <div class="form-group"><label>Business Stage</label><select id="leadStage"><option value="startup">Startup / New Business</option><option value="growing">Growing Business</option><option value="established">Established Business</option><option value="any" selected>Any</option></select></div>
                 <button class="btn" onclick="generateLeads()">🎯 Generate Leads</button>
                 <div class="output-box" id="leadOutput"><h4>🎯 Lead Generation Report</h4><div id="leadResult"></div></div>
             </div>
@@ -343,16 +429,9 @@
             <div class="card">
                 <h2><i class="fas fa-qrcode"></i> QR Code Generator</h2>
                 <p class="sub">Generate a QR code for any text or link. Download the image to use anywhere.</p>
-                <div class="form-group">
-                    <label>Enter Text or URL</label>
-                    <input id="qrInput" placeholder="https://nusaybahhub.com" />
-                </div>
+                <div class="form-group"><label>Enter Text or URL</label><input id="qrInput" placeholder="https://nusaybahhub.com" /></div>
                 <button class="btn" onclick="generateQR()">📱 Generate QR Code</button>
-                <div class="output-box" id="qrOutput">
-                    <h4>📱 Your QR Code</h4>
-                    <div id="qrResult" style="text-align:center;"></div>
-                    <div id="qrDownloadArea" style="text-align:center; margin-top:1rem;"></div>
-                </div>
+                <div class="output-box" id="qrOutput"><h4>📱 Your QR Code</h4><div id="qrResult" style="text-align:center;"></div><div id="qrDownloadArea" style="text-align:center; margin-top:1rem;"></div></div>
             </div>
         </div>
 
@@ -427,180 +506,572 @@
         }
 
         // ============================================================
-        // RECIPE GENERATOR – 50+ SAMPLE RECIPES
+        // RECIPE DATABASE (Complete)
         // ============================================================
 
         const recipeDatabase = {
+
+            // ===== NIGERIAN =====
             'chicken, rice, tomatoes': {
                 name: 'Nigerian Chicken Jollof Rice',
                 time: '55 mins',
                 servings: '4 servings',
-                ingredients: ['500g chicken', '2 cups long grain rice', '4 large tomatoes (blended)', '2 onions (chopped)',
-                    '2 scotch bonnet peppers', '2 tbsp tomato paste', 'Chicken stock', 'Salt and seasoning'
+                cuisine: 'Nigerian',
+                ingredients: ['500g chicken', '2 cups long grain rice', '4 large tomatoes (blended)',
+                    '2 onions (chopped)', '2 scotch bonnet peppers', '2 tbsp tomato paste', 'Chicken stock',
+                    'Salt and seasoning'
                 ],
-                instructions: '1. Season chicken with salt and seasoning. Fry until golden brown.\n2. Blend tomatoes, onions, and peppers into a smooth paste.\n3. In a pot, sauté tomato paste for 2 minutes.\n4. Add blended mixture and fry for 10 minutes.\n5. Add chicken stock, water, and seasoning.\n6. Add rice and cook for 20-25 minutes until done.\n7. Return chicken to pot and cook for 5 more minutes.\n8. Serve hot with plantains or coleslaw.'
+                instructions: '1. Season chicken with salt and seasoning. Fry until golden brown.\n2. Blend tomatoes, onions, and peppers into a smooth paste.\n3. In a pot, sauté tomato paste for 2 minutes.\n4. Add blended mixture and fry for 10 minutes.\n5. Add chicken stock, water, and seasoning.\n6. Add rice and cook for 20-25 minutes.\n7. Return chicken to pot and cook for 5 more minutes.\n8. Serve hot with plantains or coleslaw.'
             },
-            'chicken, rice': {
-                name: 'Chicken Fried Rice',
-                time: '30 mins',
+            'rice, beans': {
+                name: 'Nigerian Rice and Beans',
+                time: '50 mins',
                 servings: '4 servings',
-                ingredients: ['2 cups cooked rice', '200g chicken breast (diced)', '2 eggs (scrambled)', '1 onion (chopped)',
-                    '2 carrots (diced)', '1/2 cup peas', 'Soy sauce', 'Oil'
-                ],
-                instructions: '1. Cook chicken in a wok until browned. Remove and set aside.\n2. Scramble eggs in the same wok.\n3. Sauté onion, carrots, and peas.\n4. Add rice, chicken, and eggs back.\n5. Add soy sauce and stir-fry for 3-5 minutes.\n6. Serve hot.'
+                cuisine: 'Nigerian',
+                ingredients: ['1 cup rice', '1 cup beans', '1 onion (chopped)', '2 tomatoes (blended)', 'Seasoning'],
+                instructions: '1. Cook beans until soft.\n2. Sauté onion and tomatoes.\n3. Add cooked beans and rice.\n4. Add water and cook for 20 minutes.\n5. Season to taste.\n6. Serve hot.'
             },
-            'eggs, flour, milk': {
-                name: 'Fluffy Pancakes',
-                time: '20 mins',
-                servings: '4 servings',
-                ingredients: ['2 large eggs', '1 cup all-purpose flour', '1 cup milk', '2 tbsp sugar',
-                    '1 tsp baking powder', 'Butter for frying'
-                ],
-                instructions: '1. Mix all ingredients until smooth.\n2. Heat butter in a non-stick pan.\n3. Pour batter to form small circles.\n4. Cook until bubbles appear on top.\n5. Flip and cook until golden brown.\n6. Serve with honey, syrup, or fresh fruit.'
-            },
-            'eggs, tomatoes, onions': {
-                name: 'Nigerian Egg Sauce',
-                time: '20 mins',
-                servings: '3 servings',
-                ingredients: ['4 large eggs', '3 tomatoes (chopped)', '1 onion (chopped)', '1 scotch bonnet pepper',
-                    'Vegetable oil', 'Salt and seasoning'
-                ],
-                instructions: '1. Whisk eggs with salt and set aside.\n2. Sauté onions and peppers in oil.\n3. Add tomatoes and cook until soft.\n4. Pour in eggs and scramble.\n5. Cook for 3-5 minutes until set.\n6. Serve with bread or yam.'
-            },
-            'pasta, tomatoes, garlic': {
-                name: 'Spaghetti Aglio e Olio with Tomatoes',
-                time: '20 mins',
+            'yam, eggs': {
+                name: 'Nigerian Yam and Egg Sauce',
+                time: '25 mins',
                 servings: '2 servings',
-                ingredients: ['200g spaghetti', '3 cloves garlic (sliced)', '3 tomatoes (diced)', 'Olive oil',
-                    'Chili flakes', 'Fresh parsley'
-                ],
-                instructions: '1. Cook pasta according to package instructions.\n2. Sauté garlic in olive oil until golden.\n3. Add diced tomatoes and chili flakes.\n4. Toss with cooked pasta.\n5. Garnish with fresh parsley.\n6. Serve hot.'
+                cuisine: 'Nigerian',
+                ingredients: ['2 slices yam', '2 eggs', '2 tomatoes (chopped)', '1 onion (chopped)', 'Seasoning'],
+                instructions: '1. Boil yam until soft.\n2. Sauté onion and tomatoes.\n3. Add whisked eggs and scramble.\n4. Season to taste.\n5. Serve yam with egg sauce.'
             },
-            'rice, tomatoes': {
-                name: 'Jollof Rice',
+            'plantain': {
+                name: 'Nigerian Fried Plantain (Dodo)',
+                time: '15 mins',
+                servings: '2 servings',
+                cuisine: 'Nigerian',
+                ingredients: ['2 ripe plantains', 'Oil for frying', 'Salt'],
+                instructions: '1. Peel plantains and slice diagonally.\n2. Heat oil in a pan.\n3. Fry plantains until golden brown on both sides.\n4. Sprinkle with salt.\n5. Serve as a snack or side dish.'
+            },
+            'rice': {
+                name: 'Nigerian Jollof Rice',
                 time: '45 mins',
                 servings: '4 servings',
+                cuisine: 'Nigerian',
                 ingredients: ['2 cups rice', '4 large tomatoes (blended)', '1 onion (chopped)', '2 tbsp tomato paste',
                     'Chicken stock', 'Seasoning'
                 ],
                 instructions: '1. Blend tomatoes and onion.\n2. Fry tomato paste and blended mixture.\n3. Add stock and seasoning.\n4. Add rice and cook for 20 minutes.\n5. Serve hot.'
             },
-            'chicken, potatoes': {
-                name: 'Chicken and Potato Stew',
-                time: '50 mins',
-                servings: '4 servings',
-                ingredients: ['500g chicken', '4 large potatoes (cubed)', '1 onion (chopped)', '2 tomatoes (blended)',
-                    'Garlic and ginger', 'Seasoning'
+            'chicken, pepper': {
+                name: 'Nigerian Chicken Pepper Soup',
+                time: '35 mins',
+                servings: '3 servings',
+                cuisine: 'Nigerian',
+                ingredients: ['500g chicken', '2 bell peppers', '1 onion', 'Scotch bonnet pepper', 'Seasoning'],
+                instructions: '1. Boil chicken with peppers and onion.\n2. Add scotch bonnet pepper.\n3. Cook for 25-30 minutes.\n4. Season to taste.\n5. Serve hot.'
+            },
+            'eggs, tomatoes, onions': {
+                name: 'Nigerian Egg Sauce',
+                time: '20 mins',
+                servings: '3 servings',
+                cuisine: 'Nigerian',
+                ingredients: ['4 large eggs', '3 tomatoes (chopped)', '1 onion (chopped)', '1 scotch bonnet pepper',
+                    'Vegetable oil', 'Salt and seasoning'
                 ],
-                instructions: '1. Fry chicken until browned.\n2. Sauté onion, garlic, and ginger.\n3. Add blended tomatoes and cook.\n4. Add potatoes and water.\n5. Cook for 25-30 minutes until potatoes are tender.\n6. Season to taste and serve.'
+                instructions: '1. Whisk eggs with salt and set aside.\n2. Sauté onions and peppers in oil.\n3. Add tomatoes and cook until soft.\n4. Pour in eggs and scramble.\n5. Cook for 3-5 minutes.\n6. Serve with bread or yam.'
             },
             'beef, onions, tomatoes': {
-                name: 'Beef Stew',
+                name: 'Nigerian Beef Stew',
                 time: '1 hour 30 mins',
                 servings: '6 servings',
+                cuisine: 'Nigerian',
                 ingredients: ['1kg beef (cubed)', '2 onions (chopped)', '4 tomatoes (blended)', 'Garlic and ginger',
                     'Beef stock', 'Seasoning'
                 ],
                 instructions: '1. Season beef and fry until browned.\n2. Sauté onions, garlic, and ginger.\n3. Add blended tomatoes and cook.\n4. Add beef stock and simmer for 1 hour.\n5. Season to taste.\n6. Serve with rice or yam.'
             },
             'fish, tomatoes, onions': {
-                name: 'Fish Pepper Soup',
+                name: 'Nigerian Fish Pepper Soup',
                 time: '30 mins',
                 servings: '3 servings',
+                cuisine: 'Nigerian',
                 ingredients: ['500g fish', '3 tomatoes (chopped)', '1 onion (chopped)', 'Pepper soup spice',
                     'Scotch bonnet pepper', 'Seasoning'
                 ],
                 instructions: '1. Boil water with pepper soup spice.\n2. Add fish, tomatoes, onion, and pepper.\n3. Cook for 20 minutes.\n4. Season to taste.\n5. Serve hot with bread or rice.'
             },
-            'eggs, bread, milk': {
-                name: 'Classic French Toast',
-                time: '15 mins',
-                servings: '2 servings',
-                ingredients: ['4 slices bread', '2 eggs', '1/2 cup milk', '1 tsp cinnamon', 'Butter', 'Maple syrup'],
-                instructions: '1. Whisk eggs, milk, and cinnamon.\n2. Soak bread in mixture.\n3. Heat butter in a pan.\n4. Cook bread until golden on both sides.\n5. Serve with maple syrup.'
-            },
-            'rice, beans': {
-                name: 'Rice and Beans',
-                time: '50 mins',
-                servings: '4 servings',
-                ingredients: ['1 cup rice', '1 cup beans', '1 onion (chopped)', '2 tomatoes (blended)', 'Seasoning'],
-                instructions: '1. Cook beans until soft.\n2. Sauté onion and tomatoes.\n3. Add cooked beans and rice.\n4. Add water and cook for 20 minutes.\n5. Season to taste.\n6. Serve hot.'
-            },
-            'potatoes, eggs': {
-                name: 'Potato and Egg Salad',
-                time: '25 mins',
-                servings: '3 servings',
-                ingredients: ['4 potatoes (boiled and cubed)', '3 hard-boiled eggs (chopped)', 'Mayonnaise', 'Onion (chopped)',
-                    'Salt and pepper'
-                ],
-                instructions: '1. Boil potatoes and eggs.\n2. Cube potatoes and chop eggs.\n3. Mix with mayonnaise, onion, salt, and pepper.\n4. Chill and serve.'
-            },
-            'spaghetti, eggs': {
-                name: 'Spaghetti with Egg Sauce',
+
+            // ===== ITALIAN =====
+            'pasta, tomatoes, garlic': {
+                name: 'Italian Spaghetti Aglio e Olio',
                 time: '20 mins',
-                servings: '3 servings',
-                ingredients: ['300g spaghetti', '3 eggs', '2 tomatoes (chopped)', '1 onion (chopped)', 'Seasoning'],
-                instructions: '1. Cook spaghetti according to package.\n2. Sauté onion and tomatoes.\n3. Add whisked eggs and scramble.\n4. Season to taste.\n5. Combine with spaghetti and serve.'
-            },
-            'rice, vegetables': {
-                name: 'Vegetable Fried Rice',
-                time: '25 mins',
-                servings: '4 servings',
-                ingredients: ['2 cups cooked rice', 'Mixed vegetables (carrots, peas, corn)', '1 onion (chopped)',
-                    'Soy sauce', 'Oil'
+                servings: '2 servings',
+                cuisine: 'Italian',
+                ingredients: ['200g spaghetti', '3 cloves garlic (sliced)', '3 tomatoes (diced)', 'Olive oil',
+                    'Chili flakes', 'Fresh parsley'
                 ],
-                instructions: '1. Sauté onion and vegetables.\n2. Add rice and soy sauce.\n3. Stir-fry for 5-7 minutes.\n4. Serve hot.'
+                instructions: '1. Cook pasta.\n2. Sauté garlic in olive oil until golden.\n3. Add diced tomatoes and chili flakes.\n4. Toss with cooked pasta.\n5. Garnish with fresh parsley.\n6. Serve hot.'
             },
             'pasta, cheese': {
-                name: 'Creamy Mac and Cheese',
+                name: 'Italian Creamy Mac and Cheese',
                 time: '20 mins',
                 servings: '4 servings',
+                cuisine: 'Italian',
                 ingredients: ['500g pasta', '2 cups cheese (grated)', '2 cups milk', 'Butter', 'Flour', 'Salt and pepper'],
                 instructions: '1. Cook pasta.\n2. Make cheese sauce with butter, flour, milk, and cheese.\n3. Combine pasta and sauce.\n4. Bake for 10-15 minutes.\n5. Serve hot.'
             },
-            'chicken, peppers, onions': {
-                name: 'Chicken Pepper Soup',
+            'bread, tomatoes, garlic': {
+                name: 'Italian Bruschetta',
+                time: '15 mins',
+                servings: '4 servings',
+                cuisine: 'Italian',
+                ingredients: ['1 loaf Italian bread', '4 tomatoes (diced)', '2 cloves garlic (minced)', 'Olive oil',
+                    'Fresh basil', 'Salt and pepper'
+                ],
+                instructions: '1. Slice bread and toast until golden.\n2. Mix tomatoes, garlic, basil, olive oil, salt, and pepper.\n3. Spoon mixture onto toasted bread.\n4. Serve immediately.'
+            },
+            'rice, cheese': {
+                name: 'Italian Risotto',
                 time: '35 mins',
-                servings: '3 servings',
-                ingredients: ['500g chicken', '2 bell peppers', '1 onion', 'Scotch bonnet pepper', 'Seasoning'],
-                instructions: '1. Boil chicken with peppers and onion.\n2. Add scotch bonnet pepper.\n3. Cook for 25-30 minutes.\n4. Season to taste.\n5. Serve hot.'
+                servings: '4 servings',
+                cuisine: 'Italian',
+                ingredients: ['2 cups Arborio rice', '1 onion (chopped)', '2 cloves garlic', 'Parmesan cheese',
+                    'Chicken stock', 'Butter'
+                ],
+                instructions: '1. Sauté onion and garlic in butter.\n2. Add rice and toast for 2 minutes.\n3. Add stock gradually, stirring constantly.\n4. Cook until rice is creamy.\n5. Stir in Parmesan cheese.\n6. Serve hot.'
             },
-            'yam, eggs': {
-                name: 'Yam and Egg Sauce',
+            'pasta, tomatoes': {
+                name: 'Italian Tomato Pasta',
                 time: '25 mins',
-                servings: '2 servings',
-                ingredients: ['2 slices yam', '2 eggs', '2 tomatoes (chopped)', '1 onion (chopped)', 'Seasoning'],
-                instructions: '1. Boil yam until soft.\n2. Sauté onion and tomatoes.\n3. Add whisked eggs and scramble.\n4. Season to taste.\n5. Serve yam with egg sauce.'
+                servings: '4 servings',
+                cuisine: 'Italian',
+                ingredients: ['400g pasta', '4 tomatoes (blended)', '2 cloves garlic', 'Olive oil', 'Fresh basil',
+                    'Salt and pepper'
+                ],
+                instructions: '1. Cook pasta.\n2. Sauté garlic in olive oil.\n3. Add blended tomatoes and simmer for 15 minutes.\n4. Add basil and seasoning.\n5. Toss with pasta.\n6. Serve hot.'
             },
-            'plantain, eggs': {
-                name: 'Plantain and Egg',
-                time: '20 mins',
-                servings: '2 servings',
-                ingredients: ['2 ripe plantains', '2 eggs', '1 onion (chopped)', 'Seasoning'],
-                instructions: '1. Fry plantain slices until golden.\n2. Sauté onion.\n3. Add whisked eggs and scramble.\n4. Season to taste.\n5. Serve plantain with eggs.'
-            },
-            'chicken, noodles': {
-                name: 'Chicken Noodle Soup',
+            'chicken, pasta': {
+                name: 'Italian Chicken Pasta',
                 time: '30 mins',
-                servings: '3 servings',
-                ingredients: ['200g chicken', '1 pack noodles', 'Carrots', 'Onion', 'Seasoning'],
-                instructions: '1. Boil chicken with onion and seasoning.\n2. Add carrots and noodles.\n3. Cook for 10 minutes.\n4. Serve hot.'
+                servings: '4 servings',
+                cuisine: 'Italian',
+                ingredients: ['400g pasta', '300g chicken breast', '2 cloves garlic', 'Olive oil', 'Parmesan cheese',
+                    'Fresh parsley'
+                ],
+                instructions: '1. Cook pasta.\n2. Sauté chicken and garlic in olive oil.\n3. Toss with pasta.\n4. Top with Parmesan and parsley.'
             },
-            'rice, chicken, vegetables': {
-                name: 'Chicken and Vegetable Rice',
+            'mushrooms, rice': {
+                name: 'Italian Mushroom Risotto',
                 time: '40 mins',
                 servings: '4 servings',
-                ingredients: ['2 cups rice', '300g chicken', 'Mixed vegetables', '1 onion', 'Seasoning'],
-                instructions: '1. Cook chicken and set aside.\n2. Sauté onion and vegetables.\n3. Add rice and water.\n4. Cook for 20 minutes.\n5. Add chicken and serve.'
+                cuisine: 'Italian',
+                ingredients: ['2 cups Arborio rice', '200g mushrooms', '1 onion (chopped)', 'Parmesan cheese',
+                    'Chicken stock', 'Butter'
+                ],
+                instructions: '1. Sauté onion and mushrooms.\n2. Add rice and toast.\n3. Add stock gradually.\n4. Stir in Parmesan.\n5. Serve hot.'
             },
-            'eggs, milk, sugar': {
-                name: 'Custard',
-                time: '10 mins',
+
+            // ===== MEXICAN =====
+            'chicken, rice, tomatoes': {
+                name: 'Mexican Arroz con Pollo',
+                time: '55 mins',
+                servings: '4 servings',
+                cuisine: 'Mexican',
+                ingredients: ['500g chicken', '2 cups rice', '4 tomatoes (blended)', '2 onions (chopped)',
+                    'Bell peppers', 'Chili powder', 'Cumin', 'Garlic', 'Cilantro'
+                ],
+                instructions: '1. Season chicken with chili powder, cumin, and garlic.\n2. Brown chicken in a pot.\n3. Sauté onions and peppers.\n4. Add blended tomatoes and spices.\n5. Add rice and water.\n6. Cook for 20-25 minutes.\n7. Serve with fresh cilantro.'
+            },
+            'beans, rice': {
+                name: 'Mexican Beans and Rice',
+                time: '40 mins',
+                servings: '4 servings',
+                cuisine: 'Mexican',
+                ingredients: ['1 cup rice', '1 can black beans', '1 onion (chopped)', '2 cloves garlic', 'Cumin',
+                    'Chili powder', 'Cilantro'
+                ],
+                instructions: '1. Sauté onion and garlic.\n2. Add rice and toast for 2 minutes.\n3. Add water, cumin, and chili powder.\n4. Cook until rice is done.\n5. Add black beans and heat through.\n6. Garnish with cilantro.'
+            },
+            'chicken, tortillas': {
+                name: 'Mexican Chicken Tacos',
+                time: '25 mins',
+                servings: '4 servings',
+                cuisine: 'Mexican',
+                ingredients: ['500g chicken breast', 'Tortillas', 'Onion', 'Cilantro', 'Lime', 'Salsa'],
+                instructions: '1. Cook chicken with taco seasoning.\n2. Shred the chicken.\n3. Warm tortillas.\n4. Fill tortillas with chicken, onion, cilantro, and salsa.\n5. Squeeze lime over tacos.'
+            },
+            'rice': {
+                name: 'Mexican Mexican Rice',
+                time: '25 mins',
+                servings: '4 servings',
+                cuisine: 'Mexican',
+                ingredients: ['2 cups rice', '1 onion (chopped)', '2 cloves garlic', '1 can tomato sauce',
+                    'Chicken stock', 'Cumin', 'Chili powder'
+                ],
+                instructions: '1. Sauté onion and garlic.\n2. Add rice and toast.\n3. Add tomato sauce, stock, and spices.\n4. Cover and cook for 20 minutes.\n5. Fluff with a fork.\n6. Serve with beans or meat.'
+            },
+            'beef, peppers, onions': {
+                name: 'Mexican Beef Fajitas',
+                time: '30 mins',
+                servings: '4 servings',
+                cuisine: 'Mexican',
+                ingredients: ['500g beef strips', '2 bell peppers', '1 onion', 'Tortillas', 'Salsa', 'Guacamole'],
+                instructions: '1. Sauté beef, peppers, and onion.\n2. Add fajita seasoning.\n3. Warm tortillas.\n4. Serve with salsa and guacamole.'
+            },
+            'eggs, tortillas': {
+                name: 'Mexican Huevos Rancheros',
+                time: '20 mins',
                 servings: '2 servings',
-                ingredients: ['2 eggs', '2 cups milk', 'Sugar to taste', 'Vanilla extract'],
-                instructions: '1. Whisk eggs, milk, sugar, and vanilla.\n2. Cook over low heat, stirring constantly.\n3. Cook until thickened.\n4. Serve warm or chilled.'
+                cuisine: 'Mexican',
+                ingredients: ['4 eggs', '4 tortillas', 'Salsa', 'Black beans', 'Avocado'],
+                instructions: '1. Fry eggs.\n2. Heat tortillas.\n3. Warm beans.\n4. Assemble with salsa and avocado.'
+            },
+
+            // ===== INDIAN =====
+            'chicken, rice, tomatoes': {
+                name: 'Indian Chicken Biryani',
+                time: '1 hour',
+                servings: '4 servings',
+                cuisine: 'Indian',
+                ingredients: ['500g chicken', '2 cups basmati rice', '2 onions (sliced)', '2 tomatoes (blended)',
+                    'Yogurt', 'Garam masala', 'Saffron', 'Fresh mint', 'Cilantro'
+                ],
+                instructions: '1. Marinate chicken in yogurt and spices.\n2. Fry onions until golden.\n3. Layer rice and marinated chicken.\n4. Add saffron water.\n5. Cover and cook on low heat for 25-30 minutes.\n6. Garnish with mint and cilantro.'
+            },
+            'potatoes, cauliflower': {
+                name: 'Indian Aloo Gobi',
+                time: '30 mins',
+                servings: '4 servings',
+                cuisine: 'Indian',
+                ingredients: ['2 potatoes (cubed)', '1 cauliflower (cut)', '1 onion (chopped)', '2 tomatoes (blended)',
+                    'Ginger garlic paste', 'Turmeric', 'Cumin', 'Cilantro'
+                ],
+                instructions: '1. Sauté onion, ginger, and garlic.\n2. Add tomatoes and spices.\n3. Add potatoes and cauliflower.\n4. Cook until vegetables are tender.\n5. Garnish with cilantro.'
+            },
+            'lentils': {
+                name: 'Indian Dal (Lentil Soup)',
+                time: '25 mins',
+                servings: '4 servings',
+                cuisine: 'Indian',
+                ingredients: ['1 cup red lentils', '1 onion (chopped)', '2 tomatoes (chopped)', 'Garlic and ginger',
+                    'Turmeric', 'Cumin', 'Cilantro'
+                ],
+                instructions: '1. Sauté onion, garlic, and ginger.\n2. Add tomatoes and spices.\n3. Add lentils and water.\n4. Cook until lentils are soft.\n5. Garnish with cilantro.'
+            },
+            'rice': {
+                name: 'Indian Jeera Rice',
+                time: '20 mins',
+                servings: '4 servings',
+                cuisine: 'Indian',
+                ingredients: ['2 cups basmati rice', '1 onion (sliced)', 'Cumin seeds', 'Bay leaf', 'Cloves',
+                    'Cardamom'
+                ],
+                instructions: '1. Sauté cumin seeds, bay leaf, cloves, and cardamom.\n2. Add onion and cook until soft.\n3. Add rice and water.\n4. Cook until rice is fluffy.\n5. Serve with curry.'
+            },
+            'chicken, cream, tomatoes': {
+                name: 'Indian Butter Chicken',
+                time: '45 mins',
+                servings: '4 servings',
+                cuisine: 'Indian',
+                ingredients: ['500g chicken', '2 tomatoes (blended)', '1 onion (chopped)', 'Cream', 'Butter',
+                    'Garam masala', 'Ginger garlic paste'
+                ],
+                instructions: '1. Sauté onion, ginger, and garlic.\n2. Add tomatoes and spices.\n3. Add chicken and cook.\n4. Stir in cream and butter.\n5. Serve with rice or naan.'
+            },
+            'potatoes, peas': {
+                name: 'Indian Aloo Matar',
+                time: '30 mins',
+                servings: '4 servings',
+                cuisine: 'Indian',
+                ingredients: ['2 potatoes (cubed)', '1 cup peas', '1 onion (chopped)', '2 tomatoes (blended)',
+                    'Ginger garlic paste', 'Cumin', 'Turmeric', 'Cilantro'
+                ],
+                instructions: '1. Sauté onion, ginger, and garlic.\n2. Add tomatoes and spices.\n3. Add potatoes and peas.\n4. Cook until tender.\n5. Garnish with cilantro.'
+            },
+            'spinach, paneer': {
+                name: 'Indian Palak Paneer',
+                time: '30 mins',
+                servings: '4 servings',
+                cuisine: 'Indian',
+                ingredients: ['200g paneer (cubed)', '2 cups spinach (blended)', '1 onion (chopped)', 'Garlic',
+                    'Ginger', 'Cumin', 'Cream'
+                ],
+                instructions: '1. Sauté onion, garlic, and ginger.\n2. Add blended spinach and spices.\n3. Add paneer and cream.\n4. Simmer for 5 minutes.\n5. Serve with rice or naan.'
+            },
+
+            // ===== CHINESE =====
+            'chicken, rice': {
+                name: 'Chinese Chicken Fried Rice',
+                time: '25 mins',
+                servings: '4 servings',
+                cuisine: 'Chinese',
+                ingredients: ['2 cups cooked rice', '200g chicken breast (diced)', '2 eggs (scrambled)',
+                    '1 onion (chopped)', 'Carrots and peas', 'Soy sauce', 'Sesame oil'
+                ],
+                instructions: '1. Cook chicken and set aside.\n2. Scramble eggs.\n3. Sauté onion and vegetables.\n4. Add rice, chicken, and eggs.\n5. Add soy sauce and sesame oil.\n6. Stir-fry for 5 minutes.'
+            },
+            'noodles, chicken': {
+                name: 'Chinese Chicken Noodle Soup',
+                time: '25 mins',
+                servings: '3 servings',
+                cuisine: 'Chinese',
+                ingredients: ['200g chicken', 'Noodles', 'Carrots', 'Onion', 'Ginger', 'Soy sauce'],
+                instructions: '1. Boil chicken with ginger and onion.\n2. Add carrots and noodles.\n3. Cook for 10 minutes.\n4. Add soy sauce.\n5. Serve hot.'
+            },
+            'rice': {
+                name: 'Chinese Egg Fried Rice',
+                time: '15 mins',
+                servings: '2 servings',
+                cuisine: 'Chinese',
+                ingredients: ['2 cups cooked rice', '2 eggs (scrambled)', '1 onion (chopped)', 'Peas and carrots',
+                    'Soy sauce', 'Oil'
+                ],
+                instructions: '1. Scramble eggs.\n2. Sauté onion and vegetables.\n3. Add rice and soy sauce.\n4. Return eggs and mix well.\n5. Serve hot.'
+            },
+            'vegetables': {
+                name: 'Chinese Vegetable Stir-Fry',
+                time: '20 mins',
+                servings: '4 servings',
+                cuisine: 'Chinese',
+                ingredients: ['Mixed vegetables (broccoli, carrots, bell peppers)', 'Garlic', 'Ginger', 'Soy sauce',
+                    'Sesame oil', 'Cornstarch'
+                ],
+                instructions: '1. Sauté garlic and ginger.\n2. Add vegetables and stir-fry.\n3. Add soy sauce and sesame oil.\n4. Thicken with cornstarch.\n5. Serve hot with rice.'
+            },
+            'beef, broccoli': {
+                name: 'Chinese Beef with Broccoli',
+                time: '25 mins',
+                servings: '4 servings',
+                cuisine: 'Chinese',
+                ingredients: ['500g beef strips', '2 cups broccoli', 'Garlic', 'Ginger', 'Soy sauce', 'Sesame oil'],
+                instructions: '1. Sauté beef until browned.\n2. Add broccoli, garlic, and ginger.\n3. Add soy sauce and sesame oil.\n4. Cook until broccoli is tender.\n5. Serve hot with rice.'
+            },
+            'shrimp, rice': {
+                name: 'Chinese Shrimp Fried Rice',
+                time: '20 mins',
+                servings: '4 servings',
+                cuisine: 'Chinese',
+                ingredients: ['2 cups cooked rice', '300g shrimp', '2 eggs', '1 onion', 'Peas and carrots', 'Soy sauce'],
+                instructions: '1. Cook shrimp and set aside.\n2. Scramble eggs.\n3. Sauté onion and vegetables.\n4. Add rice, shrimp, and eggs.\n5. Add soy sauce.\n6. Serve hot.'
+            },
+
+            // ===== JAPANESE =====
+            'rice, fish': {
+                name: 'Japanese Sushi Rice with Grilled Fish',
+                time: '30 mins',
+                servings: '2 servings',
+                cuisine: 'Japanese',
+                ingredients: ['2 cups sushi rice', '200g fish fillet', 'Rice vinegar', 'Sugar', 'Salt', 'Soy sauce',
+                    'Wasabi'
+                ],
+                instructions: '1. Cook sushi rice.\n2. Season with vinegar, sugar, and salt.\n3. Grill fish until cooked.\n4. Serve rice with grilled fish, soy sauce, and wasabi.'
+            },
+            'noodles': {
+                name: 'Japanese Ramen',
+                time: '30 mins',
+                servings: '2 servings',
+                cuisine: 'Japanese',
+                ingredients: ['Ramen noodles', 'Chicken broth', 'Pork belly', 'Soft-boiled egg', 'Green onions',
+                    'Nori (seaweed)'
+                ],
+                instructions: '1. Cook ramen noodles.\n2. Heat chicken broth.\n3. Cook pork belly.\n4. Assemble with toppings.\n5. Serve hot.'
+            },
+            'rice': {
+                name: 'Japanese Rice with Sesame',
+                time: '20 mins',
+                servings: '2 servings',
+                cuisine: 'Japanese',
+                ingredients: ['2 cups Japanese rice', 'Water', 'Sesame seeds', 'Salt', 'Nori (seaweed)'],
+                instructions: '1. Rinse rice and cook.\n2. Sprinkle with sesame seeds and salt.\n3. Serve with nori.\n4. Enjoy with your favorite dish.'
+            },
+            'chicken, noodles': {
+                name: 'Japanese Chicken Udon',
+                time: '25 mins',
+                servings: '2 servings',
+                cuisine: 'Japanese',
+                ingredients: ['200g chicken', 'Udon noodles', 'Chicken broth', 'Green onions', 'Soy sauce'],
+                instructions: '1. Cook chicken and set aside.\n2. Cook udon noodles.\n3. Heat broth with soy sauce.\n4. Assemble with chicken and green onions.'
+            },
+            'tofu, vegetables': {
+                name: 'Japanese Tofu and Vegetable Stir-Fry',
+                time: '20 mins',
+                servings: '4 servings',
+                cuisine: 'Japanese',
+                ingredients: ['200g tofu', 'Mixed vegetables', 'Soy sauce', 'Sesame oil', 'Ginger', 'Garlic'],
+                instructions: '1. Sauté ginger and garlic.\n2. Add vegetables and tofu.\n3. Add soy sauce and sesame oil.\n4. Cook until tender.\n5. Serve hot with rice.'
+            },
+
+            // ===== FRENCH =====
+            'bread, cheese': {
+                name: 'French Croque Monsieur',
+                time: '20 mins',
+                servings: '2 servings',
+                cuisine: 'French',
+                ingredients: ['Bread slices', 'Ham', 'Gruyère cheese', 'Béchamel sauce', 'Butter'],
+                instructions: '1. Make béchamel sauce.\n2. Assemble sandwich with ham and cheese.\n3. Spread béchamel on top.\n4. Grill until golden.'
+            },
+            'rice': {
+                name: 'French Rice Pilaf',
+                time: '25 mins',
+                servings: '4 servings',
+                cuisine: 'French',
+                ingredients: ['2 cups rice', '1 onion (chopped)', 'Chicken stock', 'Butter', 'Fresh herbs (thyme, parsley)'],
+                instructions: '1. Sauté onion in butter.\n2. Add rice and toast.\n3. Add chicken stock and herbs.\n4. Cover and cook for 20 minutes.\n5. Fluff with a fork.\n6. Serve hot.'
+            },
+            'potatoes': {
+                name: 'French Gratin Dauphinois',
+                time: '1 hour',
+                servings: '4 servings',
+                cuisine: 'French',
+                ingredients: ['1kg potatoes', '2 cups cream', '2 cloves garlic', 'Butter', 'Salt and pepper', 'Nutmeg'],
+                instructions: '1. Slice potatoes thinly.\n2. Rub garlic on baking dish.\n3. Layer potatoes and cream.\n4. Season with salt, pepper, and nutmeg.\n5. Bake for 40-45 minutes.\n6. Serve hot.'
+            },
+            'bread': {
+                name: 'French Baguette with Butter',
+                time: '5 mins',
+                servings: '2 servings',
+                cuisine: 'French',
+                ingredients: ['1 French baguette', 'Butter', 'Salt'],
+                instructions: '1. Slice baguette.\n2. Spread butter.\n3. Sprinkle with salt.\n4. Enjoy with soup or salad.'
+            },
+            'chicken, cream, mushrooms': {
+                name: 'French Chicken Fricassee',
+                time: '45 mins',
+                servings: '4 servings',
+                cuisine: 'French',
+                ingredients: ['500g chicken', '200g mushrooms', '1 onion (chopped)', 'Cream', 'White wine', 'Butter',
+                    'Thyme'
+                ],
+                instructions: '1. Brown chicken in butter.\n2. Sauté onion and mushrooms.\n3. Add white wine and cream.\n4. Simmer for 30 minutes.\n5. Season with thyme.\n6. Serve with rice or potatoes.'
+            },
+            'fish, lemon, herbs': {
+                name: 'French Sole Meunière',
+                time: '25 mins',
+                servings: '2 servings',
+                cuisine: 'French',
+                ingredients: ['2 fish fillets', 'Flour', 'Butter', 'Lemon', 'Fresh parsley', 'Salt and pepper'],
+                instructions: '1. Coat fish in flour.\n2. Fry in butter until golden.\n3. Add lemon juice and parsley.\n4. Serve hot.'
+            },
+
+            // ===== AMERICAN =====
+            'potatoes': {
+                name: 'American Crispy Roasted Potatoes',
+                time: '45 mins',
+                servings: '4 servings',
+                cuisine: 'American',
+                ingredients: ['1kg potatoes', 'Olive oil', 'Rosemary', 'Garlic powder', 'Salt and pepper'],
+                instructions: '1. Preheat oven to 220°C (425°F).\n2. Cut potatoes into wedges.\n3. Toss with oil, rosemary, garlic, salt, and pepper.\n4. Roast for 35-40 minutes.\n5. Serve hot.'
+            },
+            'beef, potatoes': {
+                name: 'American Beef and Potato Stew',
+                time: '1 hour 30 mins',
+                servings: '6 servings',
+                cuisine: 'American',
+                ingredients: ['1kg beef', '4 potatoes', '2 onions', '4 carrots', 'Beef stock', 'Bay leaf', 'Seasoning'],
+                instructions: '1. Brown beef.\n2. Add onions and cook until soft.\n3. Add carrots, potatoes, stock, and bay leaf.\n4. Simmer for 1 hour.\n5. Season to taste.'
+            },
+            'eggs, bacon': {
+                name: 'American Breakfast Scramble',
+                time: '15 mins',
+                servings: '2 servings',
+                cuisine: 'American',
+                ingredients: ['4 eggs', '4 slices bacon', '2 slices bread', 'Butter', 'Salt and pepper'],
+                instructions: '1. Fry bacon until crispy.\n2. Whisk eggs and scramble in butter.\n3. Toast bread.\n4. Serve eggs with bacon and toast.'
+            },
+            'chicken, potatoes': {
+                name: 'American Roast Chicken with Potatoes',
+                time: '1 hour 15 mins',
+                servings: '4 servings',
+                cuisine: 'American',
+                ingredients: ['1 whole chicken', '4 potatoes', '2 onions', 'Carrots', 'Butter', 'Rosemary'],
+                instructions: '1. Season chicken with rosemary and butter.\n2. Place vegetables around chicken.\n3. Roast at 200°C for 1 hour.\n4. Serve hot.'
+            },
+            'pasta, meatballs, tomatoes': {
+                name: 'American Spaghetti and Meatballs',
+                time: '45 mins',
+                servings: '4 servings',
+                cuisine: 'American',
+                ingredients: ['400g spaghetti', '500g ground beef', '2 cups tomato sauce', '1 onion', 'Garlic',
+                    'Parmesan cheese'
+                ],
+                instructions: '1. Make meatballs from ground beef.\n2. Fry meatballs.\n3. Sauté onion and garlic.\n4. Add tomato sauce.\n5. Cook pasta.\n6. Serve meatballs over pasta with Parmesan.'
+            },
+
+            // ===== THAI =====
+            'noodles, chicken, vegetables': {
+                name: 'Thai Chicken Pad Thai',
+                time: '30 mins',
+                servings: '4 servings',
+                cuisine: 'Thai',
+                ingredients: ['200g rice noodles', '300g chicken', '2 eggs', 'Bean sprouts', 'Green onions',
+                    'Peanuts', 'Fish sauce', 'Tamarind paste'
+                ],
+                instructions: '1. Soak noodles.\n2. Cook chicken.\n3. Scramble eggs.\n4. Add noodles and sauce.\n5. Toss with vegetables and peanuts.\n6. Serve with lime.'
+            },
+            'coconut, chicken, vegetables': {
+                name: 'Thai Green Curry',
+                time: '30 mins',
+                servings: '4 servings',
+                cuisine: 'Thai',
+                ingredients: ['500g chicken', '1 can coconut milk', 'Green curry paste', 'Bell peppers', 'Bamboo shoots',
+                    'Thai basil'
+                ],
+                instructions: '1. Sauté curry paste.\n2. Add chicken and cook.\n3. Add coconut milk and vegetables.\n4. Simmer for 15 minutes.\n5. Garnish with basil.\n6. Serve with rice.'
+            },
+            'rice': {
+                name: 'Thai Jasmine Rice',
+                time: '20 mins',
+                servings: '4 servings',
+                cuisine: 'Thai',
+                ingredients: ['2 cups jasmine rice', 'Water', 'Salt'],
+                instructions: '1. Rinse rice.\n2. Add water and salt.\n3. Cook for 15-20 minutes.\n4. Fluff with a fork.\n5. Serve with curry.'
+            },
+            'noodles': {
+                name: 'Thai Drunken Noodles',
+                time: '25 mins',
+                servings: '4 servings',
+                cuisine: 'Thai',
+                ingredients: ['400g wide rice noodles', 'Chicken or tofu', 'Holy basil', 'Chili', 'Garlic',
+                    'Fish sauce', 'Oyster sauce'
+                ],
+                instructions: '1. Sauté garlic and chili.\n2. Add protein and cook.\n3. Add noodles and sauces.\n4. Toss with basil.\n5. Serve hot.'
+            },
+
+            // ===== MEDITERRANEAN =====
+            'chicken, rice, lemon': {
+                name: 'Mediterranean Lemon Chicken',
+                time: '45 mins',
+                servings: '4 servings',
+                cuisine: 'Mediterranean',
+                ingredients: ['500g chicken', '2 cups rice', '2 lemons', 'Garlic', 'Oregano', 'Olive oil'],
+                instructions: '1. Marinate chicken in lemon, garlic, and oregano.\n2. Cook chicken until done.\n3. Cook rice.\n4. Serve chicken over rice with extra lemon.'
+            },
+            'fish, tomatoes, garlic': {
+                name: 'Mediterranean Fish Stew',
+                time: '35 mins',
+                servings: '4 servings',
+                cuisine: 'Mediterranean',
+                ingredients: ['500g fish', '4 tomatoes (blended)', '2 cloves garlic', 'Olive oil', 'Fresh basil',
+                    'Salt and pepper'
+                ],
+                instructions: '1. Sauté garlic in olive oil.\n2. Add tomatoes and simmer.\n3. Add fish and cook until done.\n4. Garnish with basil.\n5. Serve with bread.'
+            },
+            'pasta, olive oil, garlic': {
+                name: 'Mediterranean Pasta',
+                time: '20 mins',
+                servings: '4 servings',
+                cuisine: 'Mediterranean',
+                ingredients: ['400g pasta', 'Olive oil', '4 cloves garlic', 'Cherry tomatoes', 'Olives', 'Feta cheese'],
+                instructions: '1. Cook pasta.\n2. Sauté garlic in olive oil.\n3. Add tomatoes and olives.\n4. Toss with pasta.\n5. Top with feta cheese.'
+            },
+            'rice': {
+                name: 'Mediterranean Rice Pilaf',
+                time: '25 mins',
+                servings: '4 servings',
+                cuisine: 'Mediterranean',
+                ingredients: ['2 cups rice', '1 onion (chopped)', 'Olive oil', 'Chicken stock', 'Pine nuts', 'Parsley'],
+                instructions: '1. Sauté onion in olive oil.\n2. Add rice and toast.\n3. Add stock.\n4. Cook for 20 minutes.\n5. Add pine nuts and parsley.'
             }
         };
+
+        // ============================================================
+        // GENERATE RECIPE (Fixed)
+        // ============================================================
 
         function generateRecipe() {
             const ingredients = document.getElementById('recipeInput').value.trim().toLowerCase();
@@ -612,52 +1083,93 @@
                 return;
             }
 
-            // Try to find a match
-            let matchedRecipe = null;
-            let matchedKey = null;
+            const ingredientList = ingredients.split(',').map(i => i.trim()).filter(i => i.length > 0);
+            const firstIngredient = ingredientList[0] || 'ingredients';
 
-            for (const [key, recipe] of Object.entries(recipeDatabase)) {
-                const keyWords = key.split(', ');
-                const allMatch = keyWords.every(word => ingredients.includes(word.trim()));
-                if (allMatch) {
+            let selectedCuisine = cuisine.toLowerCase();
+            let recipeList = [];
+
+            // Get recipes for the selected cuisine, or all if "Any"
+            if (selectedCuisine === 'any' || !selectedCuisine) {
+                for (const [cuisineKey, recipes] of Object.entries(recipeDatabase)) {
+                    // Each recipe in the database is an object with a key that is the ingredient combo
+                    // We need to loop over the keys of the nested object
+                    for (const [key, recipe] of Object.entries(recipes)) {
+                        recipeList.push({ ...recipe, cuisine: cuisineKey });
+                    }
+                }
+            } else if (recipeDatabase[selectedCuisine]) {
+                for (const [key, recipe] of Object.entries(recipeDatabase[selectedCuisine])) {
+                    recipeList.push({ ...recipe, cuisine: selectedCuisine });
+                }
+            } else {
+                // Fallback: all recipes
+                for (const [cuisineKey, recipes] of Object.entries(recipeDatabase)) {
+                    for (const [key, recipe] of Object.entries(recipes)) {
+                        recipeList.push({ ...recipe, cuisine: cuisineKey });
+                    }
+                }
+            }
+
+            if (recipeList.length === 0) {
+                // If still empty, use a fallback
+                recipeList = [];
+                for (const [cuisineKey, recipes] of Object.entries(recipeDatabase)) {
+                    for (const [key, recipe] of Object.entries(recipes)) {
+                        recipeList.push({ ...recipe, cuisine: cuisineKey });
+                    }
+                }
+            }
+
+            let matchedRecipe = null;
+            // Try to match all keywords first
+            for (const recipe of recipeList) {
+                const allMatch = recipe.ingredients.some(i => {
+                    // Check if the ingredient string contains any of the entered ingredients
+                    return ingredientList.some(ing => i.toLowerCase().includes(ing));
+                });
+                // Actually we need a better matching: all entered ingredients should be in the recipe ingredients list
+                // Let's do partial match: if all entered ingredients are found in the recipe ingredients list (as substrings)
+                const allFound = ingredientList.every(ing => {
+                    return recipe.ingredients.some(i => i.toLowerCase().includes(ing));
+                });
+                if (allFound && ingredientList.length > 0) {
                     matchedRecipe = recipe;
-                    matchedKey = key;
                     break;
                 }
             }
 
-            // If no match, create a custom recipe
+            // If no exact match, try partial match (at least one ingredient matches)
             if (!matchedRecipe) {
-                const ingredientList = ingredients.split(',').map(i => i.trim()).filter(i => i.length > 0);
-                const firstIngredient = ingredientList[0] || 'ingredients';
-
-                // Try to find a partial match
-                for (const [key, recipe] of Object.entries(recipeDatabase)) {
-                    const keyWords = key.split(', ');
-                    const partialMatch = keyWords.some(word => ingredients.includes(word.trim()));
+                for (const recipe of recipeList) {
+                    const partialMatch = ingredientList.some(ing => {
+                        return recipe.ingredients.some(i => i.toLowerCase().includes(ing));
+                    });
                     if (partialMatch) {
                         matchedRecipe = recipe;
-                        matchedKey = key;
                         break;
                     }
                 }
-
-                if (!matchedRecipe) {
-                    matchedRecipe = {
-                        name: `Creative ${firstIngredient.charAt(0).toUpperCase() + firstIngredient.slice(1)} Dish`,
-                        time: '30 mins',
-                        servings: '2 servings',
-                        ingredients: ingredientList,
-                        instructions: `1. Prepare all ingredients.\n2. Heat oil in a pan.\n3. Add ${ingredientList.join(', ')} and cook for 15-20 minutes.\n4. Season to taste.\n5. Serve hot and enjoy!`
-                    };
-                }
             }
 
-            // Build output
+            // If still no match, create a custom recipe
+            if (!matchedRecipe) {
+                const cuisineDisplay = selectedCuisine === 'any' ? 'International' : selectedCuisine;
+                matchedRecipe = {
+                    name: `Creative ${firstIngredient.charAt(0).toUpperCase() + firstIngredient.slice(1)} Dish`,
+                    time: '30 mins',
+                    servings: '2 servings',
+                    cuisine: cuisineDisplay,
+                    ingredients: ingredientList,
+                    instructions: `1. Prepare all ingredients.\n2. Heat oil in a pan.\n3. Add ${ingredientList.join(', ')} and cook for 15-20 minutes.\n4. Season to taste.\n5. Serve hot and enjoy!`
+                };
+            }
+
+            const cuisineDisplay = matchedRecipe.cuisine || 'Any';
             const output = `
                 <div class="recipe-card">
                     <h3>🍽️ ${matchedRecipe.name}</h3>
-                    <div class="meta">⏱️ ${matchedRecipe.time} &nbsp;|&nbsp; 🍽️ ${matchedRecipe.servings}</div>
+                    <div class="meta">⏱️ ${matchedRecipe.time} &nbsp;|&nbsp; 🍽️ ${matchedRecipe.servings} &nbsp;|&nbsp; 🌍 ${cuisineDisplay}</div>
                     <br/>
                     <strong style="color:#0a2463;">Ingredients:</strong>
                     <ul>
@@ -671,6 +1183,78 @@
             `;
 
             showOutput('recipeOutput', output);
+        }
+
+        // ============================================================
+        // DISPLAY ALL RECIPES (Browse All Recipes)
+        // ============================================================
+
+        function displayAllRecipes() {
+            const container = document.getElementById('recipeListContainer');
+
+            // Group recipes by cuisine
+            const grouped = {};
+            for (const [cuisine, recipes] of Object.entries(recipeDatabase)) {
+                for (const [key, recipe] of Object.entries(recipes)) {
+                    const cuisineName = recipe.cuisine || cuisine;
+                    if (!grouped[cuisineName]) grouped[cuisineName] = [];
+                    grouped[cuisineName].push({ key, name: recipe.name, ingredients: key });
+                }
+            }
+
+            let html = '';
+            const order = ['Nigerian', 'Italian', 'Mexican', 'Indian', 'Chinese', 'Japanese', 'French', 'American', 'Thai', 'Mediterranean', 'Other'];
+
+            for (const cuisine of order) {
+                if (grouped[cuisine]) {
+                    html += `<div class="cuisine-group"><h4>🌍 ${cuisine}</h4><div class="recipe-list-grid">`;
+                    grouped[cuisine].forEach(recipe => {
+                        html += `
+                            <div class="recipe-list-item" onclick="loadRecipe('${recipe.key}', '${cuisine}')">
+                                <span class="dish-name">${recipe.name}</span>
+                                <span class="cuisine-tag">${cuisine}</span>
+                            </div>
+                        `;
+                    });
+                    html += `</div></div>`;
+                }
+            }
+
+            container.innerHTML = html;
+        }
+
+        function loadRecipe(key, cuisine) {
+            // Find the recipe in the database
+            let recipe = null;
+            // Search in all cuisines
+            for (const [cuisineKey, recipes] of Object.entries(recipeDatabase)) {
+                if (recipes[key]) {
+                    recipe = recipes[key];
+                    break;
+                }
+            }
+            if (recipe) {
+                document.getElementById('recipeInput').value = key;
+                // Auto-generate
+                generateRecipe();
+                // Scroll to the output
+                document.getElementById('recipeOutput').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // ============================================================
+        // TOGGLE RECIPE LIST
+        // ============================================================
+
+        function toggleRecipeList() {
+            const wrapper = document.getElementById('recipeListWrapper');
+            const btn = document.getElementById('toggleRecipeBtn');
+            wrapper.classList.toggle('show');
+            if (wrapper.classList.contains('show')) {
+                btn.innerHTML = '<i class="fas fa-chevron-up"></i> Hide All Recipes';
+            } else {
+                btn.innerHTML = '<i class="fas fa-chevron-down"></i> Show All Recipes';
+            }
         }
 
         // ============================================================
@@ -713,21 +1297,27 @@
             const topic = document.getElementById('contentTopic').value.trim();
             const type = document.getElementById('contentType').value;
             const tone = document.getElementById('contentTone').value;
+            const audience = document.getElementById('contentAudience').value.trim() || 'General audience';
 
             if (!topic) {
                 alert('Please enter a topic.');
                 return;
             }
 
-            const samples = {
-                'Blog Post': `<h3>📝 ${topic}</h3><p>A ${tone.toLowerCase()} blog post on ${topic}. This is a sample content piece. For real AI-generated content, add your OpenAI API key.</p>`,
-                'Social Media Post': `<h3>📱 ${topic}</h3><p>🌟 ${topic} is changing the way we think. Join the conversation! #${topic.replace(/ /g, '')} #Trending</p>`,
-                'Product Description': `<h3>🛍️ ${topic}</h3><p>Introducing ${topic}! Premium quality, affordable price. Order now via WhatsApp: +234 810 525 7672</p>`,
-                'Email Newsletter': `<h3>📧 ${topic}</h3><p>Hello,<br/><br/>We are excited to share this update on ${topic}.<br/><br/>Best regards,<br/>Nusaybah Hub Team</p>`,
-                'Advertisement Copy': `<h3>🔥 ${topic}</h3><p>Don't miss out! ${topic} is available now. Call us: +234 810 525 7672</p>`
+            const templates = {
+                'Blog Post': `<h3>📝 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Introduction</strong><br/>A ${tone.toLowerCase()} blog post on ${topic} is a powerful way to engage your audience.</p><p><strong>Body</strong><br/>${topic} is relevant because it addresses key challenges and opportunities.</p><p><strong>Conclusion</strong><br/>Wrap up with a strong conclusion that reinforces the main points.</p>`,
+                'Social Media Post': `<h3>📱 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p>🌟 ${topic} is changing the way we think about [industry].</p><p>👉 <strong>Why it matters:</strong> ${topic} addresses [key need].</p><p>💬 <strong>Let's discuss:</strong> What's your experience? Drop a comment!</p><p>#${topic.replace(/ /g, '')} #Trending #NusaybahHub</p>`,
+                'Product Description': `<h3>🛍️ ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Introducing ${topic}</strong></p><p>${topic} is designed with quality and affordability in mind.</p><ul><li>✅ Premium quality</li><li>✅ Affordable price</li><li>✅ Satisfaction guaranteed</li></ul><p>📞 <strong>Order Now:</strong> +234 810 525 7672</p>`,
+                'Email Newsletter': `<h3>📧 Subject: ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p>Hello [Name],</p><p>We're excited to share this update on ${topic}.</p><ul><li>📌 Key point 1</li><li>📌 Key point 2</li><li>📌 Key point 3</li></ul><p>Best regards,<br/>Nusaybah Hub Team</p>`,
+                'Advertisement Copy': `<h3>🔥 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Headline:</strong> ${topic} – Limited Time Offer!</p><p><strong>Body:</strong> Don't miss out on ${topic}.</p><ul><li>✅ [Benefit 1]</li><li>✅ [Benefit 2]</li><li>✅ [Benefit 3]</li></ul><p><strong>Call to Action:</strong> 📞 Call now: +234 810 525 7672</p>`,
+                'Press Release': `<h3>📰 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Headline:</strong> Nusaybah Hub Announces Update on ${topic}</p><p><strong>Date:</strong> ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p><p>Nusaybah Hub is proud to announce [key announcement].</p><p>For inquiries: +234 810 525 7672</p>`,
+                'Case Study': `<h3>📊 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Client:</strong> [Client Name]</p><p><strong>Challenge:</strong> [Challenge related to ${topic}]</p><p><strong>Solution:</strong> Nusaybah Hub provided ${topic} solutions.</p><p><strong>Results:</strong></p><ul><li>✅ [Result 1]</li><li>✅ [Result 2]</li><li>✅ [Result 3]</li></ul>`,
+                'How-To Guide': `<h3>📖 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Step 1:</strong> Gather your materials.</p><p><strong>Step 2:</strong> Follow the process.</p><p><strong>Step 3:</strong> Review your results.</p>`,
+                'Video Script': `<h3>🎬 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Scene 1:</strong> Opening hook – "Did you know about ${topic}?"</p><p><strong>Scene 2:</strong> Problem – "Many people struggle with [problem]."</p><p><strong>Scene 3:</strong> Solution – "Here's how ${topic} solves this."</p><p><strong>Scene 4:</strong> Call to Action – "Visit Nusaybah Hub!"</p>`,
+                'Landing Page Copy': `<h3>🌐 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Headline:</strong> ${topic} – Your Solution</p><p><strong>Body:</strong> Discover why ${topic} is the best choice.</p><ul><li>✅ [Feature 1]</li><li>✅ [Feature 2]</li><li>✅ [Feature 3]</li></ul><p><strong>Call to Action:</strong> <a href="#" style="color:var(--secondary);">Get Started Today!</a></p>`
             };
 
-            const result = samples[type] || samples['Blog Post'];
+            const result = templates[type] || templates['Blog Post'];
             showOutput('contentOutput', `<div style="font-size:1rem; line-height:1.8;">${result}</div>`);
         }
 
@@ -739,6 +1329,7 @@
             const business = document.getElementById('leadBusiness').value.trim();
             const location = document.getElementById('leadLocation').value.trim();
             const audience = document.getElementById('leadAudience').value.trim();
+            const stage = document.getElementById('leadStage').value;
 
             if (!business) {
                 alert('Please enter a business type.');
@@ -748,16 +1339,22 @@
             const leads = `
                 <div style="font-family: 'Segoe UI', sans-serif; line-height: 1.8;">
                     <h3 style="color:#0a2463;">🎯 Lead Generation Report</h3>
-                    <p><strong>Business:</strong> ${business}<br/><strong>Location:</strong> ${location || 'Any'}<br/><strong>Target:</strong> ${audience || 'General'}</p>
+                    <p><strong>Business:</strong> ${business}<br/><strong>Location:</strong> ${location || 'Any'}<br/><strong>Target:</strong> ${audience || 'General'}<br/><strong>Business Stage:</strong> ${stage || 'Any'}</p>
                     <hr/>
-                    <p><strong style="color:#0a2463;">Top 5 Customer Segments</strong></p>
-                    <p><strong>1. Segment A</strong> – ${audience || 'Primary customers'} who need ${business}<br/>📍 Where to find: Social media, local events<br/>📝 Outreach: "Hello! We offer premium ${business} in ${location || 'your area'}. Would you be interested?"</p>
-                    <p><strong>2. Segment B</strong> – Secondary market<br/>📍 Where to find: Online directories, referrals<br/>📝 Outreach: "Hi there! We specialize in ${business}. Can we help you today?"</p>
-                    <p><strong>3. Segment C</strong> – Niche audience<br/>📍 Where to find: Community groups, platforms<br/>📝 Outreach: "Looking for quality ${business}? We've got you covered!"</p>
+                    <p><strong style="color:#0a2463;">Top 7 Customer Segments</strong></p>
+                    <p><strong>1. Segment A</strong> – ${audience || 'Primary customers'} who need ${business}<br/>📍 Where to find: Social media, local events<br/>📝 Outreach: "Hello! We offer premium ${business} in ${location || 'your area'}."</p>
+                    <p><strong>2. Segment B</strong> – Secondary market<br/>📍 Where to find: Online directories, referrals<br/>📝 Outreach: "Hi there! We specialize in ${business}."</p>
+                    <p><strong>3. Segment C</strong> – Niche audience<br/>📍 Where to find: Community groups, LinkedIn<br/>📝 Outreach: "Looking for quality ${business}? We've got you covered!"</p>
                     <p><strong>4. Segment D</strong> – Corporate clients<br/>📍 Where to find: LinkedIn, business networks<br/>📝 Outreach: "We provide ${business} solutions for businesses like yours."</p>
-                    <p><strong>5. Segment E</strong> – Repeat customers<br/>📍 Where to find: Past clients, email lists<br/>📝 Outreach: "We value your loyalty. Here's a special offer just for you!"</p>
+                    <p><strong>5. Segment E</strong> – Repeat customers<br/>📍 Where to find: Past clients, email lists<br/>📝 Outreach: "We value your loyalty. Here's a special offer!"</p>
+                    <p><strong>6. Segment F</strong> – Influencers<br/>📍 Where to find: Instagram, TikTok, YouTube<br/>📝 Outreach: "We'd like to collaborate with you on ${business}."</p>
+                    <p><strong>7. Segment G</strong> – Event organizers<br/>📍 Where to find: Event planning groups, expos<br/>📝 Outreach: "We provide ${business} for events. Let's work together!"</p>
                     <hr/>
-                    <p><strong style="color:#0a2463;">Priority:</strong> Start with Segments A and B for quick results.</p>
+                    <p><strong style="color:#0a2463;">Priority Recommendations</strong></p>
+                    <p>1. Start with Segments A and B for quick wins.</p>
+                    <p>2. Use social media to reach Segment F.</p>
+                    <p>3. Attend local events for Segments A and G.</p>
+                    <p>4. Use email marketing for Segment E.</p>
                 </div>
             `;
 
@@ -765,7 +1362,7 @@
         }
 
         // ============================================================
-        // AI ASSISTANT – 30+ QUESTIONS AND ANSWERS
+        // AI ASSISTANT
         // ============================================================
 
         function askAssistant() {
@@ -778,97 +1375,44 @@
 
             const lowerInput = input.toLowerCase();
 
-            // ===== COMPREHENSIVE Q&A DATABASE =====
             const answers = {
-                // Address
                 'address': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
                 'location': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
                 'where': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
-                'store': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
-                'shop': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
-
-                // Phone
                 'phone': '📞 Call or WhatsApp us at +234 810 525 7672.',
                 'number': '📞 Call or WhatsApp us at +234 810 525 7672.',
-                'contact': '📞 Call or WhatsApp us at +234 810 525 7672. You can also email us at nusaybahpower@gmail.com',
-                'call': '📞 Call or WhatsApp us at +234 810 525 7672.',
+                'contact': '📞 Call or WhatsApp us at +234 810 525 7672. Email: nusaybahpower@gmail.com',
                 'whatsapp': '📞 WhatsApp us at +234 810 525 7672.',
-
-                // Hours
-                'hour': '🕐 Monday to Thursday: 8:00 AM – 6:00 PM\n🕐 Friday: 8:00 AM – 5:00 PM\n🕐 Saturday to Sunday: 8:00 AM – 6:00 PM',
-                'time': '🕐 Monday to Thursday: 8:00 AM – 6:00 PM\n🕐 Friday: 8:00 AM – 5:00 PM\n🕐 Saturday to Sunday: 8:00 AM – 6:00 PM',
-                'open': '🕐 We are open Monday to Sunday. Monday–Thursday & Saturday–Sunday: 8 AM – 6 PM. Friday: 8 AM – 5 PM.',
-                'close': '🕐 We close at 6 PM Monday–Thursday & Saturday–Sunday. Friday: 5 PM.',
-
-                // Products / Offerings
-                'sell': '🛍️ We sell fashion items, electronics, tailoring services, home appliances, and thrift items. Our fashion collection includes abayas, hand sleeves, pins, visor hats, and more!',
-                'offer': '🛍️ We offer custom tailoring, modest fashion, thrift abayas (₦5,000), hand sleeves (₦800), pins (₦700), visor hats, web development, digital marketing, tech accessories, and power banks.',
-                'product': '🛍️ Our products include: thrift abayas (₦5,000), hand sleeves (₦800), fashion pins (₦700), visor hats, power banks (20,000mAh to 50,000mAh), home appliances, and custom tailoring services.',
-                'service': '🛍️ We offer custom tailoring, modest fashion, web development, digital marketing, and tech accessories.',
-                'fashion': '👗 Yes! We offer modest fashion including thrift abayas (₦5,000), hand sleeves (₦800), fashion pins (₦700), and visor hats.',
-                'tailoring': '✂️ Yes! We do custom tailoring at Nusaybah Power & Stitch. We make custom abayas, dresses, baby clothes, and more!',
-                'electronics': '📱 Yes! We sell electronics including power banks (20,000mAh to 50,000mAh), tech accessories, and more.',
-                'home appliance': '🏠 Yes! We sell home appliances including blenders, irons, and household gadgets.',
-                'appliance': '🏠 Yes! We sell home appliances including blenders, irons, and household gadgets.',
-                'thrift': '🛍️ Yes! We have thrift items including thrift abayas for ₦5,000 and other affordable luxury items.',
-
-                // Specific Products
-                'abaya': '👗 Yes! We have thrift abayas for ₦5,000. Contact us to see current stock and designs.',
-                'sleeve': '🧤 Yes! We have thick hand sleeves for ₦800. Available in black and white. Fits all sizes.',
-                'hand sleeve': '🧤 Yes! We have thick hand sleeves for ₦800. Available in black and white.',
-                'pin': '📌 Yes! We have fashion pins for ₦700. Perfect for adding style to your outfits.',
-                'visor': '🧢 Yes! We have visor hats. Contact us for current designs and prices.',
-                'hat': '🧢 Yes! We have visor hats. Contact us for current designs and prices.',
-                'power bank': '🔋 Yes! We sell power banks in 20,000mAh, 30,000mAh, 40,000mAh, and 50,000mAh. Prices vary by capacity.',
-                'blender': '🔋 Yes! We sell Silver Crest blenders with 2L capacity, 8500W motor, and 8-blade technology. Price: ₦25,000.',
-                'iron': '🔋 Yes! We sell Hansen dry irons. 1200W, heats in 37 seconds, lightweight.',
-                'charger': '🔋 Yes! We have fast charger sets. Contact us for details.',
-                'accessories': '🔋 Yes! We sell tech accessories including chargers, cables, and more.',
-
-                // Shipping / Delivery
-                'delivery': '📦 Yes! We deliver locally in Jos and ship nationwide across Nigeria.',
-                'shipping': '📦 Yes! We deliver locally in Jos and ship nationwide across Nigeria.',
-                'deliver': '📦 Yes! We deliver locally in Jos and ship nationwide across Nigeria.',
-                'nationwide': '📦 Yes! We ship nationwide across Nigeria.',
-                'local': '📦 Yes! We offer local delivery within Jos City.',
-                'shipping cost': '📦 Shipping costs vary by location. Contact us for a quote.',
-
-                // Social Media
+                'hour': '🕐 Mon–Thu: 8 AM – 6 PM | Fri: 8 AM – 5 PM | Sat–Sun: 8 AM – 6 PM',
+                'open': '🕐 We are open Monday to Sunday. Mon–Thu & Sat–Sun: 8 AM – 6 PM. Fri: 8 AM – 5 PM.',
+                'sell': '🛍️ We sell fashion, electronics, tailoring, home appliances, and thrift items.',
+                'offer': '🛍️ We offer custom tailoring, modest fashion, thrift abayas (₦5,000), hand sleeves (₦800), pins (₦700), visor hats, digital marketing, tech accessories, and power banks.',
+                'product': '🛍️ Products: thrift abayas (₦5,000), hand sleeves (₦800), pins (₦700), visor hats, power banks (20,000–50,000mAh), home appliances, custom tailoring.',
+                'fashion': '👗 Yes! Modest fashion including thrift abayas (₦5,000), hand sleeves (₦800), pins (₦700), and visor hats.',
+                'tailoring': '✂️ Yes! Custom tailoring at Nusaybah Power & Stitch.',
+                'abaya': '👗 Yes! Thrift abayas for ₦5,000.',
+                'sleeve': '🧤 Yes! Hand sleeves for ₦800. Black and white. Fits all sizes.',
+                'pin': '📌 Yes! Fashion pins for ₦700.',
+                'visor': '🧢 Yes! Visor hats. Contact us for designs.',
+                'power bank': '🔋 Yes! Power banks in 20,000mAh, 30,000mAh, 40,000mAh, and 50,000mAh.',
+                'blender': '🔋 Yes! Silver Crest blenders. Price: ₦25,000.',
+                'iron': '🔋 Yes! Hansen dry irons. 1200W, heats in 37 seconds.',
+                'delivery': '📦 Yes! We deliver locally in Jos and ship nationwide.',
+                'shipping': '📦 Yes! We deliver locally in Jos and ship nationwide.',
                 'facebook': '📱 Follow us on Facebook: https://www.facebook.com/100077686659565/',
                 'instagram': '📱 Follow us on Instagram: https://www.instagram.com/nusaybahyaaqub/',
-                'social': '📱 Follow us on Facebook (https://www.facebook.com/100077686659565/) and Instagram (https://www.instagram.com/nusaybahyaaqub/).',
                 'tiktok': '📱 Follow us on TikTok: @nusaybahpowerstitch',
-
-                // Prices
-                'price': '💰 Thrift abayas: ₦5,000 | Hand sleeves: ₦800 | Pins: ₦700 | Blender: ₦25,000 | Power banks: vary by capacity.',
-                'cost': '💰 Thrift abayas: ₦5,000 | Hand sleeves: ₦800 | Pins: ₦700 | Blender: ₦25,000',
-                'how much': '💰 Thrift abayas: ₦5,000 | Hand sleeves: ₦800 | Pins: ₦700 | Blender: ₦25,000',
-
-                // Payment / Order
+                'price': '💰 Thrift abayas: ₦5,000 | Hand sleeves: ₦800 | Pins: ₦700 | Blender: ₦25,000',
                 'pay': '💳 Payment methods: Bank transfer, cash on delivery, or pay in-store.',
-                'order': '📝 To place an order, contact us on WhatsApp at +234 810 525 7672 or visit our store.',
-                'buy': '🛍️ To buy, contact us on WhatsApp at +234 810 525 7672 or visit our store at C/73 Alhaji Ango Street, Jos North.',
-                'booking': '📝 Book our services by calling +234 810 525 7672 or sending a WhatsApp message.',
-
-                // About
-                'about': '🏢 Nusaybah Hub is a multi-service business based in Jos, Nigeria. We specialize in custom tailoring, modest fashion, digital services, and tech accessories.',
-                'who': '🏢 Nusaybah Hub is your trusted shopping hub. We offer fashion, electronics, tailoring, home appliances, and thrift items.',
-                'we': '🏢 We are Nusaybah Hub, your trusted shopping hub in Jos, Nigeria.',
-
-                // Company / Brand
-                'nusaybah': '🏢 Nusaybah Hub is a multi-service business in Jos, Nigeria. We offer custom tailoring, modest fashion, digital services, and tech accessories.',
-                'brand': '🏢 Nusaybah Hub is your trusted shopping hub — offering fashion, electronics, tailoring, home appliances, and thrift.',
-                'power and stitch': '✂️ Nusaybah Power & Stitch is our tailoring division. We do custom garments, alterations, and fashion design.',
-
-                // Miscellaneous
-                'help': '🤖 I\'m here to help! You can ask me about our products, services, hours, location, pricing, and more.',
+                'order': '📝 Place an order on WhatsApp at +234 810 525 7672 or visit our store.',
+                'about': '🏢 Nusaybah Hub is a multi-service business in Jos, Nigeria.',
+                'help': '🤖 I\'m here to help! Ask me about our products, services, hours, location, and pricing.',
                 'hello': '👋 Hello! Welcome to Nusaybah Hub. How can I help you today?',
-                'hi': '👋 Hi! Welcome to Nusaybah Hub. How can I help you today?',
-                'hey': '👋 Hey! Welcome to Nusaybah Hub. How can I help you today?',
-                'thanks': '😊 You\'re welcome! Thank you for choosing Nusaybah Hub. Is there anything else I can help you with?',
-                'thank you': '😊 You\'re welcome! Thank you for choosing Nusaybah Hub.',
-                'bye': '👋 Goodbye! Visit us anytime. We look forward to serving you!',
-                'goodbye': '👋 Goodbye! Visit us anytime. We look forward to serving you!'
+                'hi': '👋 Hi! Welcome to Nusaybah Hub.',
+                'thanks': '😊 You\'re welcome! Thank you for choosing Nusaybah Hub.',
+                'thank you': '😊 You\'re welcome!',
+                'bye': '👋 Goodbye! Visit us anytime.',
+                'goodbye': '👋 Goodbye! Visit us anytime.'
             };
 
             let result = null;
@@ -877,22 +1421,6 @@
                 if (lowerInput.includes(key)) {
                     result = value;
                     break;
-                }
-            }
-
-            // If no match, try partial matching
-            if (!result) {
-                const words = lowerInput.split(' ');
-                for (const word of words) {
-                    if (word.length > 3) {
-                        for (const [key, value] of Object.entries(answers)) {
-                            if (word.includes(key) || key.includes(word)) {
-                                result = value;
-                                break;
-                            }
-                        }
-                        if (result) break;
-                    }
                 }
             }
 
@@ -910,7 +1438,7 @@ We would love to help you! 😊`;
         }
 
         // ============================================================
-        // QR CODE GENERATOR (with Reliable Download)
+        // QR CODE GENERATOR
         // ============================================================
 
         function generateQR() {
@@ -941,7 +1469,6 @@ We would love to help you! 😊`;
                 return;
             }
 
-            // Method 1: Fetch the image as a blob (most reliable, avoids cross-origin issues)
             fetch(img.src, { mode: 'cors' })
                 .then(response => {
                     if (!response.ok) throw new Error('Network response was not ok');
@@ -958,7 +1485,6 @@ We would love to help you! 😊`;
                     URL.revokeObjectURL(link.href);
                 })
                 .catch(() => {
-                    // Fallback: Use direct link with download attribute (works in most browsers)
                     const link = document.createElement('a');
                     link.href = img.src;
                     const text = document.getElementById('qrInput').value.trim() || 'qrcode';
@@ -1052,7 +1578,7 @@ We would love to help you! 😊`;
         }
 
         // ============================================================
-        // KEYBOARD SHORTCUT: Enter to generate
+        // KEYBOARD SHORTCUT
         // ============================================================
 
         document.addEventListener('keydown', function(e) {
@@ -1070,6 +1596,14 @@ We would love to help you! 😊`;
                     else if (id === 'page-summarizer') summarizeText();
                 }
             }
+        });
+
+        // ============================================================
+        // INIT – Display All Recipes on Load
+        // ============================================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            displayAllRecipes();
         });
     </script>
 </body>
