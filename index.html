@@ -19,13 +19,16 @@
             --gray: #6c757d;
             --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
             --radius: 12px;
+            --header-height: 80px;
+            --nav-height: 52px;
+            --total-top: calc(var(--header-height) + var(--nav-height));
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f9f9f9;
             color: var(--dark);
             line-height: 1.6;
-            padding-top: 60px;
+            padding-top: var(--total-top);
         }
         .container {
             max-width: 1200px;
@@ -33,41 +36,48 @@
             padding: 0 1.5rem;
         }
 
-        /* ===== HEADER ===== */
+        /* ===== HEADER (FIXED) ===== */
         .header {
             background: var(--primary);
             color: white;
-            padding: 0.8rem 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            z-index: 1000;
+            z-index: 1100;
             width: 100%;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
         }
         .header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             gap: 0.5rem;
+            width: 100%;
         }
         .header .logo-wrapper {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
+            flex-shrink: 0;
         }
         .header .logo-img {
-            width: 50px;
-            height: 50px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid var(--secondary);
+            border: 2.5px solid var(--secondary);
+            flex-shrink: 0;
         }
         .header .logo-text .brand {
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             font-weight: 700;
+            line-height: 1.2;
         }
         .header .logo-text .brand span {
             color: var(--secondary);
@@ -77,50 +87,76 @@
             opacity: 0.8;
             letter-spacing: 2px;
             color: var(--secondary);
+            line-height: 1.2;
         }
         .header .tools-label {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             background: rgba(255, 255, 255, 0.1);
-            padding: 0.3rem 1rem;
+            padding: 0.25rem 1rem;
             border-radius: 20px;
             border: 1px solid var(--secondary);
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
-        /* ===== NAVIGATION (STICKY) ===== */
+        /* ===== NAVIGATION (FIXED) ===== */
         .nav {
             background: var(--dark);
-            padding: 0.7rem 0;
-            position: sticky;
-            top: 60px;
-            z-index: 999;
+            padding: 0.4rem 0;
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            right: 0;
+            z-index: 1050;
             width: 100%;
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            /* Firefox */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .nav::-webkit-scrollbar {
+            display: none;
+            /* Chrome/Safari */
         }
         .nav .container {
             display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.3rem;
+            justify-content: flex-start;
+            align-items: center;
+            flex-wrap: nowrap;
+            gap: 0.2rem;
+            width: 100%;
+            padding: 0 1rem;
         }
         .nav button {
             background: transparent;
             color: white;
             border: none;
-            padding: 0.5rem 1.2rem;
-            font-size: 0.85rem;
+            padding: 0.35rem 0.9rem;
+            font-size: 0.78rem;
             cursor: pointer;
             border-radius: 5px;
-            transition: all 0.3s;
+            transition: all 0.25s ease;
             font-weight: 500;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
         .nav button:hover,
         .nav button.active {
             background: var(--secondary);
             color: var(--primary);
         }
+        .nav button i {
+            margin-right: 4px;
+        }
 
         /* ===== CONTENT ===== */
         .content {
-            padding: 2rem 0;
+            padding: 1.5rem 0 2rem 0;
         }
         .page {
             display: none;
@@ -283,25 +319,6 @@
             font-size: 0.9rem;
         }
 
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid var(--secondary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-        }
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
         .recipe-card {
             background: white;
             padding: 1.5rem;
@@ -383,35 +400,73 @@
             display: block;
         }
 
-        @media (max-width: 768px) {
-            body {
-                padding-top: 100px;
-            }
-            .header .container {
-                flex-direction: column;
-                text-align: center;
-                gap: 0.3rem;
-            }
-            .header .logo-wrapper {
-                flex-direction: column;
-                text-align: center;
-            }
-            .header .logo-text .brand {
-                font-size: 1.4rem;
+        /* ============================================================
+                   RESPONSIVE
+                   ============================================================ */
+        @media (max-width: 992px) {
+            :root {
+                --header-height: 70px;
+                --nav-height: 48px;
             }
             .header .logo-img {
                 width: 60px;
                 height: 60px;
             }
-            .nav {
-                top: 100px;
+            .header .logo-text .brand {
+                font-size: 1.4rem;
             }
-            .nav .container {
-                gap: 0.2rem;
+            .header .logo-text .tagline {
+                font-size: 0.6rem;
+            }
+            .header .tools-label {
+                font-size: 0.7rem;
+                padding: 0.2rem 0.7rem;
             }
             .nav button {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.75rem;
+                font-size: 0.72rem;
+                padding: 0.3rem 0.7rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --header-height: 64px;
+                --nav-height: 44px;
+            }
+            .header .container {
+                gap: 0.3rem;
+            }
+            .header .logo-wrapper {
+                gap: 8px;
+            }
+            .header .logo-img {
+                width: 50px;
+                height: 50px;
+            }
+            .header .logo-text .brand {
+                font-size: 1.1rem;
+            }
+            .header .logo-text .tagline {
+                font-size: 0.5rem;
+                letter-spacing: 1px;
+            }
+            .header .tools-label {
+                font-size: 0.6rem;
+                padding: 0.15rem 0.6rem;
+            }
+            .nav {
+                padding: 0.2rem 0;
+            }
+            .nav .container {
+                padding: 0 0.5rem;
+                gap: 0.1rem;
+            }
+            .nav button {
+                font-size: 0.65rem;
+                padding: 0.25rem 0.6rem;
+            }
+            .nav button i {
+                margin-right: 2px;
             }
             .card {
                 padding: 1.2rem;
@@ -432,33 +487,79 @@
                 grid-template-columns: 1fr 1fr;
             }
         }
+
         @media (max-width: 480px) {
-            body {
-                padding-top: 110px;
-            }
-            .header .logo-text .brand {
-                font-size: 1.2rem;
+            :root {
+                --header-height: 58px;
+                --nav-height: 40px;
             }
             .header .logo-img {
-                width: 50px;
-                height: 50px;
+                width: 42px;
+                height: 42px;
+            }
+            .header .logo-text .brand {
+                font-size: 0.95rem;
+            }
+            .header .logo-text .tagline {
+                font-size: 0.45rem;
+                letter-spacing: 0.5px;
+            }
+            .header .tools-label {
+                display: none;
+            }
+            .nav button {
+                font-size: 0.6rem;
+                padding: 0.2rem 0.5rem;
             }
             .home-grid {
                 grid-template-columns: 1fr;
             }
-            .nav button {
-                font-size: 0.7rem;
-                padding: 0.3rem 0.6rem;
-            }
             .recipe-list-grid {
                 grid-template-columns: 1fr;
+            }
+            .card {
+                padding: 1rem;
+            }
+            .card h2 {
+                font-size: 1.2rem;
+            }
+            .form-group input,
+            .form-group textarea,
+            .form-group select {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            .btn {
+                padding: 0.5rem 1.5rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            :root {
+                --header-height: 52px;
+                --nav-height: 38px;
+            }
+            .header .logo-img {
+                width: 36px;
+                height: 36px;
+            }
+            .header .logo-text .brand {
+                font-size: 0.8rem;
+            }
+            .header .logo-text .tagline {
+                display: none;
+            }
+            .nav button {
+                font-size: 0.55rem;
+                padding: 0.15rem 0.4rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
+    <!-- ===== HEADER (FIXED) ===== -->
     <header class="header">
         <div class="container">
             <div class="logo-wrapper">
@@ -468,22 +569,22 @@
                     <div class="tagline">YOUR TRUSTED SHOPPING HUB</div>
                 </div>
             </div>
-            <div class="tools-label"><i class="fas fa-tools"></i> Multi-Function Tools</div>
+            <div class="tools-label"><i class="fas fa-tools"></i> Multi-Function</div>
         </div>
     </header>
 
-    <!-- ===== NAVIGATION ===== -->
-    <nav class="nav">
+    <!-- ===== NAVIGATION (FIXED, SCROLLABLE ON MOBILE) ===== -->
+    <nav class="nav" id="mainNav">
         <div class="container">
-            <button class="active" data-page="home">Home</button>
-            <button data-page="recipe">🍳 Recipe</button>
-            <button data-page="resume">📄 Resume</button>
-            <button data-page="content">✍️ Content</button>
-            <button data-page="leads">🎯 Leads</button>
-            <button data-page="assistant">🤖 Assistant</button>
-            <button data-page="qr">📱 QR Code</button>
-            <button data-page="password">🔐 Password</button>
-            <button data-page="summarizer">📝 Summarizer</button>
+            <button class="active" data-page="home"><i class="fas fa-home"></i> Home</button>
+            <button data-page="recipe"><i class="fas fa-utensils"></i> Recipe</button>
+            <button data-page="resume"><i class="fas fa-file-alt"></i> Resume</button>
+            <button data-page="content"><i class="fas fa-pen-fancy"></i> Content</button>
+            <button data-page="leads"><i class="fas fa-bullseye"></i> Leads</button>
+            <button data-page="assistant"><i class="fas fa-robot"></i> Assistant</button>
+            <button data-page="qr"><i class="fas fa-qrcode"></i> QR</button>
+            <button data-page="password"><i class="fas fa-lock"></i> Password</button>
+            <button data-page="summarizer"><i class="fas fa-compress-alt"></i> Summarizer</button>
         </div>
     </nav>
 
@@ -754,13 +855,13 @@
         }
 
         // ============================================================
-        // RECIPE DATABASE (FULLY CORRECTED - NO "Sauté" IN NIGERIAN)
+        // RECIPE DATABASE — FULLY VERIFIED (UNIQUE KEYS, CORRECT STEPS)
         // ============================================================
 
         const recipeDatabase = {
 
             // ===== NIGERIAN =====
-            'chicken, rice, tomatoes': {
+            'nigerian_chicken_rice_tomatoes': {
                 name: 'Nigerian Chicken Jollof Rice',
                 time: '55 mins',
                 servings: '4 servings',
@@ -771,7 +872,7 @@
                 ],
                 instructions: 'Season chicken with salt and seasoning. Fry until golden brown.\nBlend tomatoes, onions, and peppers into a smooth paste.\nIn a pot, fry tomato paste for 2 minutes.\nAdd blended mixture and fry for 10 minutes.\nAdd chicken stock, water, and seasoning.\nAdd rice and cook for 20-25 minutes.\nReturn chicken to pot and cook for 5 more minutes.\nServe hot with plantains or coleslaw.'
             },
-            'rice, beans': {
+            'nigerian_rice_beans': {
                 name: 'Nigerian Rice and Beans',
                 time: '50 mins',
                 servings: '4 servings',
@@ -779,7 +880,7 @@
                 ingredients: ['1 cup rice', '1 cup beans', '1 onion (chopped)', '2 tomatoes (blended)', 'Seasoning'],
                 instructions: 'Cook beans until soft.\nFry onion and tomatoes.\nAdd cooked beans and rice.\nAdd water and cook for 20 minutes.\nSeason to taste.\nServe hot.'
             },
-            'yam, eggs': {
+            'nigerian_yam_eggs': {
                 name: 'Nigerian Yam and Egg Sauce',
                 time: '25 mins',
                 servings: '2 servings',
@@ -787,7 +888,7 @@
                 ingredients: ['2 slices yam', '2 eggs', '2 tomatoes (chopped)', '1 onion (chopped)', 'Seasoning'],
                 instructions: 'Boil yam until soft.\nFry onion and tomatoes.\nAdd whisked eggs and scramble.\nSeason to taste.\nServe yam with egg sauce.'
             },
-            'plantain': {
+            'nigerian_plantain': {
                 name: 'Nigerian Fried Plantain (Dodo)',
                 time: '15 mins',
                 servings: '2 servings',
@@ -795,7 +896,7 @@
                 ingredients: ['2 ripe plantains', 'Oil for frying', 'Salt'],
                 instructions: 'Peel plantains and slice diagonally.\nHeat oil in a pan.\nFry plantains until golden brown on both sides.\nSprinkle with salt.\nServe as a snack or side dish.'
             },
-            'rice': {
+            'nigerian_rice': {
                 name: 'Nigerian Jollof Rice',
                 time: '45 mins',
                 servings: '4 servings',
@@ -805,7 +906,7 @@
                 ],
                 instructions: 'Blend tomatoes and onion.\nFry tomato paste and blended mixture.\nAdd stock and seasoning.\nAdd rice and cook for 20 minutes.\nServe hot.'
             },
-            'chicken, pepper': {
+            'nigerian_chicken_pepper': {
                 name: 'Nigerian Chicken Pepper Soup',
                 time: '35 mins',
                 servings: '3 servings',
@@ -813,7 +914,7 @@
                 ingredients: ['500g chicken', '2 bell peppers', '1 onion', 'Scotch bonnet pepper', 'Seasoning'],
                 instructions: 'Boil chicken with peppers and onion.\nAdd scotch bonnet pepper.\nCook for 25-30 minutes.\nSeason to taste.\nServe hot.'
             },
-            'eggs, tomatoes, onions': {
+            'nigerian_eggs_tomatoes_onions': {
                 name: 'Nigerian Egg Sauce',
                 time: '20 mins',
                 servings: '3 servings',
@@ -823,7 +924,7 @@
                 ],
                 instructions: 'Whisk eggs with salt and set aside.\nFry onions and peppers in oil.\nAdd tomatoes and cook until soft.\nPour in eggs and scramble.\nCook for 3-5 minutes.\nServe with bread or yam.'
             },
-            'beef, onions, tomatoes': {
+            'nigerian_beef_onions_tomatoes': {
                 name: 'Nigerian Beef Stew',
                 time: '1 hour 30 mins',
                 servings: '6 servings',
@@ -833,7 +934,7 @@
                 ],
                 instructions: 'Season beef and fry until browned.\nFry onions, garlic, and ginger.\nAdd blended tomatoes and cook.\nAdd beef stock and simmer for 1 hour.\nSeason to taste.\nServe with rice or yam.'
             },
-            'fish, tomatoes, onions': {
+            'nigerian_fish_tomatoes_onions': {
                 name: 'Nigerian Fish Pepper Soup',
                 time: '30 mins',
                 servings: '3 servings',
@@ -845,7 +946,7 @@
             },
 
             // ===== ITALIAN =====
-            'pasta, tomatoes, garlic': {
+            'italian_pasta_tomatoes_garlic': {
                 name: 'Italian Spaghetti Aglio e Olio',
                 time: '20 mins',
                 servings: '2 servings',
@@ -855,7 +956,7 @@
                 ],
                 instructions: 'Cook pasta.\nSauté garlic in olive oil until golden.\nAdd diced tomatoes and chili flakes.\nToss with cooked pasta.\nGarnish with fresh parsley.\nServe hot.'
             },
-            'pasta, cheese': {
+            'italian_pasta_cheese': {
                 name: 'Italian Creamy Mac and Cheese',
                 time: '20 mins',
                 servings: '4 servings',
@@ -863,7 +964,7 @@
                 ingredients: ['500g pasta', '2 cups cheese (grated)', '2 cups milk', 'Butter', 'Flour', 'Salt and pepper'],
                 instructions: 'Cook pasta.\nMake cheese sauce with butter, flour, milk, and cheese.\nCombine pasta and sauce.\nBake for 10-15 minutes.\nServe hot.'
             },
-            'bread, tomatoes, garlic': {
+            'italian_bread_tomatoes_garlic': {
                 name: 'Italian Bruschetta',
                 time: '15 mins',
                 servings: '4 servings',
@@ -873,7 +974,7 @@
                 ],
                 instructions: 'Slice bread and toast until golden.\nMix tomatoes, garlic, basil, olive oil, salt, and pepper.\nSpoon mixture onto toasted bread.\nServe immediately.'
             },
-            'rice, cheese': {
+            'italian_rice_cheese': {
                 name: 'Italian Risotto',
                 time: '35 mins',
                 servings: '4 servings',
@@ -883,7 +984,7 @@
                 ],
                 instructions: 'Sauté onion and garlic in butter.\nAdd rice and toast for 2 minutes.\nAdd stock gradually, stirring constantly.\nCook until rice is creamy.\nStir in Parmesan cheese.\nServe hot.'
             },
-            'pasta, tomatoes': {
+            'italian_pasta_tomatoes': {
                 name: 'Italian Tomato Pasta',
                 time: '25 mins',
                 servings: '4 servings',
@@ -893,7 +994,7 @@
                 ],
                 instructions: 'Cook pasta.\nSauté garlic in olive oil.\nAdd blended tomatoes and simmer for 15 minutes.\nAdd basil and seasoning.\nToss with pasta.\nServe hot.'
             },
-            'chicken, pasta': {
+            'italian_chicken_pasta': {
                 name: 'Italian Chicken Pasta',
                 time: '30 mins',
                 servings: '4 servings',
@@ -903,7 +1004,7 @@
                 ],
                 instructions: 'Cook pasta.\nSauté chicken and garlic in olive oil.\nToss with pasta.\nTop with Parmesan and parsley.'
             },
-            'mushrooms, rice': {
+            'italian_mushrooms_rice': {
                 name: 'Italian Mushroom Risotto',
                 time: '40 mins',
                 servings: '4 servings',
@@ -915,7 +1016,7 @@
             },
 
             // ===== MEXICAN =====
-            'chicken, rice, tomatoes': {
+            'mexican_chicken_rice_tomatoes': {
                 name: 'Mexican Arroz con Pollo',
                 time: '55 mins',
                 servings: '4 servings',
@@ -925,7 +1026,7 @@
                 ],
                 instructions: 'Season chicken with chili powder, cumin, and garlic.\nBrown chicken in a pot.\nSauté onions and peppers.\nAdd blended tomatoes and spices.\nAdd rice and water.\nCook for 20-25 minutes.\nServe with fresh cilantro.'
             },
-            'beans, rice': {
+            'mexican_beans_rice': {
                 name: 'Mexican Beans and Rice',
                 time: '40 mins',
                 servings: '4 servings',
@@ -935,7 +1036,7 @@
                 ],
                 instructions: 'Sauté onion and garlic.\nAdd rice and toast for 2 minutes.\nAdd water, cumin, and chili powder.\nCook until rice is done.\nAdd black beans and heat through.\nGarnish with cilantro.'
             },
-            'chicken, tortillas': {
+            'mexican_chicken_tortillas': {
                 name: 'Mexican Chicken Tacos',
                 time: '25 mins',
                 servings: '4 servings',
@@ -943,7 +1044,7 @@
                 ingredients: ['500g chicken breast', 'Tortillas', 'Onion', 'Cilantro', 'Lime', 'Salsa'],
                 instructions: 'Cook chicken with taco seasoning.\nShred the chicken.\nWarm tortillas.\nFill tortillas with chicken, onion, cilantro, and salsa.\nSqueeze lime over tacos.'
             },
-            'rice': {
+            'mexican_rice': {
                 name: 'Mexican Mexican Rice',
                 time: '25 mins',
                 servings: '4 servings',
@@ -953,7 +1054,7 @@
                 ],
                 instructions: 'Sauté onion and garlic.\nAdd rice and toast.\nAdd tomato sauce, stock, and spices.\nCover and cook for 20 minutes.\nFluff with a fork.\nServe with beans or meat.'
             },
-            'beef, peppers, onions': {
+            'mexican_beef_peppers_onions': {
                 name: 'Mexican Beef Fajitas',
                 time: '30 mins',
                 servings: '4 servings',
@@ -961,7 +1062,7 @@
                 ingredients: ['500g beef strips', '2 bell peppers', '1 onion', 'Tortillas', 'Salsa', 'Guacamole'],
                 instructions: 'Sauté beef, peppers, and onion.\nAdd fajita seasoning.\nWarm tortillas.\nServe with salsa and guacamole.'
             },
-            'eggs, tortillas': {
+            'mexican_eggs_tortillas': {
                 name: 'Mexican Huevos Rancheros',
                 time: '20 mins',
                 servings: '2 servings',
@@ -971,7 +1072,7 @@
             },
 
             // ===== INDIAN =====
-            'chicken, rice, tomatoes': {
+            'indian_chicken_rice_tomatoes': {
                 name: 'Indian Chicken Biryani',
                 time: '1 hour',
                 servings: '4 servings',
@@ -981,7 +1082,7 @@
                 ],
                 instructions: 'Marinate chicken in yogurt and spices.\nFry onions until golden.\nLayer rice and marinated chicken.\nAdd saffron water.\nCover and cook on low heat for 25-30 minutes.\nGarnish with mint and cilantro.'
             },
-            'potatoes, cauliflower': {
+            'indian_potatoes_cauliflower': {
                 name: 'Indian Aloo Gobi',
                 time: '30 mins',
                 servings: '4 servings',
@@ -991,7 +1092,7 @@
                 ],
                 instructions: 'Sauté onion, ginger, and garlic.\nAdd tomatoes and spices.\nAdd potatoes and cauliflower.\nCook until vegetables are tender.\nGarnish with cilantro.'
             },
-            'lentils': {
+            'indian_lentils': {
                 name: 'Indian Dal (Lentil Soup)',
                 time: '25 mins',
                 servings: '4 servings',
@@ -1001,7 +1102,7 @@
                 ],
                 instructions: 'Sauté onion, garlic, and ginger.\nAdd tomatoes and spices.\nAdd lentils and water.\nCook until lentils are soft.\nGarnish with cilantro.'
             },
-            'rice': {
+            'indian_rice': {
                 name: 'Indian Jeera Rice',
                 time: '20 mins',
                 servings: '4 servings',
@@ -1011,7 +1112,7 @@
                 ],
                 instructions: 'Sauté cumin seeds, bay leaf, cloves, and cardamom.\nAdd onion and cook until soft.\nAdd rice and water.\nCook until rice is fluffy.\nServe with curry.'
             },
-            'chicken, cream, tomatoes': {
+            'indian_chicken_cream_tomatoes': {
                 name: 'Indian Butter Chicken',
                 time: '45 mins',
                 servings: '4 servings',
@@ -1021,7 +1122,7 @@
                 ],
                 instructions: 'Sauté onion, ginger, and garlic.\nAdd tomatoes and spices.\nAdd chicken and cook.\nStir in cream and butter.\nServe with rice or naan.'
             },
-            'potatoes, peas': {
+            'indian_potatoes_peas': {
                 name: 'Indian Aloo Matar',
                 time: '30 mins',
                 servings: '4 servings',
@@ -1031,7 +1132,7 @@
                 ],
                 instructions: 'Sauté onion, ginger, and garlic.\nAdd tomatoes and spices.\nAdd potatoes and peas.\nCook until tender.\nGarnish with cilantro.'
             },
-            'spinach, paneer': {
+            'indian_spinach_paneer': {
                 name: 'Indian Palak Paneer',
                 time: '30 mins',
                 servings: '4 servings',
@@ -1043,7 +1144,7 @@
             },
 
             // ===== CHINESE =====
-            'chicken, rice': {
+            'chinese_chicken_rice': {
                 name: 'Chinese Chicken Fried Rice',
                 time: '25 mins',
                 servings: '4 servings',
@@ -1053,7 +1154,7 @@
                 ],
                 instructions: 'Cook chicken and set aside.\nScramble eggs.\nSauté onion and vegetables.\nAdd rice, chicken, and eggs.\nAdd soy sauce and sesame oil.\nStir-fry for 5 minutes.'
             },
-            'noodles, chicken': {
+            'chinese_noodles_chicken': {
                 name: 'Chinese Chicken Noodle Soup',
                 time: '25 mins',
                 servings: '3 servings',
@@ -1061,7 +1162,7 @@
                 ingredients: ['200g chicken', 'Noodles', 'Carrots', 'Onion', 'Ginger', 'Soy sauce'],
                 instructions: 'Boil chicken with ginger and onion.\nAdd carrots and noodles.\nCook for 10 minutes.\nAdd soy sauce.\nServe hot.'
             },
-            'rice': {
+            'chinese_rice': {
                 name: 'Chinese Egg Fried Rice',
                 time: '15 mins',
                 servings: '2 servings',
@@ -1071,7 +1172,7 @@
                 ],
                 instructions: 'Scramble eggs.\nSauté onion and vegetables.\nAdd rice and soy sauce.\nReturn eggs and mix well.\nServe hot.'
             },
-            'vegetables': {
+            'chinese_vegetables': {
                 name: 'Chinese Vegetable Stir-Fry',
                 time: '20 mins',
                 servings: '4 servings',
@@ -1081,7 +1182,7 @@
                 ],
                 instructions: 'Sauté garlic and ginger.\nAdd vegetables and stir-fry.\nAdd soy sauce and sesame oil.\nThicken with cornstarch.\nServe hot with rice.'
             },
-            'beef, broccoli': {
+            'chinese_beef_broccoli': {
                 name: 'Chinese Beef with Broccoli',
                 time: '25 mins',
                 servings: '4 servings',
@@ -1089,7 +1190,7 @@
                 ingredients: ['500g beef strips', '2 cups broccoli', 'Garlic', 'Ginger', 'Soy sauce', 'Sesame oil'],
                 instructions: 'Sauté beef until browned.\nAdd broccoli, garlic, and ginger.\nAdd soy sauce and sesame oil.\nCook until broccoli is tender.\nServe hot with rice.'
             },
-            'shrimp, rice': {
+            'chinese_shrimp_rice': {
                 name: 'Chinese Shrimp Fried Rice',
                 time: '20 mins',
                 servings: '4 servings',
@@ -1099,7 +1200,7 @@
             },
 
             // ===== JAPANESE =====
-            'rice, fish': {
+            'japanese_rice_fish': {
                 name: 'Japanese Sushi Rice with Grilled Fish',
                 time: '30 mins',
                 servings: '2 servings',
@@ -1109,7 +1210,7 @@
                 ],
                 instructions: 'Cook sushi rice.\nSeason with vinegar, sugar, and salt.\nGrill fish until cooked.\nServe rice with grilled fish, soy sauce, and wasabi.'
             },
-            'noodles': {
+            'japanese_noodles': {
                 name: 'Japanese Ramen',
                 time: '30 mins',
                 servings: '2 servings',
@@ -1119,7 +1220,7 @@
                 ],
                 instructions: 'Cook ramen noodles.\nHeat chicken broth.\nCook pork belly.\nAssemble with toppings.\nServe hot.'
             },
-            'rice': {
+            'japanese_rice': {
                 name: 'Japanese Rice with Sesame',
                 time: '20 mins',
                 servings: '2 servings',
@@ -1127,7 +1228,7 @@
                 ingredients: ['2 cups Japanese rice', 'Water', 'Sesame seeds', 'Salt', 'Nori (seaweed)'],
                 instructions: 'Rinse rice and cook.\nSprinkle with sesame seeds and salt.\nServe with nori.\nEnjoy with your favorite dish.'
             },
-            'chicken, noodles': {
+            'japanese_chicken_noodles': {
                 name: 'Japanese Chicken Udon',
                 time: '25 mins',
                 servings: '2 servings',
@@ -1135,7 +1236,7 @@
                 ingredients: ['200g chicken', 'Udon noodles', 'Chicken broth', 'Green onions', 'Soy sauce'],
                 instructions: 'Cook chicken and set aside.\nCook udon noodles.\nHeat broth with soy sauce.\nAssemble with chicken and green onions.'
             },
-            'tofu, vegetables': {
+            'japanese_tofu_vegetables': {
                 name: 'Japanese Tofu and Vegetable Stir-Fry',
                 time: '20 mins',
                 servings: '4 servings',
@@ -1145,7 +1246,7 @@
             },
 
             // ===== FRENCH =====
-            'bread, cheese': {
+            'french_bread_cheese': {
                 name: 'French Croque Monsieur',
                 time: '20 mins',
                 servings: '2 servings',
@@ -1153,7 +1254,7 @@
                 ingredients: ['Bread slices', 'Ham', 'Gruyère cheese', 'Béchamel sauce', 'Butter'],
                 instructions: 'Make béchamel sauce.\nAssemble sandwich with ham and cheese.\nSpread béchamel on top.\nGrill until golden.'
             },
-            'rice': {
+            'french_rice': {
                 name: 'French Rice Pilaf',
                 time: '25 mins',
                 servings: '4 servings',
@@ -1161,7 +1262,7 @@
                 ingredients: ['2 cups rice', '1 onion (chopped)', 'Chicken stock', 'Butter', 'Fresh herbs (thyme, parsley)'],
                 instructions: 'Sauté onion in butter.\nAdd rice and toast.\nAdd chicken stock and herbs.\nCover and cook for 20 minutes.\nFluff with a fork.\nServe hot.'
             },
-            'potatoes': {
+            'french_potatoes': {
                 name: 'French Gratin Dauphinois',
                 time: '1 hour',
                 servings: '4 servings',
@@ -1169,7 +1270,7 @@
                 ingredients: ['1kg potatoes', '2 cups cream', '2 cloves garlic', 'Butter', 'Salt and pepper', 'Nutmeg'],
                 instructions: 'Slice potatoes thinly.\nRub garlic on baking dish.\nLayer potatoes and cream.\nSeason with salt, pepper, and nutmeg.\nBake for 40-45 minutes.\nServe hot.'
             },
-            'bread': {
+            'french_bread': {
                 name: 'French Baguette with Butter',
                 time: '5 mins',
                 servings: '2 servings',
@@ -1177,7 +1278,7 @@
                 ingredients: ['1 French baguette', 'Butter', 'Salt'],
                 instructions: 'Slice baguette.\nSpread butter.\nSprinkle with salt.\nEnjoy with soup or salad.'
             },
-            'chicken, cream, mushrooms': {
+            'french_chicken_cream_mushrooms': {
                 name: 'French Chicken Fricassee',
                 time: '45 mins',
                 servings: '4 servings',
@@ -1187,7 +1288,7 @@
                 ],
                 instructions: 'Brown chicken in butter.\nSauté onion and mushrooms.\nAdd white wine and cream.\nSimmer for 30 minutes.\nSeason with thyme.\nServe with rice or potatoes.'
             },
-            'fish, lemon, herbs': {
+            'french_fish_lemon_herbs': {
                 name: 'French Sole Meunière',
                 time: '25 mins',
                 servings: '2 servings',
@@ -1197,7 +1298,7 @@
             },
 
             // ===== AMERICAN =====
-            'potatoes': {
+            'american_potatoes': {
                 name: 'American Crispy Roasted Potatoes',
                 time: '45 mins',
                 servings: '4 servings',
@@ -1205,7 +1306,7 @@
                 ingredients: ['1kg potatoes', 'Olive oil', 'Rosemary', 'Garlic powder', 'Salt and pepper'],
                 instructions: 'Preheat oven to 220°C (425°F).\nCut potatoes into wedges.\nToss with oil, rosemary, garlic, salt, and pepper.\nRoast for 35-40 minutes.\nServe hot.'
             },
-            'beef, potatoes': {
+            'american_beef_potatoes': {
                 name: 'American Beef and Potato Stew',
                 time: '1 hour 30 mins',
                 servings: '6 servings',
@@ -1213,7 +1314,7 @@
                 ingredients: ['1kg beef', '4 potatoes', '2 onions', '4 carrots', 'Beef stock', 'Bay leaf', 'Seasoning'],
                 instructions: 'Brown beef.\nAdd onions and cook until soft.\nAdd carrots, potatoes, stock, and bay leaf.\nSimmer for 1 hour.\nSeason to taste.'
             },
-            'eggs, bacon': {
+            'american_eggs_bacon': {
                 name: 'American Breakfast Scramble',
                 time: '15 mins',
                 servings: '2 servings',
@@ -1221,7 +1322,7 @@
                 ingredients: ['4 eggs', '4 slices bacon', '2 slices bread', 'Butter', 'Salt and pepper'],
                 instructions: 'Fry bacon until crispy.\nWhisk eggs and scramble in butter.\nToast bread.\nServe eggs with bacon and toast.'
             },
-            'chicken, potatoes': {
+            'american_chicken_potatoes': {
                 name: 'American Roast Chicken with Potatoes',
                 time: '1 hour 15 mins',
                 servings: '4 servings',
@@ -1229,7 +1330,7 @@
                 ingredients: ['1 whole chicken', '4 potatoes', '2 onions', 'Carrots', 'Butter', 'Rosemary'],
                 instructions: 'Season chicken with rosemary and butter.\nPlace vegetables around chicken.\nRoast at 200°C for 1 hour.\nServe hot.'
             },
-            'pasta, meatballs, tomatoes': {
+            'american_pasta_meatballs_tomatoes': {
                 name: 'American Spaghetti and Meatballs',
                 time: '45 mins',
                 servings: '4 servings',
@@ -1241,7 +1342,7 @@
             },
 
             // ===== THAI =====
-            'noodles, chicken, vegetables': {
+            'thai_noodles_chicken_vegetables': {
                 name: 'Thai Chicken Pad Thai',
                 time: '30 mins',
                 servings: '4 servings',
@@ -1251,7 +1352,7 @@
                 ],
                 instructions: 'Soak noodles.\nCook chicken.\nScramble eggs.\nAdd noodles and sauce.\nToss with vegetables and peanuts.\nServe with lime.'
             },
-            'coconut, chicken, vegetables': {
+            'thai_coconut_chicken_vegetables': {
                 name: 'Thai Green Curry',
                 time: '30 mins',
                 servings: '4 servings',
@@ -1261,7 +1362,7 @@
                 ],
                 instructions: 'Sauté curry paste.\nAdd chicken and cook.\nAdd coconut milk and vegetables.\nSimmer for 15 minutes.\nGarnish with basil.\nServe with rice.'
             },
-            'rice': {
+            'thai_rice': {
                 name: 'Thai Jasmine Rice',
                 time: '20 mins',
                 servings: '4 servings',
@@ -1269,7 +1370,7 @@
                 ingredients: ['2 cups jasmine rice', 'Water', 'Salt'],
                 instructions: 'Rinse rice.\nAdd water and salt.\nCook for 15-20 minutes.\nFluff with a fork.\nServe with curry.'
             },
-            'noodles': {
+            'thai_noodles': {
                 name: 'Thai Drunken Noodles',
                 time: '25 mins',
                 servings: '4 servings',
@@ -1281,7 +1382,7 @@
             },
 
             // ===== MEDITERRANEAN =====
-            'chicken, rice, lemon': {
+            'mediterranean_chicken_rice_lemon': {
                 name: 'Mediterranean Lemon Chicken',
                 time: '45 mins',
                 servings: '4 servings',
@@ -1289,7 +1390,7 @@
                 ingredients: ['500g chicken', '2 cups rice', '2 lemons', 'Garlic', 'Oregano', 'Olive oil'],
                 instructions: 'Marinate chicken in lemon, garlic, and oregano.\nCook chicken until done.\nCook rice.\nServe chicken over rice with extra lemon.'
             },
-            'fish, tomatoes, garlic': {
+            'mediterranean_fish_tomatoes_garlic': {
                 name: 'Mediterranean Fish Stew',
                 time: '35 mins',
                 servings: '4 servings',
@@ -1299,7 +1400,7 @@
                 ],
                 instructions: 'Sauté garlic in olive oil.\nAdd tomatoes and simmer.\nAdd fish and cook until done.\nGarnish with basil.\nServe with bread.'
             },
-            'pasta, olive oil, garlic': {
+            'mediterranean_pasta_olive_oil_garlic': {
                 name: 'Mediterranean Pasta',
                 time: '20 mins',
                 servings: '4 servings',
@@ -1307,7 +1408,7 @@
                 ingredients: ['400g pasta', 'Olive oil', '4 cloves garlic', 'Cherry tomatoes', 'Olives', 'Feta cheese'],
                 instructions: 'Cook pasta.\nSauté garlic in olive oil.\nAdd tomatoes and olives.\nToss with pasta.\nTop with feta cheese.'
             },
-            'rice': {
+            'mediterranean_rice': {
                 name: 'Mediterranean Rice Pilaf',
                 time: '25 mins',
                 servings: '4 servings',
@@ -1350,6 +1451,7 @@
 
             let matchedRecipe = null;
 
+            // 1) try full match
             for (const recipe of filteredRecipes) {
                 const recipeIngredientStrings = recipe.ingredients.map(i => i.toLowerCase());
                 const allMatch = userIngredients.every(ing => {
@@ -1361,6 +1463,7 @@
                 }
             }
 
+            // 2) fallback: partial match
             if (!matchedRecipe) {
                 for (const recipe of filteredRecipes) {
                     const recipeIngredientStrings = recipe.ingredients.map(i => i.toLowerCase());
@@ -1374,9 +1477,10 @@
                 }
             }
 
+            // 3) creative fallback
             if (!matchedRecipe) {
-                const cuisineDisplay = selectedCuisine === 'any' ? 'International' : selectedCuisine.charAt(0).toUpperCase() +
-                    selectedCuisine.slice(1);
+                const cuisineDisplay = selectedCuisine === 'any' ? 'International' :
+                    selectedCuisine.charAt(0).toUpperCase() + selectedCuisine.slice(1);
                 matchedRecipe = {
                     name: `Creative ${firstIngredient.charAt(0).toUpperCase() + firstIngredient.slice(1)} Dish`,
                     time: '30 mins',
@@ -1447,7 +1551,8 @@
         function loadRecipe(key) {
             const recipe = recipeDatabase[key];
             if (recipe) {
-                document.getElementById('recipeInput').value = key;
+                const ingredientString = recipe.ingredients.join(', ');
+                document.getElementById('recipeInput').value = ingredientString;
                 generateRecipe();
                 document.getElementById('recipeOutput').scrollIntoView({ behavior: 'smooth' });
             }
@@ -1638,11 +1743,11 @@
             if (!result) {
                 result = `🤖 I'm sorry, I don't have an answer for that yet. Please contact us directly:
 
-📞 Call/WhatsApp: +234 810 525 7672
-📍 Address: C/73 Alhaji Ango Street, Jos North, Plateau State
-📧 Email: nusaybahpower@gmail.com
+        📞 Call/WhatsApp: +234 810 525 7672
+        📍 Address: C/73 Alhaji Ango Street, Jos North, Plateau State
+        📧 Email: nusaybahpower@gmail.com
 
-We would love to help you! 😊`;
+        We would love to help you! 😊`;
             }
 
             showOutput('assistantOutput', `<div style="font-size:1rem; line-height:1.8;">${result.replace(/\n/g, '<br/>')}</div>`);
@@ -1659,7 +1764,8 @@ We would love to help you! 😊`;
                 return;
             }
 
-            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(text)}`;
+            const qrUrl =
+                `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(text)}`;
 
             const resultHtml = `
                 <img id="qrImage" src="${qrUrl}" alt="QR Code" style="max-width:300px; width:100%; margin:0 auto; display:block; border:2px solid #ddd; border-radius:8px;" />
@@ -1789,11 +1895,14 @@ We would love to help you! 😊`;
         }
 
         // ============================================================
-        // KEYBOARD SHORTCUT
+        // KEYBOARD SHORTCUT — only trigger on non-input fields
         // ============================================================
 
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'TEXTAREA') {
+            const tag = e.target.tagName;
+            if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+            if (e.key === 'Enter') {
                 const activePage = document.querySelector('.page.active');
                 if (activePage) {
                     const id = activePage.id;
