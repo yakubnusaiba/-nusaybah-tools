@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nusaybah Hub – Multi-Function Tools</title>
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk51c2F5YmFoIEh1YiIsCiAgInNob3J0X25hbWUiOiAiTnVzYXliYWggSHViIiwKICAiZGVzY3JpcHRpb24iOiAiQWxsLWluLU9uZSBUb29scyBmb3IgQnVzaW5lc3MsIENyZWF0aXZpdHkgJiBQcm9kdWN0aXZpdHkiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBhMjQ2MyIsCiAgInRoZW1lX2NvbG9yIjogIiNkNGFmMzciLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWwsJTNDc3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDEwMCAxMDAnJTNFJTNDcmVjdCB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcgZmlsbD0nJTIzMGEyNDYzJyByeD0nMjAlMjAlM0UlM0MvdGV4dCUzRSUzQ3RleHQgeD0nNTAnIHk9JzUwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBkeT0nLjM1ZW0nIGZvbnQtc2l6ZT0nNDBweCcgZm9udC1mYW1pbHk9J3NhbnMtc2VyaWYnIGZpbGw9JyUyM2Q0YWYzNycgZm9udC13ZWlnaHQ9J2JvbGQnJTNFTiUzQy90ZXh0JTNFJTNDL3N2ZyUzRQoiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICB9CiAgXQp9" />
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk51c2F5YmFoIEh1YiIsCiAgInNob3J0X25hbWUiOiAiTnVzYXliYWggSHViIiwKICAiZGVzY3JpcHRpb24iOiAiQWxsLWluLU9uZSBUb29scyBmb3IgQnVzaW5lc3MsIENyZWF0aXZpdHkgJiBQcm9kdWN0aXZpdHkiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBhMjQ2MyIsCiAgInRoZW1lX2NvbG9yIjogIiNkNGFmMzciLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWwsJTNDc3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDEwMCAxMDAnJTNFJTNDcmVjdCB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcgZmlsbD0nJTIzMGEyNDYzJyByeD0nMjAlMjAlM0UlM0MvdGV4dCUzRSUzQ3RleHQgeD0nNTAnIHk9JzUwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBkeT0nLjM1ZW0nIGZvbnQtc2l6ZT0nNDBweCcgZm9udC1mYW1pbHk9J3NhbnMtc2VyaWYnIGZmlsbD0nJTIzZDRhZjM3JyBmb250LXdlaWdodD0nYm9sZCclM0VOJTNDL3RleHQlM0UlM0Mvc3ZnJTNFIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0KfQ==" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
         /* ===== RESET & ROOT ===== */
@@ -356,6 +356,22 @@
             margin-top: 2rem;
         }
         .footer p { opacity: 0.7; font-size: 0.9rem; }
+        .footer .footer-contact {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 0.5rem 0 1rem 0;
+        }
+        .footer .footer-contact a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            transition: 0.3s;
+        }
+        .footer .footer-contact a:hover { opacity: 1; text-decoration: underline; }
+        .footer .footer-contact i { margin-right: 6px; }
 
         /* ===== RECIPE ===== */
         .recipe-card {
@@ -628,6 +644,7 @@
             .resume-container { padding: 1.2rem; }
             .resume-actions { flex-direction: column; align-items: stretch; }
             .resume-actions .btn { justify-content: center; }
+            .footer .footer-contact { flex-direction: column; gap: 0.5rem; }
         }
         @media (max-width: 480px) {
             :root { --header-height: 60px; --nav-height: 38px; }
@@ -803,7 +820,7 @@
                 <div class="form-group"><label>Full Name</label><input id="resumeName" placeholder="e.g., Maryam Yakub" /></div>
                 <div class="form-group"><label>Job Title</label><input id="resumeTitle" placeholder="e.g., Software Developer" /></div>
                 <div class="form-group"><label>Email</label><input id="resumeEmail" placeholder="maryam@example.com" /></div>
-                <div class="form-group"><label>Phone</label><input id="resumePhone" placeholder="+234 810 525 7672" /></div>
+                <div class="form-group"><label>Phone</label><input id="resumePhone" placeholder="+234 810 525 7672" value="08105257672" /></div>
                 <div class="form-group"><label>Profile Photo (optional)</label><input type="file" id="resumePhoto" accept="image/*" /></div>
                 <div class="form-group"><label>Experience, Education & Skills</label><textarea id="resumeDetails" rows="4" placeholder="Experience: Software Developer at Tech Corp (2022-2024)&#10;Education: B.Sc. Computer Science (2018-2022)&#10;Skills: JavaScript, Python, React, Communication"></textarea><div class="char-counter"><span id="resumeCharCount">0</span> characters</div></div>
                 <button class="btn" onclick="generateResume()"><i class="fas fa-file-alt"></i> Generate Resume</button>
@@ -946,8 +963,14 @@
     <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="container">
+            <div class="footer-contact">
+                <a href="tel:+2348105257672"><i class="fas fa-phone"></i> 08105257672</a>
+                <a href="https://wa.me/2348105257672" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                <a href="mailto:nusaybahpower@gmail.com"><i class="fas fa-envelope"></i> nusaybahpower@gmail.com</a>
+                <a href="#" onclick="goTo('assistant')"><i class="fas fa-robot"></i> Ask AI Assistant</a>
+            </div>
             <p>Nusaybah Hub — All-in-One Tools &copy; 2025</p>
-            <p style="font-size:0.8rem; opacity:0.5;">Made with ❤ for learning and innovation</p>
+            <p style="font-size:0.8rem; opacity:0.5;">Made with ❤ by Nusaiba Yakub</p>
         </div>
     </footer>
 
@@ -1403,7 +1426,7 @@
         const name = document.getElementById('resumeName').value.trim();
         const title = document.getElementById('resumeTitle').value.trim();
         const email = document.getElementById('resumeEmail').value.trim();
-        const phone = document.getElementById('resumePhone').value.trim();
+        const phone = document.getElementById('resumePhone').value.trim() || '08105257672';
         const details = document.getElementById('resumeDetails').value.trim();
         if (!name || !title) { alert('Please enter your name and job title.'); return; }
 
@@ -1572,58 +1595,105 @@
     }
 
     // ============================================================
-    // AI ASSISTANT
+    // AI ASSISTANT — expanded with many more Q&A
     // ============================================================
     function askAssistant() {
-        const input = document.getElementById('assistantInput').value.trim();
+        const input = document.getElementById('assistantInput').value.trim().toLowerCase();
         if (!input) { alert('Please ask a question.'); return; }
-        const lowerInput = input.toLowerCase();
-        const answers = {
+
+        // Comprehensive knowledge base
+        const knowledge = {
+            // Basic info
+            'who are you': 'I am Nusaiba Yakub, the founder and owner of Nusaybah Hub. I\'m passionate about empowering businesses and individuals with practical tools for growth.',
+            'who is nusaiba': 'Nusaiba Yakub is the founder and owner of Nusaybah Hub. She is a visionary entrepreneur based in Jos, Nigeria, dedicated to providing quality products and services to her community.',
+            'what is your name': 'My name is Nusaiba Yakub. I\'m the founder of Nusaybah Hub.',
+            'owner': 'Nusaybah Hub is owned and operated by Nusaiba Yakub. She started this business to provide high-quality products and services to the people of Jos and beyond.',
+            'founder': 'The founder of Nusaybah Hub is Nusaiba Yakub. She built this platform to empower entrepreneurs and individuals with innovative tools and products.',
+            'nusaybah': 'Nusaybah Hub is a multi-service business platform founded by Nusaiba Yakub. We offer shopping, tools, and services to help you succeed.',
+
+            // Brand & services
+            'what is nusaybah hub': 'Nusaybah Hub is a multi-functional business platform offering products, services, and tools for entrepreneurs, creatives, and everyday users. We provide shopping, custom tailoring, digital marketing, and a suite of free online tools.',
+            'services': 'We offer custom tailoring, modest fashion (thrift abayas, hand sleeves, pins, visor hats), home appliances (power banks, blenders, irons), digital marketing, tech accessories, and a wide range of other products. We also provide free online tools like recipe generator, resume builder, content writer, lead generator, AI assistant, QR code generator, password generator, and text summarizer.',
+            'products': 'Our products include thrift abayas (₦5,000), hand sleeves (₦800), fashion pins (₦700), visor hats, power banks (20,000mAh – 50,000mAh), Silver Crest blenders (₦25,000), Hansen dry irons (1200W), and many more. We also offer custom tailoring and digital marketing services.',
+            'price': 'Our prices are very affordable. Thrift abayas are ₦5,000, hand sleeves ₦800, pins ₦700, blenders ₦25,000, and power banks range from ₦20,000 to ₦50,000 depending on capacity. Contact us for custom quotes.',
+            'fashion': 'Yes, we offer modest fashion including thrift abayas (₦5,000), hand sleeves (₦800), pins (₦700), and stylish visor hats. We also do custom tailoring for any design you want.',
+            'tailoring': 'Absolutely! We provide professional custom tailoring at Nusaybah Power & Stitch. You can bring any design, and we\'ll make it for you.',
+            'abaya': 'We have beautiful thrift abayas for just ₦5,000. They are high quality and affordable.',
+            'sleeve': 'We sell hand sleeves for ₦800. They come in black and white, and they fit all sizes.',
+            'pin': 'Our fashion pins are ₦700 each. They are perfect for adding a touch of style to your outfit.',
+            'visor': 'We offer stylish visor hats. Contact us for current designs and availability.',
+            'power bank': 'We supply power banks in capacities of 20,000mAh, 30,000mAh, 40,000mAh, and 50,000mAh. They are durable and reliable.',
+            'blender': 'We sell Silver Crest blenders at ₦25,000. They are powerful and perfect for your kitchen.',
+            'iron': 'We have Hansen dry irons with 1200W power that heat up in just 37 seconds. Very efficient!',
+            'digital marketing': 'Yes, we offer digital marketing services including social media management, content creation, and online advertising to help grow your brand.',
+            'tech accessories': 'We sell a variety of tech accessories including power banks, chargers, earphones, and more.',
+
+            // Location & contact
             'address': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
-            'location': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
-            'where': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
-            'phone': '📞 Call or WhatsApp us at +234 810 525 7672.',
-            'number': '📞 Call or WhatsApp us at +234 810 525 7672.',
-            'contact': '📞 Call or WhatsApp us at +234 810 525 7672. Email: nusaybahpower@gmail.com',
-            'whatsapp': '📞 WhatsApp us at +234 810 525 7672.',
-            'hour': '🕐 Mon–Thu: 8 AM – 6 PM | Fri: 8 AM – 5 PM | Sat–Sun: 8 AM – 6 PM',
+            'location': '📍 We are located at C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria. Come visit us!',
+            'where': '📍 Our shop is at C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
+            'phone': '📞 You can call or WhatsApp us at 08105257672. We\'re happy to help!',
+            'number': '📞 Our phone number is 08105257672. Feel free to reach out anytime.',
+            'contact': '📞 Call/WhatsApp: 08105257672\n📧 Email: nusaybahpower@gmail.com\n📍 Address: C/73 Alhaji Ango Street, Jos North, Plateau State',
+            'whatsapp': '📞 WhatsApp us at 08105257672 for quick responses and orders.',
+            'email': '📧 Our email address is nusaybahpower@gmail.com. Send us a message and we\'ll reply promptly.',
+            'hours': '🕐 Mon–Thu: 8 AM – 6 PM\nFri: 8 AM – 5 PM\nSat–Sun: 8 AM – 6 PM',
             'open': '🕐 We are open Monday to Sunday. Mon–Thu & Sat–Sun: 8 AM – 6 PM. Fri: 8 AM – 5 PM.',
-            'sell': '🛍️ We sell fashion, electronics, tailoring, home appliances, and thrift items.',
-            'offer': '🛍️ We offer custom tailoring, modest fashion, thrift abayas (₦5,000), hand sleeves (₦800), pins (₦700), visor hats, digital marketing, tech accessories, and power banks.',
-            'product': '🛍️ Products: thrift abayas (₦5,000), hand sleeves (₦800), pins (₦700), visor hats, power banks (20,000–50,000mAh), home appliances, custom tailoring.',
-            'fashion': '👗 Yes! Modest fashion including thrift abayas (₦5,000), hand sleeves (₦800), pins (₦700), and visor hats.',
-            'tailoring': '✂️ Yes! Custom tailoring at Nusaybah Power & Stitch.',
-            'abaya': '👗 Yes! Thrift abayas for ₦5,000.',
-            'sleeve': '🧤 Yes! Hand sleeves for ₦800. Black and white. Fits all sizes.',
-            'pin': '📌 Yes! Fashion pins for ₦700.',
-            'visor': '🧢 Yes! Visor hats. Contact us for designs.',
-            'power bank': '🔋 Yes! Power banks in 20,000mAh, 30,000mAh, 40,000mAh, and 50,000mAh.',
-            'blender': '🔋 Yes! Silver Crest blenders. Price: ₦25,000.',
-            'iron': '🔋 Yes! Hansen dry irons. 1200W, heats in 37 seconds.',
-            'delivery': '📦 Yes! We deliver locally in Jos and ship nationwide.',
-            'shipping': '📦 Yes! We deliver locally in Jos and ship nationwide.',
-            'facebook': '📱 Follow us on Facebook: https://www.facebook.com/100077686659565/',
-            'instagram': '📱 Follow us on Instagram: https://www.instagram.com/nusaybahyaaqub/',
-            'tiktok': '📱 Follow us on TikTok: @nusaybahpowerstitch',
-            'price': '💰 Thrift abayas: ₦5,000 | Hand sleeves: ₦800 | Pins: ₦700 | Blender: ₦25,000',
-            'pay': '💳 Payment methods: Bank transfer, cash on delivery, or pay in-store.',
-            'order': '📝 Place an order on WhatsApp at +234 810 525 7672 or visit our store.',
-            'about': '🏢 Nusaybah Hub is a multi-service business in Jos, Nigeria.',
-            'help': '🤖 I\'m here to help! Ask me about our products, services, hours, location, and pricing.',
-            'hello': '👋 Hello! Welcome to Nusaybah Hub. How can I help you today?',
-            'hi': '👋 Hi! Welcome to Nusaybah Hub.',
-            'thanks': '😊 You\'re welcome! Thank you for choosing Nusaybah Hub.',
-            'thank you': '😊 You\'re welcome!',
-            'bye': '👋 Goodbye! Visit us anytime.',
-            'goodbye': '👋 Goodbye! Visit us anytime.'
+            'delivery': '📦 Yes, we deliver locally in Jos and ship nationwide. Contact us for delivery options and fees.',
+            'shipping': '📦 We ship across Nigeria. Delivery is available within Jos and to other states. Reach out for shipping rates.',
+            'order': '📝 To place an order, simply call or WhatsApp us at 08105257672, or visit our store. We\'ll take it from there.',
+            'payment': '💳 We accept bank transfers, cash on delivery (within Jos), and in-store payments. Contact us for more details.',
+
+            // Tools & features
+            'tools': 'Nusaybah Hub offers a suite of free online tools: Recipe Generator, Resume Builder, Content Writer, Lead Generator, AI Assistant, QR Code Generator, Password Generator, and Text Summarizer. All are available on this website.',
+            'assistant': 'I am the Nusaybah Hub AI Assistant. I can answer questions about our products, services, location, hours, and much more. Just ask!',
+            'help': '🤖 I\'m here to help! You can ask me about our products, services, hours, location, pricing, delivery, and anything else related to Nusaybah Hub.',
+
+            // Greetings & common
+            'hello': '👋 Hello! Welcome to Nusaybah Hub. How can I assist you today? Feel free to ask about our products, services, or any of our free tools.',
+            'hi': '👋 Hi there! Welcome to Nusaybah Hub. How may I help you?',
+            'thanks': '😊 You\'re very welcome! Thank you for choosing Nusaybah Hub. If you need anything else, just ask.',
+            'thank you': '😊 You\'re welcome! We appreciate your support. Have a great day!',
+            'bye': '👋 Goodbye! Visit us anytime. Remember, we\'re always here to help.',
+            'goodbye': '👋 Goodbye! Stay safe and we hope to see you again soon.',
+            'welcome': '🤗 You are most welcome! We\'re glad to have you at Nusaybah Hub.',
+            'about': 'Nusaybah Hub is a multi‑service business founded by Nusaiba Yakub. We offer shopping, custom tailoring, digital marketing, and a suite of free online tools to support your personal and professional growth.',
+            'mission': 'Our mission is to empower individuals and businesses with quality products, innovative services, and accessible tools for success.',
+            'vision': 'Our vision is to become a leading hub for entrepreneurship and creativity in Nigeria and beyond.',
+            'story': 'Nusaybah Hub was founded by Nusaiba Yakub to bridge the gap between quality products and affordable prices. Starting from a small store in Jos, we have grown to offer a wide range of products and services, including custom tailoring, digital marketing, and our popular online tools.',
+            'community': 'We are deeply rooted in our community. We support local businesses, provide employment opportunities, and contribute to the growth of Jos and Plateau State.',
+            'social media': '📱 Follow us on Facebook: https://www.facebook.com/100077686659565/\nInstagram: https://www.instagram.com/nusaybahyaaqub/\nTikTok: @nusaybahpowerstitch',
+            'facebook': '📱 Find us on Facebook at https://www.facebook.com/100077686659565/',
+            'instagram': '📱 Follow us on Instagram at https://www.instagram.com/nusaybahyaaqub/',
+            'tiktok': '📱 Check out our TikTok: @nusaybahpowerstitch',
+            'prices': '💰 Thrift abayas: ₦5,000 | Hand sleeves: ₦800 | Pins: ₦700 | Blender: ₦25,000 | Power banks: ₦20,000–₦50,000. Contact us for full price list.',
+            'discount': '🎉 We sometimes offer discounts and promotions. Follow us on social media or contact us to stay updated!',
+            'quality': 'We pride ourselves on providing high‑quality products and services. Every item is carefully selected and inspected to ensure customer satisfaction.',
+            'guarantee': '🛡️ We stand behind our products. If you have any issues, please contact us and we\'ll make it right.',
+            'return': '🔄 We accept returns within 7 days of purchase (conditions apply). Please contact us for details.',
+            'wholesale': '🤝 Yes, we offer wholesale pricing for bulk orders. Reach out to us to discuss your needs.',
+            'partnership': '🤝 We are open to partnerships with businesses and individuals. Let\'s grow together!'
         };
+
         let result = null;
-        for (const [key, value] of Object.entries(answers)) {
-            if (lowerInput.includes(key)) { result = value; break; }
+        // Check for exact matches first
+        for (const [key, value] of Object.entries(knowledge)) {
+            if (input.includes(key)) {
+                result = value;
+                break;
+            }
         }
+
+        // If no match, provide a default response with useful info
         if (!result) {
-            result = `🤖 I'm sorry, I don't have an answer for that yet. Please contact us directly:\n\n📞 Call/WhatsApp: +234 810 525 7672\n📍 Address: C/73 Alhaji Ango Street, Jos North, Plateau State\n📧 Email: nusaybahpower@gmail.com\n\nWe would love to help you! 😊`;
+            result = `🤔 I'm not sure about that, but I can tell you about Nusaybah Hub!\n\n` +
+                     `📌 We are a multi‑service business located at C/73 Alhaji Ango Street, Jos North, Plateau State.\n` +
+                     `📞 Call/WhatsApp: 08105257672\n` +
+                     `📧 Email: nusaybahpower@gmail.com\n\n` +
+                     `We offer: affordable fashion, custom tailoring, home appliances, digital marketing, and free online tools.\n\n` +
+                     `Ask me about: address, products, prices, hours, delivery, or anything else! 😊`;
         }
+
         showOutput('assistantOutput', `<div style="font-size:1rem; line-height:1.8;">${result.replace(/\n/g, '<br/>')}</div>`);
         incrementStat('assistant');
     }
