@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nusaybah Hub – Multi-Function Tools</title>
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk51c2F5YmFoIEh1YiIsCiAgInNob3J0X25hbWUiOiAiTnVzYXliYWggSHViIiwKICAiZGVzY3JpcHRpb24iOiAiQWxsLWluLU9uZSBUb29scyBmb3IgQnVzaW5lc3MsIENyZWF0aXZpdHkgJiBQcm9kdWN0aXZpdHkiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBhMjQ2MyIsCiAgInRoZW1lX2NvbG9yIjogIiNkNGFmMzciLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWwsJTNDc3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDEwMCAxMDAnJTNFJTNDcmVjdCB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcgZmlsbD0nJTIzMGEyNDYzJyByeD0nMjAlMjAlM0UlM0MvdGV4dCUzRSUzQ3RleHQgeD0nNTAnIHk9JzUwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBkeT0nLjM1ZW0nIGZvbnQtc2l6ZT0nNDBweCcgZm9udC1mYW1pbHk9J3NhbnMtc2VyaWYnIGZpbGw9JyUyM2Q0YWYzNycgZm9udC13ZWlnaHQ9J2JvbGQnJTNFTiUzQy90ZXh0JTNFJTNDL3N2ZyUzRQoiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICB9CiAgXQp9" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
         /* ===== RESET & ROOT ===== */
@@ -22,13 +23,29 @@
             --header-height: 86px;
             --nav-height: 48px;
             --total-top: calc(var(--header-height) + var(--nav-height));
+            --bg: #f9f9f9;
+            --card-bg: #ffffff;
+            --text: #212529;
+            --border: #ddd;
+            --output-bg: #f5f5f5;
+            --shadow-color: rgba(0,0,0,0.08);
+        }
+        body.dark-mode {
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text: #e0e0e0;
+            --border: #333;
+            --output-bg: #2a2a2a;
+            --shadow-color: rgba(0,0,0,0.3);
+            --gray: #aaa;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f9f9f9;
-            color: var(--dark);
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.6;
             padding-top: var(--total-top);
+            transition: background 0.3s, color 0.3s;
         }
         .container {
             max-width: 1200px;
@@ -36,7 +53,7 @@
             padding: 0 1.5rem;
         }
 
-        /* ===== HEADER (FIXED) ===== */
+        /* ===== HEADER ===== */
         .header {
             background: var(--primary);
             color: white;
@@ -51,6 +68,7 @@
             height: var(--header-height);
             display: flex;
             align-items: center;
+            transition: background 0.3s;
         }
         .header .container {
             display: flex;
@@ -89,6 +107,12 @@
             color: var(--secondary);
             line-height: 1.2;
         }
+        .header .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
         .header .tools-label {
             font-size: 0.85rem;
             background: rgba(255, 255, 255, 0.12);
@@ -96,10 +120,27 @@
             border-radius: 20px;
             border: 1px solid var(--secondary);
             white-space: nowrap;
-            flex-shrink: 0;
+        }
+        .header .dark-toggle {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header .dark-toggle:hover {
+            background: var(--secondary);
+            color: var(--primary);
         }
 
-        /* ===== NAVIGATION (FIXED, SCROLLABLE) ===== */
+        /* ===== NAVIGATION ===== */
         .nav {
             background: var(--dark);
             padding: 0.3rem 0;
@@ -118,9 +159,7 @@
             scrollbar-width: none;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-        .nav::-webkit-scrollbar {
-            display: none;
-        }
+        .nav::-webkit-scrollbar { display: none; }
         .nav .container {
             display: flex;
             justify-content: flex-start;
@@ -143,85 +182,63 @@
             white-space: nowrap;
             flex-shrink: 0;
         }
-        .nav button i {
-            margin-right: 4px;
-        }
-        .nav button:hover,
-        .nav button.active {
+        .nav button i { margin-right: 4px; }
+        .nav button:hover, .nav button.active {
             background: var(--secondary);
             color: var(--primary);
         }
 
         /* ===== CONTENT ===== */
-        .content {
-            padding: 1.5rem 0 2rem 0;
-        }
-        .page {
-            display: none;
-            animation: fade 0.3s ease;
-        }
-        .page.active {
-            display: block;
-        }
-        @keyframes fade {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        .content { padding: 1.5rem 0 2rem 0; }
+        .page { display: none; animation: fade 0.3s ease; }
+        .page.active { display: block; }
+        @keyframes fade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
         /* ===== CARDS ===== */
         .card {
-            background: white;
+            background: var(--card-bg);
             padding: 2rem;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             border-left: 4px solid var(--secondary);
             margin-bottom: 1.5rem;
+            transition: background 0.3s, box-shadow 0.3s;
         }
         .card h2 {
             color: var(--primary);
             margin-bottom: 0.5rem;
             font-size: 1.8rem;
         }
-        .card h2 i {
-            color: var(--secondary);
-            margin-right: 0.5rem;
-        }
-        .card p.sub {
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-        }
+        .card h2 i { color: var(--secondary); margin-right: 0.5rem; }
+        .card p.sub { color: var(--gray); margin-bottom: 1.5rem; }
 
-        .form-group {
-            margin-bottom: 1rem;
-        }
+        .form-group { margin-bottom: 1rem; }
         .form-group label {
             display: block;
             font-weight: 600;
             margin-bottom: 0.2rem;
-            color: var(--dark);
+            color: var(--text);
             font-size: 0.9rem;
         }
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
+        .form-group input, .form-group textarea, .form-group select {
             width: 100%;
             padding: 0.8rem 1rem;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border);
             border-radius: 8px;
             font-size: 1rem;
             transition: border 0.3s;
+            background: var(--bg);
+            color: var(--text);
         }
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
             border-color: var(--secondary);
             outline: none;
+        }
+        .form-group .char-counter {
+            font-size: 0.75rem;
+            color: var(--gray);
+            text-align: right;
+            margin-top: 0.2rem;
         }
 
         .btn {
@@ -248,27 +265,19 @@
             color: var(--primary);
             border: 2px solid var(--primary);
         }
-        .btn-outline:hover {
-            background: var(--primary);
-            color: white;
-        }
-        .btn-success {
-            background: #28a745;
-        }
-        .btn-success:hover {
-            background: #218838;
-            color: white;
-        }
-        .btn-info {
-            background: #17a2b8;
-        }
-        .btn-info:hover {
-            background: #138496;
-            color: white;
-        }
+        .btn-outline:hover { background: var(--primary); color: white; }
+        .btn-success { background: #28a745; }
+        .btn-success:hover { background: #218838; color: white; }
+        .btn-info { background: #17a2b8; }
+        .btn-info:hover { background: #138496; color: white; }
+        .btn-danger { background: #dc3545; }
+        .btn-danger:hover { background: #c82333; color: white; }
+        .btn-sm { padding: 0.3rem 0.8rem; font-size: 0.75rem; }
+        .btn-gold { background: var(--secondary); color: var(--primary); }
+        .btn-gold:hover { background: var(--primary); color: white; }
 
         .output-box {
-            background: #f5f5f5;
+            background: var(--output-bg);
             padding: 1.5rem;
             border-radius: 8px;
             margin-top: 1rem;
@@ -276,14 +285,45 @@
             white-space: pre-wrap;
             word-wrap: break-word;
             font-family: 'Segoe UI', sans-serif;
+            transition: background 0.3s;
+            position: relative;
         }
-        .output-box.show {
-            display: block;
+        .output-box.show { display: block; }
+        .output-box h4 { color: var(--primary); margin-bottom: 0.5rem; }
+        .output-box .toolbar {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
         }
-        .output-box h4 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
+        .output-box .toolbar button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.2rem 0.8rem;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
+        .output-box .toolbar button:hover { background: var(--secondary); color: var(--primary); }
+        .output-box .toolbar .regenerate-btn { background: var(--secondary); color: var(--primary); }
+        .output-box .toolbar .regenerate-btn:hover { background: var(--primary); color: white; }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* ===== HOME GRID ===== */
         .home-grid {
@@ -293,7 +333,7 @@
             margin-top: 1.5rem;
         }
         .tool-card {
-            background: white;
+            background: var(--card-bg);
             padding: 1.8rem 1.5rem;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
@@ -302,24 +342,10 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        .tool-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-        }
-        .tool-card i {
-            font-size: 2.8rem;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-        .tool-card h3 {
-            color: var(--primary);
-            font-size: 1.1rem;
-        }
-        .tool-card p {
-            color: var(--gray);
-            font-size: 0.85rem;
-            margin-top: 0.2rem;
-        }
+        .tool-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px var(--shadow-color); }
+        .tool-card i { font-size: 2.8rem; color: var(--primary); margin-bottom: 0.5rem; }
+        .tool-card h3 { color: var(--primary); font-size: 1.1rem; }
+        .tool-card p { color: var(--gray); font-size: 0.85rem; margin-top: 0.2rem; }
 
         /* ===== FOOTER ===== */
         .footer {
@@ -329,38 +355,32 @@
             padding: 2rem 0;
             margin-top: 2rem;
         }
-        .footer p {
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
+        .footer p { opacity: 0.7; font-size: 0.9rem; }
 
+        /* ===== RECIPE ===== */
         .recipe-card {
-            background: white;
+            background: var(--card-bg);
             padding: 1.5rem;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             margin-bottom: 1rem;
             border-left: 4px solid var(--secondary);
+            transition: background 0.3s;
         }
-        .recipe-card h3 {
-            color: var(--primary);
+        .recipe-card h3 { color: var(--primary); font-size: 1.2rem; }
+        .recipe-card .meta { color: var(--gray); font-size: 0.85rem; margin: 0.3rem 0; }
+        .recipe-card ul { padding-left: 1.5rem; margin: 0.5rem 0; }
+        .recipe-card ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+        .recipe-card .fav-btn {
+            background: transparent;
+            border: none;
             font-size: 1.2rem;
-        }
-        .recipe-card .meta {
+            cursor: pointer;
             color: var(--gray);
-            font-size: 0.85rem;
-            margin: 0.3rem 0;
+            transition: 0.3s;
         }
-        .recipe-card ul {
-            padding-left: 1.5rem;
-            margin: 0.5rem 0;
-        }
-        .recipe-card ol {
-            padding-left: 1.5rem;
-            margin: 0.5rem 0;
-        }
+        .recipe-card .fav-btn.fav { color: #e74c3c; }
 
-        /* ===== RECIPE LIST ===== */
         .recipe-list-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -368,10 +388,10 @@
             margin-top: 1rem;
         }
         .recipe-list-item {
-            background: white;
+            background: var(--card-bg);
             padding: 0.8rem 1.2rem;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 8px var(--shadow-color);
             border-left: 3px solid var(--secondary);
             cursor: pointer;
             transition: all 0.3s;
@@ -379,11 +399,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        .recipe-list-item:hover {
-            transform: translateX(4px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            background: #f9f9f9;
-        }
+        .recipe-list-item:hover { transform: translateX(4px); background: var(--output-bg); }
         .recipe-list-item .cuisine-tag {
             background: var(--primary);
             color: white;
@@ -393,13 +409,8 @@
             font-weight: 600;
             letter-spacing: 0.5px;
         }
-        .recipe-list-item .dish-name {
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-        .cuisine-group {
-            margin-top: 1.5rem;
-        }
+        .recipe-list-item .dish-name { font-weight: 500; font-size: 0.95rem; }
+        .cuisine-group { margin-top: 1.5rem; }
         .cuisine-group h4 {
             color: var(--primary);
             font-size: 1.1rem;
@@ -407,42 +418,24 @@
             padding-bottom: 0.3rem;
             margin-bottom: 0.8rem;
         }
-        .recipe-list-wrapper {
-            display: none;
-            margin-top: 1rem;
-        }
-        .recipe-list-wrapper.show {
-            display: block;
-        }
+        .recipe-list-wrapper { display: none; margin-top: 1rem; }
+        .recipe-list-wrapper.show { display: block; }
 
-        /* ===== RESUME OUTPUT STYLES ===== */
+        /* ===== RESUME ===== */
         .resume-container {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.7;
-            background: white;
+            background: var(--card-bg);
             padding: 2rem;
             border-radius: 8px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 12px var(--shadow-color);
             max-width: 100%;
+            transition: background 0.3s;
         }
-        .resume-container h3 {
-            color: #0a2463;
-            font-size: 1.6rem;
-            margin-bottom: 0.2rem;
-        }
-        .resume-container .resume-title {
-            font-size: 1.1rem;
-            color: #0a2463;
-            font-weight: 600;
-        }
-        .resume-container .resume-contact {
-            color: #6c757d;
-            font-size: 0.9rem;
-            margin: 0.3rem 0 0.8rem 0;
-        }
-        .resume-container .resume-section {
-            margin-top: 1rem;
-        }
+        .resume-container h3 { color: #0a2463; font-size: 1.6rem; margin-bottom: 0.2rem; }
+        .resume-container .resume-title { font-size: 1.1rem; color: #0a2463; font-weight: 600; }
+        .resume-container .resume-contact { color: var(--gray); font-size: 0.9rem; margin: 0.3rem 0 0.8rem 0; }
+        .resume-container .resume-section { margin-top: 1rem; }
         .resume-container .resume-section h4 {
             color: #0a2463;
             border-bottom: 2px solid #d4af37;
@@ -452,225 +445,246 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .resume-container .resume-section p {
-            margin: 0.2rem 0;
+        .resume-container .resume-section p { margin: 0.2rem 0; }
+        .resume-container .resume-photo {
+            float: right;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--secondary);
+            margin-left: 1rem;
         }
-        .resume-container .resume-section ul {
-            padding-left: 1.5rem;
-            margin: 0.2rem 0;
-        }
-
         .resume-actions {
             display: flex;
             flex-wrap: wrap;
             gap: 0.8rem;
             margin-top: 1.2rem;
             padding-top: 1rem;
-            border-top: 1px solid #e9ecef;
+            border-top: 1px solid var(--border);
+        }
+        .resume-template-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .resume-template-selector button {
+            padding: 0.3rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: 0.3s;
+            color: var(--text);
+        }
+        .resume-template-selector button.active {
+            border-color: var(--secondary);
+            background: var(--secondary);
+            color: var(--primary);
         }
 
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
+        /* ===== STATS DASHBOARD ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: background 0.3s;
+        }
+        .stat-card .stat-number { font-size: 2rem; font-weight: 700; color: var(--secondary); }
+        .stat-card .stat-label { font-size: 0.8rem; color: var(--gray); }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: var(--primary);
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            z-index: 999;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .back-to-top:hover { transform: scale(1.1); }
+
+        /* ===== SHORTCUTS MODAL ===== */
+        .shortcuts-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1200;
+            align-items: center;
+            justify-content: center;
+        }
+        .shortcuts-modal.show { display: flex; }
+        .shortcuts-modal .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--radius);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .shortcuts-modal .modal-content h3 { color: var(--primary); margin-bottom: 1rem; }
+        .shortcuts-modal .modal-content kbd {
+            background: var(--output-bg);
+            padding: 0.1rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            border: 1px solid var(--border);
+        }
+        .shortcuts-modal .modal-content .shortcut-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.3rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* ===== VOICE INPUT ===== */
+        .voice-btn {
+            background: transparent;
+            border: none;
+            color: var(--secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.2rem 0.5rem;
+            transition: 0.3s;
+        }
+        .voice-btn:hover { color: var(--primary); }
+        .voice-btn.listening { color: #e74c3c; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+        /* ===== SOCIAL SHARE ===== */
+        .share-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+        .share-buttons button {
+            background: transparent;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .share-buttons button:hover { background: var(--output-bg); }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 992px) {
-            :root {
-                --header-height: 76px;
-                --nav-height: 44px;
-            }
-            .header .logo-img {
-                width: 68px;
-                height: 68px;
-            }
-            .header .logo-text .brand {
-                font-size: 1.7rem;
-            }
-            .header .logo-text .tagline {
-                font-size: 0.65rem;
-            }
-            .header .tools-label {
-                font-size: 0.75rem;
-                padding: 0.2rem 0.8rem;
-            }
-            .nav button {
-                font-size: 0.75rem;
-                padding: 0.25rem 0.7rem;
-            }
+            :root { --header-height: 76px; --nav-height: 44px; }
+            .header .logo-img { width: 68px; height: 68px; }
+            .header .logo-text .brand { font-size: 1.7rem; }
+            .header .logo-text .tagline { font-size: 0.65rem; }
+            .header .tools-label { font-size: 0.75rem; padding: 0.2rem 0.8rem; }
+            .nav button { font-size: 0.75rem; padding: 0.25rem 0.7rem; }
         }
-
         @media (max-width: 768px) {
-            :root {
-                --header-height: 68px;
-                --nav-height: 40px;
-            }
-            .header .container {
-                gap: 0.3rem;
-            }
-            .header .logo-wrapper {
-                gap: 8px;
-            }
-            .header .logo-img {
-                width: 56px;
-                height: 56px;
-            }
-            .header .logo-text .brand {
-                font-size: 1.4rem;
-            }
-            .header .logo-text .tagline {
-                font-size: 0.55rem;
-                letter-spacing: 1.5px;
-            }
-            .header .tools-label {
-                font-size: 0.65rem;
-                padding: 0.15rem 0.6rem;
-            }
-            .nav {
-                padding: 0.2rem 0;
-            }
-            .nav .container {
-                padding: 0 0.5rem;
-                gap: 0.15rem;
-            }
-            .nav button {
-                font-size: 0.68rem;
-                padding: 0.2rem 0.6rem;
-            }
-            .nav button i {
-                margin-right: 2px;
-            }
-            .card {
-                padding: 1.2rem;
-            }
-            .card h2 {
-                font-size: 1.4rem;
-            }
-            .home-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .tool-card {
-                padding: 1rem;
-            }
-            .tool-card i {
-                font-size: 2rem;
-            }
-            .recipe-list-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .resume-container {
-                padding: 1.2rem;
-            }
-            .resume-actions {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .resume-actions .btn {
-                justify-content: center;
-            }
+            :root { --header-height: 68px; --nav-height: 40px; }
+            .header .container { gap: 0.3rem; }
+            .header .logo-wrapper { gap: 8px; }
+            .header .logo-img { width: 56px; height: 56px; }
+            .header .logo-text .brand { font-size: 1.4rem; }
+            .header .logo-text .tagline { font-size: 0.55rem; letter-spacing: 1.5px; }
+            .header .tools-label { font-size: 0.65rem; padding: 0.15rem 0.6rem; }
+            .header .dark-toggle { width: 30px; height: 30px; font-size: 0.9rem; }
+            .nav { padding: 0.2rem 0; }
+            .nav .container { padding: 0 0.5rem; gap: 0.15rem; }
+            .nav button { font-size: 0.68rem; padding: 0.2rem 0.6rem; }
+            .nav button i { margin-right: 2px; }
+            .card { padding: 1.2rem; }
+            .card h2 { font-size: 1.4rem; }
+            .home-grid { grid-template-columns: 1fr 1fr; }
+            .tool-card { padding: 1rem; }
+            .tool-card i { font-size: 2rem; }
+            .recipe-list-grid { grid-template-columns: 1fr 1fr; }
+            .resume-container { padding: 1.2rem; }
+            .resume-actions { flex-direction: column; align-items: stretch; }
+            .resume-actions .btn { justify-content: center; }
         }
-
         @media (max-width: 480px) {
-            :root {
-                --header-height: 60px;
-                --nav-height: 38px;
-            }
-            .header .logo-img {
-                width: 48px;
-                height: 48px;
-            }
-            .header .logo-text .brand {
-                font-size: 1.1rem;
-            }
-            .header .logo-text .tagline {
-                font-size: 0.45rem;
-                letter-spacing: 1px;
-            }
-            .header .tools-label {
-                font-size: 0.55rem;
-                padding: 0.1rem 0.5rem;
-                border-width: 1px;
-            }
-            .nav button {
-                font-size: 0.6rem;
-                padding: 0.15rem 0.5rem;
-            }
-            .home-grid {
-                grid-template-columns: 1fr;
-            }
-            .recipe-list-grid {
-                grid-template-columns: 1fr;
-            }
-            .card {
-                padding: 1rem;
-            }
-            .card h2 {
-                font-size: 1.2rem;
-            }
-            .form-group input,
-            .form-group textarea,
-            .form-group select {
-                padding: 0.6rem 0.8rem;
-                font-size: 0.9rem;
-            }
-            .btn {
-                padding: 0.5rem 1.5rem;
-                font-size: 0.85rem;
-            }
-            .resume-container {
-                padding: 1rem;
-            }
-            .resume-container h3 {
-                font-size: 1.3rem;
-            }
+            :root { --header-height: 60px; --nav-height: 38px; }
+            .header .logo-img { width: 48px; height: 48px; }
+            .header .logo-text .brand { font-size: 1.1rem; }
+            .header .logo-text .tagline { font-size: 0.45rem; letter-spacing: 1px; }
+            .header .tools-label { font-size: 0.55rem; padding: 0.1rem 0.5rem; border-width: 1px; }
+            .header .dark-toggle { width: 28px; height: 28px; font-size: 0.8rem; }
+            .nav button { font-size: 0.6rem; padding: 0.15rem 0.5rem; }
+            .home-grid { grid-template-columns: 1fr; }
+            .recipe-list-grid { grid-template-columns: 1fr; }
+            .card { padding: 1rem; }
+            .card h2 { font-size: 1.2rem; }
+            .form-group input, .form-group textarea, .form-group select { padding: 0.6rem 0.8rem; font-size: 0.9rem; }
+            .btn { padding: 0.5rem 1.5rem; font-size: 0.85rem; }
+            .resume-container { padding: 1rem; }
+            .resume-container h3 { font-size: 1.3rem; }
+            .resume-container .resume-photo { width: 70px; height: 70px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
         }
-
         @media (max-width: 380px) {
-            :root {
-                --header-height: 54px;
-                --nav-height: 34px;
-            }
-            .header .logo-img {
-                width: 40px;
-                height: 40px;
-            }
-            .header .logo-text .brand {
-                font-size: 0.95rem;
-            }
-            .header .logo-text .tagline {
-                display: none;
-            }
-            .header .tools-label {
-                font-size: 0.45rem;
-                padding: 0.1rem 0.4rem;
-            }
-            .nav button {
-                font-size: 0.5rem;
-                padding: 0.1rem 0.4rem;
-            }
-            .nav button i {
-                margin-right: 1px;
-            }
+            :root { --header-height: 54px; --nav-height: 34px; }
+            .header .logo-img { width: 40px; height: 40px; }
+            .header .logo-text .brand { font-size: 0.95rem; }
+            .header .logo-text .tagline { display: none; }
+            .header .tools-label { font-size: 0.45rem; padding: 0.1rem 0.4rem; }
+            .nav button { font-size: 0.5rem; padding: 0.1rem 0.4rem; }
+            .nav button i { margin-right: 1px; }
+            .stats-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== HEADER (FIXED) ===== -->
+    <!-- ===== HEADER ===== -->
     <header class="header">
         <div class="container">
             <div class="logo-wrapper">
-                <img src="logo.webp" alt="Nusaybah Hub Logo" class="logo-img" />
+                <img src="logo.webp" alt="Nusaybah Hub Logo" class="logo-img" id="logoImg" />
                 <div class="logo-text">
                     <div class="brand">Nusaybah <span>Hub</span></div>
                     <div class="tagline">YOUR TRUSTED SHOPPING HUB</div>
                 </div>
             </div>
-            <div class="tools-label"><i class="fas fa-tools"></i> Multi‑Function</div>
+            <div class="header-actions">
+                <span class="tools-label"><i class="fas fa-tools"></i> Multi‑Function</span>
+                <button class="dark-toggle" id="darkToggle" title="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+                <button class="dark-toggle" id="shortcutsToggle" title="Keyboard Shortcuts" style="background:rgba(255,255,255,0.1);"><i class="fas fa-keyboard"></i></button>
+            </div>
         </div>
     </header>
 
-    <!-- ===== NAVIGATION (FIXED, SCROLLABLE ON MOBILE) ===== -->
+    <!-- ===== NAVIGATION ===== -->
     <nav class="nav" id="mainNav">
         <div class="container">
             <button class="active" data-page="home"><i class="fas fa-home"></i> Home</button>
+            <button data-page="stats"><i class="fas fa-chart-bar"></i> Stats</button>
             <button data-page="recipe"><i class="fas fa-utensils"></i> Recipe</button>
             <button data-page="resume"><i class="fas fa-file-alt"></i> Resume</button>
             <button data-page="content"><i class="fas fa-pen-fancy"></i> Content</button>
@@ -682,6 +696,19 @@
         </div>
     </nav>
 
+    <!-- ===== SHORTCUTS MODAL ===== -->
+    <div class="shortcuts-modal" id="shortcutsModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-keyboard"></i> Keyboard Shortcuts</h3>
+            <div class="shortcut-row"><span>Press <kbd>Enter</kbd> on any tool page</span><span>Generate / Run</span></div>
+            <div class="shortcut-row"><span>Resume form: <kbd>Enter</kbd></span><span>Next field</span></div>
+            <div class="shortcut-row"><span>Resume textarea: <kbd>Shift+Enter</kbd></span><span>New line</span></div>
+            <div class="shortcut-row"><span><kbd>Ctrl</kbd> + <kbd>K</kbd> (or <kbd>⌘K</kbd>)</span><span>Toggle shortcuts</span></div>
+            <div class="shortcut-row"><span><kbd>Esc</kbd></span><span>Close this modal</span></div>
+            <button class="btn" style="margin-top:1rem; width:100%;" onclick="document.getElementById('shortcutsModal').classList.remove('show')">Close</button>
+        </div>
+    </div>
+
     <!-- ===== CONTENT ===== -->
     <div class="container content">
 
@@ -690,44 +717,46 @@
             <div class="card" style="border-left-color: var(--primary);">
                 <h2>🏠 Welcome to Nusaybah Hub</h2>
                 <p class="sub">Your all-in-one platform with powerful tools for business, creativity, and productivity.</p>
+                <div class="share-buttons">
+                    <button onclick="sharePage('facebook')"><i class="fab fa-facebook" style="color:#1877f2;"></i></button>
+                    <button onclick="sharePage('twitter')"><i class="fab fa-twitter" style="color:#1da1f2;"></i></button>
+                    <button onclick="sharePage('linkedin')"><i class="fab fa-linkedin" style="color:#0a66c2;"></i></button>
+                    <button onclick="sharePage('whatsapp')"><i class="fab fa-whatsapp" style="color:#25d366;"></i></button>
+                </div>
             </div>
             <div class="home-grid">
-                <div class="tool-card" onclick="goTo('recipe')"><i class="fas fa-utensils"></i>
-                    <h3>Recipe Generator</h3>
-                    <p>Turn ingredients into meals</p>
-                </div>
-                <div class="tool-card" onclick="goTo('resume')"><i class="fas fa-file-alt"></i>
-                    <h3>Resume Builder</h3>
-                    <p>Create professional resumes</p>
-                </div>
-                <div class="tool-card" onclick="goTo('content')"><i class="fas fa-pen-fancy"></i>
-                    <h3>Content Writer</h3>
-                    <p>Generate content with AI</p>
-                </div>
-                <div class="tool-card" onclick="goTo('leads')"><i class="fas fa-bullseye"></i>
-                    <h3>Lead Generator</h3>
-                    <p>Find business leads</p>
-                </div>
-                <div class="tool-card" onclick="goTo('assistant')"><i class="fas fa-robot"></i>
-                    <h3>AI Assistant</h3>
-                    <p>Business chatbot</p>
-                </div>
-                <div class="tool-card" onclick="goTo('qr')"><i class="fas fa-qrcode"></i>
-                    <h3>QR Code Generator</h3>
-                    <p>Create and download QR codes</p>
-                </div>
-                <div class="tool-card" onclick="goTo('password')"><i class="fas fa-lock"></i>
-                    <h3>Password Generator</h3>
-                    <p>Strong secure passwords</p>
-                </div>
-                <div class="tool-card" onclick="goTo('summarizer')"><i class="fas fa-compress-alt"></i>
-                    <h3>Text Summarizer</h3>
-                    <p>Summarize long text</p>
-                </div>
+                <div class="tool-card" onclick="goTo('recipe')"><i class="fas fa-utensils"></i><h3>Recipe Generator</h3><p>Turn ingredients into meals</p></div>
+                <div class="tool-card" onclick="goTo('resume')"><i class="fas fa-file-alt"></i><h3>Resume Builder</h3><p>Create professional resumes</p></div>
+                <div class="tool-card" onclick="goTo('content')"><i class="fas fa-pen-fancy"></i><h3>Content Writer</h3><p>Generate content with AI</p></div>
+                <div class="tool-card" onclick="goTo('leads')"><i class="fas fa-bullseye"></i><h3>Lead Generator</h3><p>Find business leads</p></div>
+                <div class="tool-card" onclick="goTo('assistant')"><i class="fas fa-robot"></i><h3>AI Assistant</h3><p>Business chatbot</p></div>
+                <div class="tool-card" onclick="goTo('qr')"><i class="fas fa-qrcode"></i><h3>QR Code Generator</h3><p>Create and download QR codes</p></div>
+                <div class="tool-card" onclick="goTo('password')"><i class="fas fa-lock"></i><h3>Password Generator</h3><p>Strong secure passwords</p></div>
+                <div class="tool-card" onclick="goTo('summarizer')"><i class="fas fa-compress-alt"></i><h3>Text Summarizer</h3><p>Summarize long text</p></div>
+                <div class="tool-card" onclick="goTo('stats')"><i class="fas fa-chart-bar"></i><h3>Usage Dashboard</h3><p>Track your activity</p></div>
             </div>
         </div>
 
-        <!-- ===== RECIPE GENERATOR ===== -->
+        <!-- ===== STATS ===== -->
+        <div class="page" id="page-stats">
+            <div class="card" style="border-left-color: var(--primary);">
+                <h2><i class="fas fa-chart-bar"></i> Your Usage Dashboard</h2>
+                <p class="sub">Track how many times you've used each tool.</p>
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-card"><div class="stat-number" id="stat-recipes">0</div><div class="stat-label">Recipes Generated</div></div>
+                    <div class="stat-card"><div class="stat-number" id="stat-resumes">0</div><div class="stat-label">Resumes Built</div></div>
+                    <div class="stat-card"><div class="stat-number" id="stat-content">0</div><div class="stat-label">Content Pieces</div></div>
+                    <div class="stat-card"><div class="stat-number" id="stat-leads">0</div><div class="stat-label">Lead Reports</div></div>
+                    <div class="stat-card"><div class="stat-number" id="stat-assistant">0</div><div class="stat-label">Assistant Questions</div></div>
+                    <div class="stat-card"><div class="stat-number" id="stat-qr">0</div><div class="stat-label">QR Codes</div></div>
+                    <div class="stat-card"><div class="stat-number" id="stat-passwords">0</div><div class="stat-label">Passwords</div></div>
+                    <div class="stat-card"><div class="stat-number" id="stat-summaries">0</div><div class="stat-label">Summaries</div></div>
+                </div>
+                <button class="btn btn-danger btn-sm" onclick="resetStats()" style="margin-top:1rem;"><i class="fas fa-trash"></i> Reset Stats</button>
+            </div>
+        </div>
+
+        <!-- ===== RECIPE ===== -->
         <div class="page" id="page-recipe">
             <div class="card">
                 <h2><i class="fas fa-utensils"></i> Recipe Generator</h2>
@@ -735,81 +764,61 @@
                 <div class="form-group">
                     <label>Ingredients</label>
                     <textarea id="recipeInput" rows="3" placeholder="e.g., chicken, rice, tomatoes, onions, garlic, pepper"></textarea>
+                    <div class="char-counter"><span id="recipeCharCount">0</span> characters</div>
                 </div>
                 <div class="form-group" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                    <div>
-                        <label>Meal Type</label>
-                        <select id="recipeMealType">
-                            <option value="Any">Any</option>
-                            <option value="Breakfast">Breakfast</option>
-                            <option value="Lunch">Lunch</option>
-                            <option value="Dinner">Dinner</option>
-                            <option value="Snack">Snack</option>
-                            <option value="Dessert">Dessert</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Cuisine</label>
-                        <select id="recipeCuisine">
-                            <option value="Any">Any</option>
-                            <option value="Nigerian">Nigerian</option>
-                            <option value="Italian">Italian</option>
-                            <option value="Chinese">Chinese</option>
-                            <option value="Mexican">Mexican</option>
-                            <option value="Indian">Indian</option>
-                            <option value="Japanese">Japanese</option>
-                            <option value="French">French</option>
-                            <option value="American">American</option>
-                            <option value="Thai">Thai</option>
-                            <option value="Mediterranean">Mediterranean</option>
-                        </select>
-                    </div>
+                    <div><label>Meal Type</label><select id="recipeMealType"><option value="Any">Any</option><option value="Breakfast">Breakfast</option><option value="Lunch">Lunch</option><option value="Dinner">Dinner</option><option value="Snack">Snack</option><option value="Dessert">Dessert</option></select></div>
+                    <div><label>Cuisine</label><select id="recipeCuisine"><option value="Any">Any</option><option value="Nigerian">Nigerian</option><option value="Italian">Italian</option><option value="Chinese">Chinese</option><option value="Mexican">Mexican</option><option value="Indian">Indian</option><option value="Japanese">Japanese</option><option value="French">French</option><option value="American">American</option><option value="Thai">Thai</option><option value="Mediterranean">Mediterranean</option><option value="Korean">Korean</option><option value="Greek">Greek</option><option value="Turkish">Turkish</option><option value="Caribbean">Caribbean</option></select></div>
                 </div>
-                <button class="btn" onclick="generateRecipe()">✨ Generate Recipe</button>
+                <button class="btn" onclick="generateRecipe()"><i class="fas fa-magic"></i> Generate Recipe</button>
                 <div class="output-box" id="recipeOutput">
                     <h4>🍽️ Your Recipe</h4>
                     <div id="recipeResult"></div>
+                    <div class="toolbar">
+                        <button class="copy-btn" onclick="copyOutput('recipeResult')"><i class="fas fa-copy"></i> Copy</button>
+                        <button class="regenerate-btn" onclick="generateRecipe()"><i class="fas fa-sync-alt"></i> Regenerate</button>
+                    </div>
                 </div>
             </div>
-
-            <!-- ===== BROWSE ALL RECIPES ===== -->
             <div class="card" style="border-left-color: var(--primary);">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
                     <h2 style="margin:0;"><i class="fas fa-list"></i> Browse All Recipes</h2>
-                    <button class="btn btn-outline" onclick="toggleRecipeList()" id="toggleRecipeBtn">
-                        <i class="fas fa-chevron-down"></i> Show All Recipes
-                    </button>
+                    <button class="btn btn-outline" onclick="toggleRecipeList()" id="toggleRecipeBtn"><i class="fas fa-chevron-down"></i> Show All Recipes</button>
                 </div>
                 <p class="sub">Click on any dish to load its ingredients and generate the recipe.</p>
-                <div class="recipe-list-wrapper" id="recipeListWrapper">
-                    <div id="recipeListContainer">
-                        <!-- Loaded by JavaScript -->
+                <div class="recipe-list-wrapper" id="recipeListWrapper"><div id="recipeListContainer"></div></div>
+            </div>
+        </div>
+
+        <!-- ===== RESUME ===== -->
+        <div class="page" id="page-resume">
+            <div class="card">
+                <h2><i class="fas fa-file-alt"></i> Resume Builder</h2>
+                <p class="sub">Enter your details and get a professional resume. Press <kbd>Enter</kbd> to move to the next field.</p>
+                <div class="resume-template-selector" id="templateSelector">
+                    <button class="active" data-template="classic">📄 Classic</button>
+                    <button data-template="modern">✨ Modern</button>
+                    <button data-template="minimal">⬜ Minimal</button>
+                </div>
+                <div class="form-group"><label>Full Name</label><input id="resumeName" placeholder="e.g., Maryam Yakub" /></div>
+                <div class="form-group"><label>Job Title</label><input id="resumeTitle" placeholder="e.g., Software Developer" /></div>
+                <div class="form-group"><label>Email</label><input id="resumeEmail" placeholder="maryam@example.com" /></div>
+                <div class="form-group"><label>Phone</label><input id="resumePhone" placeholder="+234 810 525 7672" /></div>
+                <div class="form-group"><label>Profile Photo (optional)</label><input type="file" id="resumePhoto" accept="image/*" /></div>
+                <div class="form-group"><label>Experience, Education & Skills</label><textarea id="resumeDetails" rows="4" placeholder="Experience: Software Developer at Tech Corp (2022-2024)&#10;Education: B.Sc. Computer Science (2018-2022)&#10;Skills: JavaScript, Python, React, Communication"></textarea><div class="char-counter"><span id="resumeCharCount">0</span> characters</div></div>
+                <button class="btn" onclick="generateResume()"><i class="fas fa-file-alt"></i> Generate Resume</button>
+                <div class="output-box" id="resumeOutput">
+                    <h4>📄 Your Resume</h4>
+                    <div id="resumeResult"></div>
+                    <div class="toolbar">
+                        <button class="copy-btn" onclick="copyOutput('resumeResult')"><i class="fas fa-copy"></i> Copy</button>
+                        <button class="regenerate-btn" onclick="generateResume()"><i class="fas fa-sync-alt"></i> Regenerate</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== RESUME BUILDER ===== -->
-        <div class="page" id="page-resume">
-            <div class="card">
-                <h2><i class="fas fa-file-alt"></i> Resume Builder</h2>
-                <p class="sub">Enter your details and get a professional resume. Download as HTML or print as PDF.</p>
-                <div class="form-group"><label>Full Name</label><input id="resumeName" placeholder="e.g., Maryam Yakub" />
-                </div>
-                <div class="form-group"><label>Job Title</label><input id="resumeTitle" placeholder="e.g., Software Developer" />
-                </div>
-                <div class="form-group"><label>Email</label><input id="resumeEmail" placeholder="maryam@example.com" /></div>
-                <div class="form-group"><label>Phone</label><input id="resumePhone" placeholder="+234 810 525 7672" /></div>
-                <div class="form-group"><label>Experience, Education & Skills</label><textarea id="resumeDetails" rows="4" placeholder="Experience: Software Developer at Tech Corp (2022-2024)&#10;Education: B.Sc. Computer Science (2018-2022)&#10;Skills: JavaScript, Python, React, Communication"></textarea></div>
-                <button class="btn" onclick="generateResume()">📄 Generate Resume</button>
-                <div class="output-box" id="resumeOutput">
-                    <h4>📄 Your Resume</h4>
-                    <div id="resumeResult"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== CONTENT WRITER ===== -->
+        <!-- ===== CONTENT ===== -->
         <div class="page" id="page-content">
             <div class="card">
                 <h2><i class="fas fa-pen-fancy"></i> Content Writer</h2>
@@ -818,15 +827,19 @@
                 <div class="form-group"><label>Content Type</label><select id="contentType"><option value="Blog Post">📝 Blog Post</option><option value="Social Media Post">📱 Social Media Post</option><option value="Product Description">🛍️ Product Description</option><option value="Email Newsletter">📧 Email Newsletter</option><option value="Advertisement Copy">🔥 Advertisement Copy</option><option value="Press Release">📰 Press Release</option><option value="Case Study">📊 Case Study</option><option value="How-To Guide">📖 How-To Guide</option><option value="Video Script">🎬 Video Script</option><option value="Landing Page Copy">🌐 Landing Page Copy</option></select></div>
                 <div class="form-group"><label>Tone</label><select id="contentTone"><option value="Professional">Professional</option><option value="Casual">Casual</option><option value="Inspiring">Inspiring</option><option value="Persuasive">Persuasive</option><option value="Warm">Warm</option><option value="Authoritative">Authoritative</option><option value="Playful">Playful</option><option value="Urgent">Urgent</option></select></div>
                 <div class="form-group"><label>Target Audience</label><input id="contentAudience" placeholder="e.g., Women aged 18-45, business owners" value="General audience" /></div>
-                <button class="btn" onclick="generateContent()">✍️ Generate Content</button>
+                <button class="btn" onclick="generateContent()"><i class="fas fa-pen-fancy"></i> Generate Content</button>
                 <div class="output-box" id="contentOutput">
                     <h4>✍️ Generated Content</h4>
                     <div id="contentResult"></div>
+                    <div class="toolbar">
+                        <button class="copy-btn" onclick="copyOutput('contentResult')"><i class="fas fa-copy"></i> Copy</button>
+                        <button class="regenerate-btn" onclick="generateContent()"><i class="fas fa-sync-alt"></i> Regenerate</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== LEAD GENERATOR ===== -->
+        <!-- ===== LEADS ===== -->
         <div class="page" id="page-leads">
             <div class="card">
                 <h2><i class="fas fa-bullseye"></i> Lead Generator</h2>
@@ -835,44 +848,55 @@
                 <div class="form-group"><label>Location</label><input id="leadLocation" placeholder="e.g., Jos, Nigeria" /></div>
                 <div class="form-group"><label>Target Audience</label><input id="leadAudience" placeholder="e.g., Women aged 18-45" /></div>
                 <div class="form-group"><label>Business Stage</label><select id="leadStage"><option value="startup">Startup / New Business</option><option value="growing">Growing Business</option><option value="established">Established Business</option><option value="any" selected>Any</option></select></div>
-                <button class="btn" onclick="generateLeads()">🎯 Generate Leads</button>
+                <button class="btn" onclick="generateLeads()"><i class="fas fa-bullseye"></i> Generate Leads</button>
                 <div class="output-box" id="leadOutput">
                     <h4>🎯 Lead Generation Report</h4>
                     <div id="leadResult"></div>
+                    <div class="toolbar">
+                        <button class="copy-btn" onclick="copyOutput('leadResult')"><i class="fas fa-copy"></i> Copy</button>
+                        <button class="regenerate-btn" onclick="generateLeads()"><i class="fas fa-sync-alt"></i> Regenerate</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== AI ASSISTANT ===== -->
+        <!-- ===== ASSISTANT ===== -->
         <div class="page" id="page-assistant">
             <div class="card">
                 <h2><i class="fas fa-robot"></i> Nusaybah Hub AI Assistant</h2>
-                <p class="sub">Ask me anything about Nusaybah Hub.</p>
+                <p class="sub">Ask me anything about Nusaybah Hub. <button class="voice-btn" id="voiceBtn" onclick="startVoiceInput()" title="Voice input"><i class="fas fa-microphone"></i></button></p>
                 <div class="form-group"><label>Your Question</label><input id="assistantInput" placeholder="e.g., What is your address?" /></div>
-                <button class="btn" onclick="askAssistant()">🤖 Ask</button>
+                <button class="btn" onclick="askAssistant()"><i class="fas fa-robot"></i> Ask</button>
                 <div class="output-box" id="assistantOutput">
                     <h4>🤖 Answer</h4>
                     <div id="assistantResult"></div>
+                    <div class="toolbar">
+                        <button class="copy-btn" onclick="copyOutput('assistantResult')"><i class="fas fa-copy"></i> Copy</button>
+                        <button class="regenerate-btn" onclick="askAssistant()"><i class="fas fa-sync-alt"></i> Regenerate</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== QR CODE GENERATOR ===== -->
+        <!-- ===== QR ===== -->
         <div class="page" id="page-qr">
             <div class="card">
                 <h2><i class="fas fa-qrcode"></i> QR Code Generator</h2>
                 <p class="sub">Generate a QR code for any text or link. Download the image to use anywhere.</p>
                 <div class="form-group"><label>Enter Text or URL</label><input id="qrInput" placeholder="https://nusaybahhub.com" /></div>
-                <button class="btn" onclick="generateQR()">📱 Generate QR Code</button>
+                <button class="btn" onclick="generateQR()"><i class="fas fa-qrcode"></i> Generate QR Code</button>
                 <div class="output-box" id="qrOutput">
                     <h4>📱 Your QR Code</h4>
                     <div id="qrResult" style="text-align:center;"></div>
-                    <div id="qrDownloadArea" style="text-align:center; margin-top:1rem;"></div>
+                    <div class="toolbar">
+                        <button class="copy-btn" onclick="copyOutput('qrResult')"><i class="fas fa-copy"></i> Copy</button>
+                        <button class="regenerate-btn" onclick="generateQR()"><i class="fas fa-sync-alt"></i> Regenerate</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== PASSWORD GENERATOR ===== -->
+        <!-- ===== PASSWORD ===== -->
         <div class="page" id="page-password">
             <div class="card">
                 <h2><i class="fas fa-lock"></i> Password Generator</h2>
@@ -884,29 +908,40 @@
                     <label><input type="checkbox" id="passNumbers" checked /> Numbers</label>
                     <label><input type="checkbox" id="passSymbols" checked /> Symbols</label>
                 </div>
-                <button class="btn" onclick="generatePassword()">🔐 Generate Password</button>
+                <button class="btn" onclick="generatePassword()"><i class="fas fa-lock"></i> Generate Password</button>
                 <div class="output-box" id="passOutput">
                     <h4>🔐 Your Password</h4>
                     <div id="passResult"></div>
+                    <div class="toolbar">
+                        <button class="copy-btn" onclick="copyOutput('passResult')"><i class="fas fa-copy"></i> Copy</button>
+                        <button class="regenerate-btn" onclick="generatePassword()"><i class="fas fa-sync-alt"></i> Regenerate</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== TEXT SUMMARIZER ===== -->
+        <!-- ===== SUMMARIZER ===== -->
         <div class="page" id="page-summarizer">
             <div class="card">
                 <h2><i class="fas fa-compress-alt"></i> Text Summarizer</h2>
                 <p class="sub">Summarize long text into key points.</p>
-                <div class="form-group"><label>Enter Text to Summarize</label><textarea id="summarizerInput" rows="6" placeholder="Paste your long text here..."></textarea></div>
-                <button class="btn" onclick="summarizeText()">📝 Summarize</button>
+                <div class="form-group"><label>Enter Text to Summarize</label><textarea id="summarizerInput" rows="6" placeholder="Paste your long text here..."></textarea><div class="char-counter"><span id="summarizerCharCount">0</span> characters</div></div>
+                <button class="btn" onclick="summarizeText()"><i class="fas fa-compress-alt"></i> Summarize</button>
                 <div class="output-box" id="summarizerOutput">
                     <h4>📝 Summary</h4>
                     <div id="summarizerResult"></div>
+                    <div class="toolbar">
+                        <button class="copy-btn" onclick="copyOutput('summarizerResult')"><i class="fas fa-copy"></i> Copy</button>
+                        <button class="regenerate-btn" onclick="summarizeText()"><i class="fas fa-sync-alt"></i> Regenerate</button>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
+
+    <!-- ===== BACK TO TOP ===== -->
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
 
     <!-- ===== FOOTER ===== -->
     <footer class="footer">
@@ -919,1359 +954,811 @@
     <!-- ============================================================
     JAVASCRIPT
     ============================================================ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
-        // ============================================================
-        // NAVIGATION
-        // ============================================================
+    // ============================================================
+    // DARK MODE
+    // ============================================================
+    const darkToggle = document.getElementById('darkToggle');
+    darkToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const icon = darkToggle.querySelector('i');
+        icon.className = document.body.classList.contains('dark-mode') ? 'fas fa-sun' : 'fas fa-moon';
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode') ? 'true' : 'false');
+    });
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        darkToggle.querySelector('i').className = 'fas fa-sun';
+    }
 
-        document.querySelectorAll('.nav button').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-                document.getElementById('page-' + this.dataset.page).classList.add('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        });
+    // ============================================================
+    // BACK TO TOP
+    // ============================================================
+    window.addEventListener('scroll', () => {
+        const btn = document.getElementById('backToTop');
+        btn.classList.toggle('visible', window.scrollY > 300);
+    });
 
-        function goTo(page) {
+    // ============================================================
+    // SHORTCUTS MODAL
+    // ============================================================
+    document.getElementById('shortcutsToggle').addEventListener('click', () => {
+        document.getElementById('shortcutsModal').classList.toggle('show');
+    });
+    document.getElementById('shortcutsModal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) e.target.classList.remove('show');
+    });
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            document.getElementById('shortcutsModal').classList.toggle('show');
+        }
+        if (e.key === 'Escape') document.getElementById('shortcutsModal').classList.remove('show');
+    });
+
+    // ============================================================
+    // NAVIGATION
+    // ============================================================
+    document.querySelectorAll('.nav button').forEach(btn => {
+        btn.addEventListener('click', function() {
             document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
-            document.querySelector(`.nav button[data-page="${page}"]`).classList.add('active');
+            this.classList.add('active');
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('page-' + page).classList.add('active');
+            document.getElementById('page-' + this.dataset.page).classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+            updateStats();
+        });
+    });
+    function goTo(page) {
+        document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+        document.querySelector(`.nav button[data-page="${page}"]`).classList.add('active');
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-' + page).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        updateStats();
+    }
+    function showOutput(id, html) {
+        const el = document.getElementById(id);
+        document.getElementById(id.replace('Output', 'Result')).innerHTML = html;
+        el.classList.add('show');
+    }
 
-        function showOutput(id, html) {
-            const el = document.getElementById(id);
-            document.getElementById(id.replace('Output', 'Result')).innerHTML = html;
-            el.classList.add('show');
-        }
-
-        // ============================================================
-        // RECIPE DATABASE — FULLY VERIFIED (UNIQUE KEYS, CORRECT STEPS)
-        // ============================================================
-
-        const recipeDatabase = {
-
-            // ===== NIGERIAN =====
-            'nigerian_chicken_rice_tomatoes': {
-                name: 'Nigerian Chicken Jollof Rice',
-                time: '55 mins',
-                servings: '4 servings',
-                cuisine: 'Nigerian',
-                ingredients: ['500g chicken', '2 cups long grain rice', '4 large tomatoes (blended)',
-                    '2 onions (chopped)', '2 scotch bonnet peppers', '2 tbsp tomato paste', 'Chicken stock',
-                    'Salt and seasoning'
-                ],
-                instructions: 'Season chicken with salt and seasoning. Fry until golden brown.\nBlend tomatoes, onions, and peppers into a smooth paste.\nIn a pot, fry tomato paste for 2 minutes.\nAdd blended mixture and fry for 10 minutes.\nAdd chicken stock, water, and seasoning.\nAdd rice and cook for 20-25 minutes.\nReturn chicken to pot and cook for 5 more minutes.\nServe hot with plantains or coleslaw.'
-            },
-            'nigerian_rice_beans': {
-                name: 'Nigerian Rice and Beans',
-                time: '50 mins',
-                servings: '4 servings',
-                cuisine: 'Nigerian',
-                ingredients: ['1 cup rice', '1 cup beans', '1 onion (chopped)', '2 tomatoes (blended)', 'Seasoning'],
-                instructions: 'Cook beans until soft.\nFry onion and tomatoes.\nAdd cooked beans and rice.\nAdd water and cook for 20 minutes.\nSeason to taste.\nServe hot.'
-            },
-            'nigerian_yam_eggs': {
-                name: 'Nigerian Yam and Egg Sauce',
-                time: '25 mins',
-                servings: '2 servings',
-                cuisine: 'Nigerian',
-                ingredients: ['2 slices yam', '2 eggs', '2 tomatoes (chopped)', '1 onion (chopped)', 'Seasoning'],
-                instructions: 'Boil yam until soft.\nFry onion and tomatoes.\nAdd whisked eggs and scramble.\nSeason to taste.\nServe yam with egg sauce.'
-            },
-            'nigerian_plantain': {
-                name: 'Nigerian Fried Plantain (Dodo)',
-                time: '15 mins',
-                servings: '2 servings',
-                cuisine: 'Nigerian',
-                ingredients: ['2 ripe plantains', 'Oil for frying', 'Salt'],
-                instructions: 'Peel plantains and slice diagonally.\nHeat oil in a pan.\nFry plantains until golden brown on both sides.\nSprinkle with salt.\nServe as a snack or side dish.'
-            },
-            'nigerian_rice': {
-                name: 'Nigerian Jollof Rice',
-                time: '45 mins',
-                servings: '4 servings',
-                cuisine: 'Nigerian',
-                ingredients: ['2 cups rice', '4 large tomatoes (blended)', '1 onion (chopped)', '2 tbsp tomato paste',
-                    'Chicken stock', 'Seasoning'
-                ],
-                instructions: 'Blend tomatoes and onion.\nFry tomato paste and blended mixture.\nAdd stock and seasoning.\nAdd rice and cook for 20 minutes.\nServe hot.'
-            },
-            'nigerian_chicken_pepper': {
-                name: 'Nigerian Chicken Pepper Soup',
-                time: '35 mins',
-                servings: '3 servings',
-                cuisine: 'Nigerian',
-                ingredients: ['500g chicken', '2 bell peppers', '1 onion', 'Scotch bonnet pepper', 'Seasoning'],
-                instructions: 'Boil chicken with peppers and onion.\nAdd scotch bonnet pepper.\nCook for 25-30 minutes.\nSeason to taste.\nServe hot.'
-            },
-            'nigerian_eggs_tomatoes_onions': {
-                name: 'Nigerian Egg Sauce',
-                time: '20 mins',
-                servings: '3 servings',
-                cuisine: 'Nigerian',
-                ingredients: ['4 large eggs', '3 tomatoes (chopped)', '1 onion (chopped)', '1 scotch bonnet pepper',
-                    'Vegetable oil', 'Salt and seasoning'
-                ],
-                instructions: 'Whisk eggs with salt and set aside.\nFry onions and peppers in oil.\nAdd tomatoes and cook until soft.\nPour in eggs and scramble.\nCook for 3-5 minutes.\nServe with bread or yam.'
-            },
-            'nigerian_beef_onions_tomatoes': {
-                name: 'Nigerian Beef Stew',
-                time: '1 hour 30 mins',
-                servings: '6 servings',
-                cuisine: 'Nigerian',
-                ingredients: ['1kg beef (cubed)', '2 onions (chopped)', '4 tomatoes (blended)', 'Garlic and ginger',
-                    'Beef stock', 'Seasoning'
-                ],
-                instructions: 'Season beef and fry until browned.\nFry onions, garlic, and ginger.\nAdd blended tomatoes and cook.\nAdd beef stock and simmer for 1 hour.\nSeason to taste.\nServe with rice or yam.'
-            },
-            'nigerian_fish_tomatoes_onions': {
-                name: 'Nigerian Fish Pepper Soup',
-                time: '30 mins',
-                servings: '3 servings',
-                cuisine: 'Nigerian',
-                ingredients: ['500g fish', '3 tomatoes (chopped)', '1 onion (chopped)', 'Pepper soup spice',
-                    'Scotch bonnet pepper', 'Seasoning'
-                ],
-                instructions: 'Boil water with pepper soup spice.\nAdd fish, tomatoes, onion, and pepper.\nCook for 20 minutes.\nSeason to taste.\nServe hot with bread or rice.'
-            },
-
-            // ===== ITALIAN =====
-            'italian_pasta_tomatoes_garlic': {
-                name: 'Italian Spaghetti Aglio e Olio',
-                time: '20 mins',
-                servings: '2 servings',
-                cuisine: 'Italian',
-                ingredients: ['200g spaghetti', '3 cloves garlic (sliced)', '3 tomatoes (diced)', 'Olive oil',
-                    'Chili flakes', 'Fresh parsley'
-                ],
-                instructions: 'Cook pasta.\nSauté garlic in olive oil until golden.\nAdd diced tomatoes and chili flakes.\nToss with cooked pasta.\nGarnish with fresh parsley.\nServe hot.'
-            },
-            'italian_pasta_cheese': {
-                name: 'Italian Creamy Mac and Cheese',
-                time: '20 mins',
-                servings: '4 servings',
-                cuisine: 'Italian',
-                ingredients: ['500g pasta', '2 cups cheese (grated)', '2 cups milk', 'Butter', 'Flour', 'Salt and pepper'],
-                instructions: 'Cook pasta.\nMake cheese sauce with butter, flour, milk, and cheese.\nCombine pasta and sauce.\nBake for 10-15 minutes.\nServe hot.'
-            },
-            'italian_bread_tomatoes_garlic': {
-                name: 'Italian Bruschetta',
-                time: '15 mins',
-                servings: '4 servings',
-                cuisine: 'Italian',
-                ingredients: ['1 loaf Italian bread', '4 tomatoes (diced)', '2 cloves garlic (minced)', 'Olive oil',
-                    'Fresh basil', 'Salt and pepper'
-                ],
-                instructions: 'Slice bread and toast until golden.\nMix tomatoes, garlic, basil, olive oil, salt, and pepper.\nSpoon mixture onto toasted bread.\nServe immediately.'
-            },
-            'italian_rice_cheese': {
-                name: 'Italian Risotto',
-                time: '35 mins',
-                servings: '4 servings',
-                cuisine: 'Italian',
-                ingredients: ['2 cups Arborio rice', '1 onion (chopped)', '2 cloves garlic', 'Parmesan cheese',
-                    'Chicken stock', 'Butter'
-                ],
-                instructions: 'Sauté onion and garlic in butter.\nAdd rice and toast for 2 minutes.\nAdd stock gradually, stirring constantly.\nCook until rice is creamy.\nStir in Parmesan cheese.\nServe hot.'
-            },
-            'italian_pasta_tomatoes': {
-                name: 'Italian Tomato Pasta',
-                time: '25 mins',
-                servings: '4 servings',
-                cuisine: 'Italian',
-                ingredients: ['400g pasta', '4 tomatoes (blended)', '2 cloves garlic', 'Olive oil', 'Fresh basil',
-                    'Salt and pepper'
-                ],
-                instructions: 'Cook pasta.\nSauté garlic in olive oil.\nAdd blended tomatoes and simmer for 15 minutes.\nAdd basil and seasoning.\nToss with pasta.\nServe hot.'
-            },
-            'italian_chicken_pasta': {
-                name: 'Italian Chicken Pasta',
-                time: '30 mins',
-                servings: '4 servings',
-                cuisine: 'Italian',
-                ingredients: ['400g pasta', '300g chicken breast', '2 cloves garlic', 'Olive oil', 'Parmesan cheese',
-                    'Fresh parsley'
-                ],
-                instructions: 'Cook pasta.\nSauté chicken and garlic in olive oil.\nToss with pasta.\nTop with Parmesan and parsley.'
-            },
-            'italian_mushrooms_rice': {
-                name: 'Italian Mushroom Risotto',
-                time: '40 mins',
-                servings: '4 servings',
-                cuisine: 'Italian',
-                ingredients: ['2 cups Arborio rice', '200g mushrooms', '1 onion (chopped)', 'Parmesan cheese',
-                    'Chicken stock', 'Butter'
-                ],
-                instructions: 'Sauté onion and mushrooms.\nAdd rice and toast.\nAdd stock gradually.\nStir in Parmesan.\nServe hot.'
-            },
-
-            // ===== MEXICAN =====
-            'mexican_chicken_rice_tomatoes': {
-                name: 'Mexican Arroz con Pollo',
-                time: '55 mins',
-                servings: '4 servings',
-                cuisine: 'Mexican',
-                ingredients: ['500g chicken', '2 cups rice', '4 tomatoes (blended)', '2 onions (chopped)',
-                    'Bell peppers', 'Chili powder', 'Cumin', 'Garlic', 'Cilantro'
-                ],
-                instructions: 'Season chicken with chili powder, cumin, and garlic.\nBrown chicken in a pot.\nSauté onions and peppers.\nAdd blended tomatoes and spices.\nAdd rice and water.\nCook for 20-25 minutes.\nServe with fresh cilantro.'
-            },
-            'mexican_beans_rice': {
-                name: 'Mexican Beans and Rice',
-                time: '40 mins',
-                servings: '4 servings',
-                cuisine: 'Mexican',
-                ingredients: ['1 cup rice', '1 can black beans', '1 onion (chopped)', '2 cloves garlic', 'Cumin',
-                    'Chili powder', 'Cilantro'
-                ],
-                instructions: 'Sauté onion and garlic.\nAdd rice and toast for 2 minutes.\nAdd water, cumin, and chili powder.\nCook until rice is done.\nAdd black beans and heat through.\nGarnish with cilantro.'
-            },
-            'mexican_chicken_tortillas': {
-                name: 'Mexican Chicken Tacos',
-                time: '25 mins',
-                servings: '4 servings',
-                cuisine: 'Mexican',
-                ingredients: ['500g chicken breast', 'Tortillas', 'Onion', 'Cilantro', 'Lime', 'Salsa'],
-                instructions: 'Cook chicken with taco seasoning.\nShred the chicken.\nWarm tortillas.\nFill tortillas with chicken, onion, cilantro, and salsa.\nSqueeze lime over tacos.'
-            },
-            'mexican_rice': {
-                name: 'Mexican Mexican Rice',
-                time: '25 mins',
-                servings: '4 servings',
-                cuisine: 'Mexican',
-                ingredients: ['2 cups rice', '1 onion (chopped)', '2 cloves garlic', '1 can tomato sauce',
-                    'Chicken stock', 'Cumin', 'Chili powder'
-                ],
-                instructions: 'Sauté onion and garlic.\nAdd rice and toast.\nAdd tomato sauce, stock, and spices.\nCover and cook for 20 minutes.\nFluff with a fork.\nServe with beans or meat.'
-            },
-            'mexican_beef_peppers_onions': {
-                name: 'Mexican Beef Fajitas',
-                time: '30 mins',
-                servings: '4 servings',
-                cuisine: 'Mexican',
-                ingredients: ['500g beef strips', '2 bell peppers', '1 onion', 'Tortillas', 'Salsa', 'Guacamole'],
-                instructions: 'Sauté beef, peppers, and onion.\nAdd fajita seasoning.\nWarm tortillas.\nServe with salsa and guacamole.'
-            },
-            'mexican_eggs_tortillas': {
-                name: 'Mexican Huevos Rancheros',
-                time: '20 mins',
-                servings: '2 servings',
-                cuisine: 'Mexican',
-                ingredients: ['4 eggs', '4 tortillas', 'Salsa', 'Black beans', 'Avocado'],
-                instructions: 'Fry eggs.\nHeat tortillas.\nWarm beans.\nAssemble with salsa and avocado.'
-            },
-
-            // ===== INDIAN =====
-            'indian_chicken_rice_tomatoes': {
-                name: 'Indian Chicken Biryani',
-                time: '1 hour',
-                servings: '4 servings',
-                cuisine: 'Indian',
-                ingredients: ['500g chicken', '2 cups basmati rice', '2 onions (sliced)', '2 tomatoes (blended)',
-                    'Yogurt', 'Garam masala', 'Saffron', 'Fresh mint', 'Cilantro'
-                ],
-                instructions: 'Marinate chicken in yogurt and spices.\nFry onions until golden.\nLayer rice and marinated chicken.\nAdd saffron water.\nCover and cook on low heat for 25-30 minutes.\nGarnish with mint and cilantro.'
-            },
-            'indian_potatoes_cauliflower': {
-                name: 'Indian Aloo Gobi',
-                time: '30 mins',
-                servings: '4 servings',
-                cuisine: 'Indian',
-                ingredients: ['2 potatoes (cubed)', '1 cauliflower (cut)', '1 onion (chopped)', '2 tomatoes (blended)',
-                    'Ginger garlic paste', 'Turmeric', 'Cumin', 'Cilantro'
-                ],
-                instructions: 'Sauté onion, ginger, and garlic.\nAdd tomatoes and spices.\nAdd potatoes and cauliflower.\nCook until vegetables are tender.\nGarnish with cilantro.'
-            },
-            'indian_lentils': {
-                name: 'Indian Dal (Lentil Soup)',
-                time: '25 mins',
-                servings: '4 servings',
-                cuisine: 'Indian',
-                ingredients: ['1 cup red lentils', '1 onion (chopped)', '2 tomatoes (chopped)', 'Garlic and ginger',
-                    'Turmeric', 'Cumin', 'Cilantro'
-                ],
-                instructions: 'Sauté onion, garlic, and ginger.\nAdd tomatoes and spices.\nAdd lentils and water.\nCook until lentils are soft.\nGarnish with cilantro.'
-            },
-            'indian_rice': {
-                name: 'Indian Jeera Rice',
-                time: '20 mins',
-                servings: '4 servings',
-                cuisine: 'Indian',
-                ingredients: ['2 cups basmati rice', '1 onion (sliced)', 'Cumin seeds', 'Bay leaf', 'Cloves',
-                    'Cardamom'
-                ],
-                instructions: 'Sauté cumin seeds, bay leaf, cloves, and cardamom.\nAdd onion and cook until soft.\nAdd rice and water.\nCook until rice is fluffy.\nServe with curry.'
-            },
-            'indian_chicken_cream_tomatoes': {
-                name: 'Indian Butter Chicken',
-                time: '45 mins',
-                servings: '4 servings',
-                cuisine: 'Indian',
-                ingredients: ['500g chicken', '2 tomatoes (blended)', '1 onion (chopped)', 'Cream', 'Butter',
-                    'Garam masala', 'Ginger garlic paste'
-                ],
-                instructions: 'Sauté onion, ginger, and garlic.\nAdd tomatoes and spices.\nAdd chicken and cook.\nStir in cream and butter.\nServe with rice or naan.'
-            },
-            'indian_potatoes_peas': {
-                name: 'Indian Aloo Matar',
-                time: '30 mins',
-                servings: '4 servings',
-                cuisine: 'Indian',
-                ingredients: ['2 potatoes (cubed)', '1 cup peas', '1 onion (chopped)', '2 tomatoes (blended)',
-                    'Ginger garlic paste', 'Cumin', 'Turmeric', 'Cilantro'
-                ],
-                instructions: 'Sauté onion, ginger, and garlic.\nAdd tomatoes and spices.\nAdd potatoes and peas.\nCook until tender.\nGarnish with cilantro.'
-            },
-            'indian_spinach_paneer': {
-                name: 'Indian Palak Paneer',
-                time: '30 mins',
-                servings: '4 servings',
-                cuisine: 'Indian',
-                ingredients: ['200g paneer (cubed)', '2 cups spinach (blended)', '1 onion (chopped)', 'Garlic',
-                    'Ginger', 'Cumin', 'Cream'
-                ],
-                instructions: 'Sauté onion, garlic, and ginger.\nAdd blended spinach and spices.\nAdd paneer and cream.\nSimmer for 5 minutes.\nServe with rice or naan.'
-            },
-
-            // ===== CHINESE =====
-            'chinese_chicken_rice': {
-                name: 'Chinese Chicken Fried Rice',
-                time: '25 mins',
-                servings: '4 servings',
-                cuisine: 'Chinese',
-                ingredients: ['2 cups cooked rice', '200g chicken breast (diced)', '2 eggs (scrambled)',
-                    '1 onion (chopped)', 'Carrots and peas', 'Soy sauce', 'Sesame oil'
-                ],
-                instructions: 'Cook chicken and set aside.\nScramble eggs.\nSauté onion and vegetables.\nAdd rice, chicken, and eggs.\nAdd soy sauce and sesame oil.\nStir-fry for 5 minutes.'
-            },
-            'chinese_noodles_chicken': {
-                name: 'Chinese Chicken Noodle Soup',
-                time: '25 mins',
-                servings: '3 servings',
-                cuisine: 'Chinese',
-                ingredients: ['200g chicken', 'Noodles', 'Carrots', 'Onion', 'Ginger', 'Soy sauce'],
-                instructions: 'Boil chicken with ginger and onion.\nAdd carrots and noodles.\nCook for 10 minutes.\nAdd soy sauce.\nServe hot.'
-            },
-            'chinese_rice': {
-                name: 'Chinese Egg Fried Rice',
-                time: '15 mins',
-                servings: '2 servings',
-                cuisine: 'Chinese',
-                ingredients: ['2 cups cooked rice', '2 eggs (scrambled)', '1 onion (chopped)', 'Peas and carrots',
-                    'Soy sauce', 'Oil'
-                ],
-                instructions: 'Scramble eggs.\nSauté onion and vegetables.\nAdd rice and soy sauce.\nReturn eggs and mix well.\nServe hot.'
-            },
-            'chinese_vegetables': {
-                name: 'Chinese Vegetable Stir-Fry',
-                time: '20 mins',
-                servings: '4 servings',
-                cuisine: 'Chinese',
-                ingredients: ['Mixed vegetables (broccoli, carrots, bell peppers)', 'Garlic', 'Ginger', 'Soy sauce',
-                    'Sesame oil', 'Cornstarch'
-                ],
-                instructions: 'Sauté garlic and ginger.\nAdd vegetables and stir-fry.\nAdd soy sauce and sesame oil.\nThicken with cornstarch.\nServe hot with rice.'
-            },
-            'chinese_beef_broccoli': {
-                name: 'Chinese Beef with Broccoli',
-                time: '25 mins',
-                servings: '4 servings',
-                cuisine: 'Chinese',
-                ingredients: ['500g beef strips', '2 cups broccoli', 'Garlic', 'Ginger', 'Soy sauce', 'Sesame oil'],
-                instructions: 'Sauté beef until browned.\nAdd broccoli, garlic, and ginger.\nAdd soy sauce and sesame oil.\nCook until broccoli is tender.\nServe hot with rice.'
-            },
-            'chinese_shrimp_rice': {
-                name: 'Chinese Shrimp Fried Rice',
-                time: '20 mins',
-                servings: '4 servings',
-                cuisine: 'Chinese',
-                ingredients: ['2 cups cooked rice', '300g shrimp', '2 eggs', '1 onion', 'Peas and carrots', 'Soy sauce'],
-                instructions: 'Cook shrimp and set aside.\nScramble eggs.\nSauté onion and vegetables.\nAdd rice, shrimp, and eggs.\nAdd soy sauce.\nServe hot.'
-            },
-
-            // ===== JAPANESE =====
-            'japanese_rice_fish': {
-                name: 'Japanese Sushi Rice with Grilled Fish',
-                time: '30 mins',
-                servings: '2 servings',
-                cuisine: 'Japanese',
-                ingredients: ['2 cups sushi rice', '200g fish fillet', 'Rice vinegar', 'Sugar', 'Salt', 'Soy sauce',
-                    'Wasabi'
-                ],
-                instructions: 'Cook sushi rice.\nSeason with vinegar, sugar, and salt.\nGrill fish until cooked.\nServe rice with grilled fish, soy sauce, and wasabi.'
-            },
-            'japanese_noodles': {
-                name: 'Japanese Ramen',
-                time: '30 mins',
-                servings: '2 servings',
-                cuisine: 'Japanese',
-                ingredients: ['Ramen noodles', 'Chicken broth', 'Pork belly', 'Soft-boiled egg', 'Green onions',
-                    'Nori (seaweed)'
-                ],
-                instructions: 'Cook ramen noodles.\nHeat chicken broth.\nCook pork belly.\nAssemble with toppings.\nServe hot.'
-            },
-            'japanese_rice': {
-                name: 'Japanese Rice with Sesame',
-                time: '20 mins',
-                servings: '2 servings',
-                cuisine: 'Japanese',
-                ingredients: ['2 cups Japanese rice', 'Water', 'Sesame seeds', 'Salt', 'Nori (seaweed)'],
-                instructions: 'Rinse rice and cook.\nSprinkle with sesame seeds and salt.\nServe with nori.\nEnjoy with your favorite dish.'
-            },
-            'japanese_chicken_noodles': {
-                name: 'Japanese Chicken Udon',
-                time: '25 mins',
-                servings: '2 servings',
-                cuisine: 'Japanese',
-                ingredients: ['200g chicken', 'Udon noodles', 'Chicken broth', 'Green onions', 'Soy sauce'],
-                instructions: 'Cook chicken and set aside.\nCook udon noodles.\nHeat broth with soy sauce.\nAssemble with chicken and green onions.'
-            },
-            'japanese_tofu_vegetables': {
-                name: 'Japanese Tofu and Vegetable Stir-Fry',
-                time: '20 mins',
-                servings: '4 servings',
-                cuisine: 'Japanese',
-                ingredients: ['200g tofu', 'Mixed vegetables', 'Soy sauce', 'Sesame oil', 'Ginger', 'Garlic'],
-                instructions: 'Sauté ginger and garlic.\nAdd vegetables and tofu.\nAdd soy sauce and sesame oil.\nCook until tender.\nServe hot with rice.'
-            },
-
-            // ===== FRENCH =====
-            'french_bread_cheese': {
-                name: 'French Croque Monsieur',
-                time: '20 mins',
-                servings: '2 servings',
-                cuisine: 'French',
-                ingredients: ['Bread slices', 'Ham', 'Gruyère cheese', 'Béchamel sauce', 'Butter'],
-                instructions: 'Make béchamel sauce.\nAssemble sandwich with ham and cheese.\nSpread béchamel on top.\nGrill until golden.'
-            },
-            'french_rice': {
-                name: 'French Rice Pilaf',
-                time: '25 mins',
-                servings: '4 servings',
-                cuisine: 'French',
-                ingredients: ['2 cups rice', '1 onion (chopped)', 'Chicken stock', 'Butter', 'Fresh herbs (thyme, parsley)'],
-                instructions: 'Sauté onion in butter.\nAdd rice and toast.\nAdd chicken stock and herbs.\nCover and cook for 20 minutes.\nFluff with a fork.\nServe hot.'
-            },
-            'french_potatoes': {
-                name: 'French Gratin Dauphinois',
-                time: '1 hour',
-                servings: '4 servings',
-                cuisine: 'French',
-                ingredients: ['1kg potatoes', '2 cups cream', '2 cloves garlic', 'Butter', 'Salt and pepper', 'Nutmeg'],
-                instructions: 'Slice potatoes thinly.\nRub garlic on baking dish.\nLayer potatoes and cream.\nSeason with salt, pepper, and nutmeg.\nBake for 40-45 minutes.\nServe hot.'
-            },
-            'french_bread': {
-                name: 'French Baguette with Butter',
-                time: '5 mins',
-                servings: '2 servings',
-                cuisine: 'French',
-                ingredients: ['1 French baguette', 'Butter', 'Salt'],
-                instructions: 'Slice baguette.\nSpread butter.\nSprinkle with salt.\nEnjoy with soup or salad.'
-            },
-            'french_chicken_cream_mushrooms': {
-                name: 'French Chicken Fricassee',
-                time: '45 mins',
-                servings: '4 servings',
-                cuisine: 'French',
-                ingredients: ['500g chicken', '200g mushrooms', '1 onion (chopped)', 'Cream', 'White wine', 'Butter',
-                    'Thyme'
-                ],
-                instructions: 'Brown chicken in butter.\nSauté onion and mushrooms.\nAdd white wine and cream.\nSimmer for 30 minutes.\nSeason with thyme.\nServe with rice or potatoes.'
-            },
-            'french_fish_lemon_herbs': {
-                name: 'French Sole Meunière',
-                time: '25 mins',
-                servings: '2 servings',
-                cuisine: 'French',
-                ingredients: ['2 fish fillets', 'Flour', 'Butter', 'Lemon', 'Fresh parsley', 'Salt and pepper'],
-                instructions: 'Coat fish in flour.\nFry in butter until golden.\nAdd lemon juice and parsley.\nServe hot.'
-            },
-
-            // ===== AMERICAN =====
-            'american_potatoes': {
-                name: 'American Crispy Roasted Potatoes',
-                time: '45 mins',
-                servings: '4 servings',
-                cuisine: 'American',
-                ingredients: ['1kg potatoes', 'Olive oil', 'Rosemary', 'Garlic powder', 'Salt and pepper'],
-                instructions: 'Preheat oven to 220°C (425°F).\nCut potatoes into wedges.\nToss with oil, rosemary, garlic, salt, and pepper.\nRoast for 35-40 minutes.\nServe hot.'
-            },
-            'american_beef_potatoes': {
-                name: 'American Beef and Potato Stew',
-                time: '1 hour 30 mins',
-                servings: '6 servings',
-                cuisine: 'American',
-                ingredients: ['1kg beef', '4 potatoes', '2 onions', '4 carrots', 'Beef stock', 'Bay leaf', 'Seasoning'],
-                instructions: 'Brown beef.\nAdd onions and cook until soft.\nAdd carrots, potatoes, stock, and bay leaf.\nSimmer for 1 hour.\nSeason to taste.'
-            },
-            'american_eggs_bacon': {
-                name: 'American Breakfast Scramble',
-                time: '15 mins',
-                servings: '2 servings',
-                cuisine: 'American',
-                ingredients: ['4 eggs', '4 slices bacon', '2 slices bread', 'Butter', 'Salt and pepper'],
-                instructions: 'Fry bacon until crispy.\nWhisk eggs and scramble in butter.\nToast bread.\nServe eggs with bacon and toast.'
-            },
-            'american_chicken_potatoes': {
-                name: 'American Roast Chicken with Potatoes',
-                time: '1 hour 15 mins',
-                servings: '4 servings',
-                cuisine: 'American',
-                ingredients: ['1 whole chicken', '4 potatoes', '2 onions', 'Carrots', 'Butter', 'Rosemary'],
-                instructions: 'Season chicken with rosemary and butter.\nPlace vegetables around chicken.\nRoast at 200°C for 1 hour.\nServe hot.'
-            },
-            'american_pasta_meatballs_tomatoes': {
-                name: 'American Spaghetti and Meatballs',
-                time: '45 mins',
-                servings: '4 servings',
-                cuisine: 'American',
-                ingredients: ['400g spaghetti', '500g ground beef', '2 cups tomato sauce', '1 onion', 'Garlic',
-                    'Parmesan cheese'
-                ],
-                instructions: 'Make meatballs from ground beef.\nFry meatballs.\nSauté onion and garlic.\nAdd tomato sauce.\nCook pasta.\nServe meatballs over pasta with Parmesan.'
-            },
-
-            // ===== THAI =====
-            'thai_noodles_chicken_vegetables': {
-                name: 'Thai Chicken Pad Thai',
-                time: '30 mins',
-                servings: '4 servings',
-                cuisine: 'Thai',
-                ingredients: ['200g rice noodles', '300g chicken', '2 eggs', 'Bean sprouts', 'Green onions',
-                    'Peanuts', 'Fish sauce', 'Tamarind paste'
-                ],
-                instructions: 'Soak noodles.\nCook chicken.\nScramble eggs.\nAdd noodles and sauce.\nToss with vegetables and peanuts.\nServe with lime.'
-            },
-            'thai_coconut_chicken_vegetables': {
-                name: 'Thai Green Curry',
-                time: '30 mins',
-                servings: '4 servings',
-                cuisine: 'Thai',
-                ingredients: ['500g chicken', '1 can coconut milk', 'Green curry paste', 'Bell peppers', 'Bamboo shoots',
-                    'Thai basil'
-                ],
-                instructions: 'Sauté curry paste.\nAdd chicken and cook.\nAdd coconut milk and vegetables.\nSimmer for 15 minutes.\nGarnish with basil.\nServe with rice.'
-            },
-            'thai_rice': {
-                name: 'Thai Jasmine Rice',
-                time: '20 mins',
-                servings: '4 servings',
-                cuisine: 'Thai',
-                ingredients: ['2 cups jasmine rice', 'Water', 'Salt'],
-                instructions: 'Rinse rice.\nAdd water and salt.\nCook for 15-20 minutes.\nFluff with a fork.\nServe with curry.'
-            },
-            'thai_noodles': {
-                name: 'Thai Drunken Noodles',
-                time: '25 mins',
-                servings: '4 servings',
-                cuisine: 'Thai',
-                ingredients: ['400g wide rice noodles', 'Chicken or tofu', 'Holy basil', 'Chili', 'Garlic',
-                    'Fish sauce', 'Oyster sauce'
-                ],
-                instructions: 'Sauté garlic and chili.\nAdd protein and cook.\nAdd noodles and sauces.\nToss with basil.\nServe hot.'
-            },
-
-            // ===== MEDITERRANEAN =====
-            'mediterranean_chicken_rice_lemon': {
-                name: 'Mediterranean Lemon Chicken',
-                time: '45 mins',
-                servings: '4 servings',
-                cuisine: 'Mediterranean',
-                ingredients: ['500g chicken', '2 cups rice', '2 lemons', 'Garlic', 'Oregano', 'Olive oil'],
-                instructions: 'Marinate chicken in lemon, garlic, and oregano.\nCook chicken until done.\nCook rice.\nServe chicken over rice with extra lemon.'
-            },
-            'mediterranean_fish_tomatoes_garlic': {
-                name: 'Mediterranean Fish Stew',
-                time: '35 mins',
-                servings: '4 servings',
-                cuisine: 'Mediterranean',
-                ingredients: ['500g fish', '4 tomatoes (blended)', '2 cloves garlic', 'Olive oil', 'Fresh basil',
-                    'Salt and pepper'
-                ],
-                instructions: 'Sauté garlic in olive oil.\nAdd tomatoes and simmer.\nAdd fish and cook until done.\nGarnish with basil.\nServe with bread.'
-            },
-            'mediterranean_pasta_olive_oil_garlic': {
-                name: 'Mediterranean Pasta',
-                time: '20 mins',
-                servings: '4 servings',
-                cuisine: 'Mediterranean',
-                ingredients: ['400g pasta', 'Olive oil', '4 cloves garlic', 'Cherry tomatoes', 'Olives', 'Feta cheese'],
-                instructions: 'Cook pasta.\nSauté garlic in olive oil.\nAdd tomatoes and olives.\nToss with pasta.\nTop with feta cheese.'
-            },
-            'mediterranean_rice': {
-                name: 'Mediterranean Rice Pilaf',
-                time: '25 mins',
-                servings: '4 servings',
-                cuisine: 'Mediterranean',
-                ingredients: ['2 cups rice', '1 onion (chopped)', 'Olive oil', 'Chicken stock', 'Pine nuts', 'Parsley'],
-                instructions: 'Sauté onion in olive oil.\nAdd rice and toast.\nAdd stock.\nCook for 20 minutes.\nAdd pine nuts and parsley.'
+    // ============================================================
+    // LOCAL STORAGE AUTO-SAVE
+    // ============================================================
+    function saveFormData() {
+        const data = {};
+        document.querySelectorAll('input, textarea, select').forEach(el => {
+            if (el.id) data[el.id] = el.value;
+        });
+        localStorage.setItem('nusaybah_form_data', JSON.stringify(data));
+    }
+    function restoreFormData() {
+        try {
+            const data = JSON.parse(localStorage.getItem('nusaybah_form_data'));
+            if (data) {
+                Object.keys(data).forEach(key => {
+                    const el = document.getElementById(key);
+                    if (el) el.value = data[key];
+                });
             }
+        } catch(e) {}
+    }
+    document.addEventListener('input', saveFormData);
+    document.addEventListener('DOMContentLoaded', restoreFormData);
+
+    // ============================================================
+    // STATS
+    // ============================================================
+    function getStats() {
+        try { return JSON.parse(localStorage.getItem('nusaybah_stats')) || {}; } catch(e) { return {}; }
+    }
+    function saveStats(stats) { localStorage.setItem('nusaybah_stats', JSON.stringify(stats)); }
+    function incrementStat(key) {
+        const stats = getStats();
+        stats[key] = (stats[key] || 0) + 1;
+        saveStats(stats);
+        updateStats();
+    }
+    function updateStats() {
+        const stats = getStats();
+        const map = {
+            'stat-recipes': 'recipes',
+            'stat-resumes': 'resumes',
+            'stat-content': 'content',
+            'stat-leads': 'leads',
+            'stat-assistant': 'assistant',
+            'stat-qr': 'qr',
+            'stat-passwords': 'passwords',
+            'stat-summaries': 'summaries'
         };
+        Object.keys(map).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = stats[map[id]] || 0;
+        });
+    }
+    function resetStats() {
+        if (confirm('Reset all usage stats?')) {
+            saveStats({});
+            updateStats();
+        }
+    }
+    document.addEventListener('DOMContentLoaded', updateStats);
 
-        // ============================================================
-        // GENERATE RECIPE
-        // ============================================================
+    // ============================================================
+    // COPY OUTPUT
+    // ============================================================
+    function copyOutput(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const text = el.textContent || el.innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = el.closest('.output-box').querySelector('.copy-btn');
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(() => btn.innerHTML = orig, 1500);
+        }).catch(() => {
+            const range = document.createRange();
+            range.selectNode(el);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            const btn = el.closest('.output-box').querySelector('.copy-btn');
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(() => btn.innerHTML = orig, 1500);
+        });
+    }
 
-        function generateRecipe() {
-            const ingredientsInput = document.getElementById('recipeInput').value.trim().toLowerCase();
-            const selectedCuisine = document.getElementById('recipeCuisine').value.toLowerCase();
+    // ============================================================
+    // SHARE
+    // ============================================================
+    function sharePage(platform) {
+        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent('Check out Nusaybah Hub – all-in-one tools for business and creativity!');
+        const urls = {
+            facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+            twitter: `https://twitter.com/intent/tweet?text=${text}&url=${url}`,
+            linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
+            whatsapp: `https://api.whatsapp.com/send?text=${text}%20${url}`
+        };
+        if (urls[platform]) window.open(urls[platform], '_blank', 'width=600,height=400');
+    }
 
-            if (!ingredientsInput) {
-                alert('Please enter some ingredients.');
-                return;
-            }
+    // ============================================================
+    // VOICE INPUT
+    // ============================================================
+    function startVoiceInput() {
+        const btn = document.getElementById('voiceBtn');
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            alert('Voice input is not supported in this browser. Try Chrome or Edge.');
+            return;
+        }
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.continuous = false;
+        btn.classList.add('listening');
+        btn.innerHTML = '<i class="fas fa-microphone-slash"></i>';
+        recognition.start();
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            document.getElementById('assistantInput').value = transcript;
+            btn.classList.remove('listening');
+            btn.innerHTML = '<i class="fas fa-microphone"></i>';
+            askAssistant();
+        };
+        recognition.onerror = () => {
+            btn.classList.remove('listening');
+            btn.innerHTML = '<i class="fas fa-microphone"></i>';
+        };
+        recognition.onend = () => {
+            btn.classList.remove('listening');
+            btn.innerHTML = '<i class="fas fa-microphone"></i>';
+        };
+    }
 
-            const userIngredients = ingredientsInput.split(',').map(i => i.trim()).filter(i => i.length > 0);
-            const firstIngredient = userIngredients[0] || 'ingredients';
+    // ============================================================
+    // CHARACTER COUNTERS
+    // ============================================================
+    document.querySelectorAll('textarea').forEach(ta => {
+        const counter = document.getElementById(ta.id + 'CharCount');
+        if (counter) {
+            ta.addEventListener('input', () => counter.textContent = ta.value.length);
+            counter.textContent = ta.value.length;
+        }
+    });
 
-            let filteredRecipes = [];
-            if (selectedCuisine === 'any' || !selectedCuisine) {
-                filteredRecipes = Object.entries(recipeDatabase).map(([key, recipe]) => ({ ...recipe, key }));
-            } else {
-                for (const [key, recipe] of Object.entries(recipeDatabase)) {
-                    if (recipe.cuisine && recipe.cuisine.toLowerCase() === selectedCuisine) {
-                        filteredRecipes.push({ ...recipe, key });
-                    }
+    // ============================================================
+    // RECIPE DATABASE (expanded with more cuisines)
+    // ============================================================
+    const recipeDatabase = {
+        // Nigerian (full set)
+        'nigerian_chicken_rice_tomatoes': { name: 'Nigerian Chicken Jollof Rice', time: '55 mins', servings: '4 servings', cuisine: 'Nigerian', ingredients: ['500g chicken','2 cups long grain rice','4 large tomatoes (blended)','2 onions (chopped)','2 scotch bonnet peppers','2 tbsp tomato paste','Chicken stock','Salt and seasoning'], instructions: 'Season chicken with salt and seasoning. Fry until golden brown.\nBlend tomatoes, onions, and peppers into a smooth paste.\nIn a pot, fry tomato paste for 2 minutes.\nAdd blended mixture and fry for 10 minutes.\nAdd chicken stock, water, and seasoning.\nAdd rice and cook for 20-25 minutes.\nReturn chicken to pot and cook for 5 more minutes.\nServe hot with plantains or coleslaw.' },
+        'nigerian_rice_beans': { name: 'Nigerian Rice and Beans', time: '50 mins', servings: '4 servings', cuisine: 'Nigerian', ingredients: ['1 cup rice','1 cup beans','1 onion (chopped)','2 tomatoes (blended)','Seasoning'], instructions: 'Cook beans until soft.\nFry onion and tomatoes.\nAdd cooked beans and rice.\nAdd water and cook for 20 minutes.\nSeason to taste.\nServe hot.' },
+        'nigerian_yam_eggs': { name: 'Nigerian Yam and Egg Sauce', time: '25 mins', servings: '2 servings', cuisine: 'Nigerian', ingredients: ['2 slices yam','2 eggs','2 tomatoes (chopped)','1 onion (chopped)','Seasoning'], instructions: 'Boil yam until soft.\nFry onion and tomatoes.\nAdd whisked eggs and scramble.\nSeason to taste.\nServe yam with egg sauce.' },
+        'nigerian_plantain': { name: 'Nigerian Fried Plantain (Dodo)', time: '15 mins', servings: '2 servings', cuisine: 'Nigerian', ingredients: ['2 ripe plantains','Oil for frying','Salt'], instructions: 'Peel plantains and slice diagonally.\nHeat oil in a pan.\nFry plantains until golden brown on both sides.\nSprinkle with salt.\nServe as a snack or side dish.' },
+        'nigerian_rice': { name: 'Nigerian Jollof Rice', time: '45 mins', servings: '4 servings', cuisine: 'Nigerian', ingredients: ['2 cups rice','4 large tomatoes (blended)','1 onion (chopped)','2 tbsp tomato paste','Chicken stock','Seasoning'], instructions: 'Blend tomatoes and onion.\nFry tomato paste and blended mixture.\nAdd stock and seasoning.\nAdd rice and cook for 20 minutes.\nServe hot.' },
+        'nigerian_chicken_pepper': { name: 'Nigerian Chicken Pepper Soup', time: '35 mins', servings: '3 servings', cuisine: 'Nigerian', ingredients: ['500g chicken','2 bell peppers','1 onion','Scotch bonnet pepper','Seasoning'], instructions: 'Boil chicken with peppers and onion.\nAdd scotch bonnet pepper.\nCook for 25-30 minutes.\nSeason to taste.\nServe hot.' },
+        'nigerian_eggs_tomatoes_onions': { name: 'Nigerian Egg Sauce', time: '20 mins', servings: '3 servings', cuisine: 'Nigerian', ingredients: ['4 large eggs','3 tomatoes (chopped)','1 onion (chopped)','1 scotch bonnet pepper','Vegetable oil','Salt and seasoning'], instructions: 'Whisk eggs with salt and set aside.\nFry onions and peppers in oil.\nAdd tomatoes and cook until soft.\nPour in eggs and scramble.\nCook for 3-5 minutes.\nServe with bread or yam.' },
+        'nigerian_beef_onions_tomatoes': { name: 'Nigerian Beef Stew', time: '1 hour 30 mins', servings: '6 servings', cuisine: 'Nigerian', ingredients: ['1kg beef (cubed)','2 onions (chopped)','4 tomatoes (blended)','Garlic and ginger','Beef stock','Seasoning'], instructions: 'Season beef and fry until browned.\nFry onions, garlic, and ginger.\nAdd blended tomatoes and cook.\nAdd beef stock and simmer for 1 hour.\nSeason to taste.\nServe with rice or yam.' },
+        'nigerian_fish_tomatoes_onions': { name: 'Nigerian Fish Pepper Soup', time: '30 mins', servings: '3 servings', cuisine: 'Nigerian', ingredients: ['500g fish','3 tomatoes (chopped)','1 onion (chopped)','Pepper soup spice','Scotch bonnet pepper','Seasoning'], instructions: 'Boil water with pepper soup spice.\nAdd fish, tomatoes, onion, and pepper.\nCook for 20 minutes.\nSeason to taste.\nServe hot with bread or rice.' },
+        // Italian
+        'italian_pasta_tomatoes_garlic': { name: 'Italian Spaghetti Aglio e Olio', time: '20 mins', servings: '2 servings', cuisine: 'Italian', ingredients: ['200g spaghetti','3 cloves garlic (sliced)','3 tomatoes (diced)','Olive oil','Chili flakes','Fresh parsley'], instructions: 'Cook pasta.\nSauté garlic in olive oil until golden.\nAdd diced tomatoes and chili flakes.\nToss with cooked pasta.\nGarnish with fresh parsley.\nServe hot.' },
+        'italian_pasta_cheese': { name: 'Italian Creamy Mac and Cheese', time: '20 mins', servings: '4 servings', cuisine: 'Italian', ingredients: ['500g pasta','2 cups cheese (grated)','2 cups milk','Butter','Flour','Salt and pepper'], instructions: 'Cook pasta.\nMake cheese sauce with butter, flour, milk, and cheese.\nCombine pasta and sauce.\nBake for 10-15 minutes.\nServe hot.' },
+        'italian_bread_tomatoes_garlic': { name: 'Italian Bruschetta', time: '15 mins', servings: '4 servings', cuisine: 'Italian', ingredients: ['1 loaf Italian bread','4 tomatoes (diced)','2 cloves garlic (minced)','Olive oil','Fresh basil','Salt and pepper'], instructions: 'Slice bread and toast until golden.\nMix tomatoes, garlic, basil, olive oil, salt, and pepper.\nSpoon mixture onto toasted bread.\nServe immediately.' },
+        'italian_rice_cheese': { name: 'Italian Risotto', time: '35 mins', servings: '4 servings', cuisine: 'Italian', ingredients: ['2 cups Arborio rice','1 onion (chopped)','2 cloves garlic','Parmesan cheese','Chicken stock','Butter'], instructions: 'Sauté onion and garlic in butter.\nAdd rice and toast for 2 minutes.\nAdd stock gradually, stirring constantly.\nCook until rice is creamy.\nStir in Parmesan cheese.\nServe hot.' },
+        // Mexican
+        'mexican_chicken_rice_tomatoes': { name: 'Mexican Arroz con Pollo', time: '55 mins', servings: '4 servings', cuisine: 'Mexican', ingredients: ['500g chicken','2 cups rice','4 tomatoes (blended)','2 onions (chopped)','Bell peppers','Chili powder','Cumin','Garlic','Cilantro'], instructions: 'Season chicken with chili powder, cumin, and garlic.\nBrown chicken in a pot.\nSauté onions and peppers.\nAdd blended tomatoes and spices.\nAdd rice and water.\nCook for 20-25 minutes.\nServe with fresh cilantro.' },
+        'mexican_beans_rice': { name: 'Mexican Beans and Rice', time: '40 mins', servings: '4 servings', cuisine: 'Mexican', ingredients: ['1 cup rice','1 can black beans','1 onion (chopped)','2 cloves garlic','Cumin','Chili powder','Cilantro'], instructions: 'Sauté onion and garlic.\nAdd rice and toast for 2 minutes.\nAdd water, cumin, and chili powder.\nCook until rice is done.\nAdd black beans and heat through.\nGarnish with cilantro.' },
+        'mexican_chicken_tortillas': { name: 'Mexican Chicken Tacos', time: '25 mins', servings: '4 servings', cuisine: 'Mexican', ingredients: ['500g chicken breast','Tortillas','Onion','Cilantro','Lime','Salsa'], instructions: 'Cook chicken with taco seasoning.\nShred the chicken.\nWarm tortillas.\nFill tortillas with chicken, onion, cilantro, and salsa.\nSqueeze lime over tacos.' },
+        // Indian
+        'indian_chicken_rice_tomatoes': { name: 'Indian Chicken Biryani', time: '1 hour', servings: '4 servings', cuisine: 'Indian', ingredients: ['500g chicken','2 cups basmati rice','2 onions (sliced)','2 tomatoes (blended)','Yogurt','Garam masala','Saffron','Fresh mint','Cilantro'], instructions: 'Marinate chicken in yogurt and spices.\nFry onions until golden.\nLayer rice and marinated chicken.\nAdd saffron water.\nCover and cook on low heat for 25-30 minutes.\nGarnish with mint and cilantro.' },
+        'indian_potatoes_cauliflower': { name: 'Indian Aloo Gobi', time: '30 mins', servings: '4 servings', cuisine: 'Indian', ingredients: ['2 potatoes (cubed)','1 cauliflower (cut)','1 onion (chopped)','2 tomatoes (blended)','Ginger garlic paste','Turmeric','Cumin','Cilantro'], instructions: 'Sauté onion, ginger, and garlic.\nAdd tomatoes and spices.\nAdd potatoes and cauliflower.\nCook until vegetables are tender.\nGarnish with cilantro.' },
+        'indian_lentils': { name: 'Indian Dal (Lentil Soup)', time: '25 mins', servings: '4 servings', cuisine: 'Indian', ingredients: ['1 cup red lentils','1 onion (chopped)','2 tomatoes (chopped)','Garlic and ginger','Turmeric','Cumin','Cilantro'], instructions: 'Sauté onion, garlic, and ginger.\nAdd tomatoes and spices.\nAdd lentils and water.\nCook until lentils are soft.\nGarnish with cilantro.' },
+        // Chinese
+        'chinese_chicken_rice': { name: 'Chinese Chicken Fried Rice', time: '25 mins', servings: '4 servings', cuisine: 'Chinese', ingredients: ['2 cups cooked rice','200g chicken breast (diced)','2 eggs (scrambled)','1 onion (chopped)','Carrots and peas','Soy sauce','Sesame oil'], instructions: 'Cook chicken and set aside.\nScramble eggs.\nSauté onion and vegetables.\nAdd rice, chicken, and eggs.\nAdd soy sauce and sesame oil.\nStir-fry for 5 minutes.' },
+        'chinese_noodles_chicken': { name: 'Chinese Chicken Noodle Soup', time: '25 mins', servings: '3 servings', cuisine: 'Chinese', ingredients: ['200g chicken','Noodles','Carrots','Onion','Ginger','Soy sauce'], instructions: 'Boil chicken with ginger and onion.\nAdd carrots and noodles.\nCook for 10 minutes.\nAdd soy sauce.\nServe hot.' },
+        // Japanese
+        'japanese_rice_fish': { name: 'Japanese Sushi Rice with Grilled Fish', time: '30 mins', servings: '2 servings', cuisine: 'Japanese', ingredients: ['2 cups sushi rice','200g fish fillet','Rice vinegar','Sugar','Salt','Soy sauce','Wasabi'], instructions: 'Cook sushi rice.\nSeason with vinegar, sugar, and salt.\nGrill fish until cooked.\nServe rice with grilled fish, soy sauce, and wasabi.' },
+        'japanese_noodles': { name: 'Japanese Ramen', time: '30 mins', servings: '2 servings', cuisine: 'Japanese', ingredients: ['Ramen noodles','Chicken broth','Pork belly','Soft-boiled egg','Green onions','Nori (seaweed)'], instructions: 'Cook ramen noodles.\nHeat chicken broth.\nCook pork belly.\nAssemble with toppings.\nServe hot.' },
+        // French
+        'french_bread_cheese': { name: 'French Croque Monsieur', time: '20 mins', servings: '2 servings', cuisine: 'French', ingredients: ['Bread slices','Ham','Gruyère cheese','Béchamel sauce','Butter'], instructions: 'Make béchamel sauce.\nAssemble sandwich with ham and cheese.\nSpread béchamel on top.\nGrill until golden.' },
+        'french_rice': { name: 'French Rice Pilaf', time: '25 mins', servings: '4 servings', cuisine: 'French', ingredients: ['2 cups rice','1 onion (chopped)','Chicken stock','Butter','Fresh herbs (thyme, parsley)'], instructions: 'Sauté onion in butter.\nAdd rice and toast.\nAdd chicken stock and herbs.\nCover and cook for 20 minutes.\nFluff with a fork.\nServe hot.' },
+        // American
+        'american_potatoes': { name: 'American Crispy Roasted Potatoes', time: '45 mins', servings: '4 servings', cuisine: 'American', ingredients: ['1kg potatoes','Olive oil','Rosemary','Garlic powder','Salt and pepper'], instructions: 'Preheat oven to 220°C (425°F).\nCut potatoes into wedges.\nToss with oil, rosemary, garlic, salt, and pepper.\nRoast for 35-40 minutes.\nServe hot.' },
+        'american_beef_potatoes': { name: 'American Beef and Potato Stew', time: '1 hour 30 mins', servings: '6 servings', cuisine: 'American', ingredients: ['1kg beef','4 potatoes','2 onions','4 carrots','Beef stock','Bay leaf','Seasoning'], instructions: 'Brown beef.\nAdd onions and cook until soft.\nAdd carrots, potatoes, stock, and bay leaf.\nSimmer for 1 hour.\nSeason to taste.' },
+        // Thai
+        'thai_noodles_chicken_vegetables': { name: 'Thai Chicken Pad Thai', time: '30 mins', servings: '4 servings', cuisine: 'Thai', ingredients: ['200g rice noodles','300g chicken','2 eggs','Bean sprouts','Green onions','Peanuts','Fish sauce','Tamarind paste'], instructions: 'Soak noodles.\nCook chicken.\nScramble eggs.\nAdd noodles and sauce.\nToss with vegetables and peanuts.\nServe with lime.' },
+        'thai_coconut_chicken_vegetables': { name: 'Thai Green Curry', time: '30 mins', servings: '4 servings', cuisine: 'Thai', ingredients: ['500g chicken','1 can coconut milk','Green curry paste','Bell peppers','Bamboo shoots','Thai basil'], instructions: 'Sauté curry paste.\nAdd chicken and cook.\nAdd coconut milk and vegetables.\nSimmer for 15 minutes.\nGarnish with basil.\nServe with rice.' },
+        // Mediterranean
+        'mediterranean_chicken_rice_lemon': { name: 'Mediterranean Lemon Chicken', time: '45 mins', servings: '4 servings', cuisine: 'Mediterranean', ingredients: ['500g chicken','2 cups rice','2 lemons','Garlic','Oregano','Olive oil'], instructions: 'Marinate chicken in lemon, garlic, and oregano.\nCook chicken until done.\nCook rice.\nServe chicken over rice with extra lemon.' },
+        'mediterranean_fish_tomatoes_garlic': { name: 'Mediterranean Fish Stew', time: '35 mins', servings: '4 servings', cuisine: 'Mediterranean', ingredients: ['500g fish','4 tomatoes (blended)','2 cloves garlic','Olive oil','Fresh basil','Salt and pepper'], instructions: 'Sauté garlic in olive oil.\nAdd tomatoes and simmer.\nAdd fish and cook until done.\nGarnish with basil.\nServe with bread.' },
+        // Korean (new)
+        'korean_beef_rice': { name: 'Korean Beef Bibimbap', time: '40 mins', servings: '4 servings', cuisine: 'Korean', ingredients: ['500g beef (thinly sliced)','2 cups cooked rice','1 carrot (julienned)','1 zucchini (sliced)','4 eggs','Gochujang (Korean chili paste)','Sesame oil','Soy sauce'], instructions: 'Marinate beef in soy sauce and sesame oil.\nStir-fry beef until cooked.\nSauté carrots and zucchini separately.\nFry eggs sunny-side up.\nAssemble rice in bowls, top with beef, vegetables, and egg.\nAdd gochujang to taste.\nMix well before eating.' },
+        'korean_chicken_rice': { name: 'Korean Fried Chicken', time: '35 mins', servings: '4 servings', cuisine: 'Korean', ingredients: ['1kg chicken wings','1 cup flour','1 cup cornstarch','Soy sauce','Garlic','Ginger','Gochujang','Honey','Sesame seeds'], instructions: 'Coat chicken in flour and cornstarch.\nDeep-fry until golden and crispy.\nMake sauce with soy sauce, garlic, ginger, gochujang, and honey.\nToss fried chicken in sauce.\nGarnish with sesame seeds.\nServe hot.' },
+        // Greek (new)
+        'greek_chicken_rice': { name: 'Greek Chicken Souvlaki', time: '30 mins', servings: '4 servings', cuisine: 'Greek', ingredients: ['500g chicken breast (cubed)','Olive oil','Lemon juice','Garlic','Oregano','Pita bread','Tzatziki sauce','Tomatoes','Onion'], instructions: 'Marinate chicken in olive oil, lemon, garlic, and oregano.\nSkewer and grill until cooked.\nWarm pita bread.\nServe with tzatziki, tomatoes, and onion.' },
+        'greek_rice': { name: 'Greek Lemon Rice', time: '25 mins', servings: '4 servings', cuisine: 'Greek', ingredients: ['2 cups rice','Chicken stock','Lemon juice','Olive oil','Fresh dill','Salt and pepper'], instructions: 'Sauté rice in olive oil.\nAdd chicken stock and lemon juice.\nCook until rice is tender.\nStir in fresh dill.\nSeason to taste.\nServe hot.' },
+        // Turkish (new)
+        'turkish_lamb_rice': { name: 'Turkish Lamb Kebab', time: '50 mins', servings: '4 servings', cuisine: 'Turkish', ingredients: ['500g lamb (cubed)','Olive oil','Garlic','Cumin','Paprika','Onion','Tomato','Pita bread'], instructions: 'Marinate lamb in olive oil, garlic, cumin, and paprika.\nSkewer and grill until cooked.\nSauté onion and tomato.\nServe lamb with sautéed vegetables and pita bread.' },
+        'turkish_rice': { name: 'Turkish Pilaf Rice', time: '25 mins', servings: '4 servings', cuisine: 'Turkish', ingredients: ['2 cups rice','Butter','Orzo pasta','Chicken stock','Salt'], instructions: 'Melt butter in a pot.\nAdd orzo and cook until golden.\nAdd rice and toast for 2 minutes.\nAdd chicken stock and salt.\nCook for 20 minutes.\nFluff with a fork.\nServe hot.' },
+        // Caribbean (new)
+        'caribbean_chicken_rice': { name: 'Caribbean Jerk Chicken', time: '45 mins', servings: '4 servings', cuisine: 'Caribbean', ingredients: ['500g chicken thighs','Jerk seasoning','Lime juice','Garlic','Ginger','Thyme','Rice and peas'], instructions: 'Marinate chicken in jerk seasoning, lime, garlic, ginger, and thyme.\nGrill or bake until cooked.\nServe with rice and peas.' },
+        'caribbean_rice': { name: 'Caribbean Rice and Peas', time: '30 mins', servings: '4 servings', cuisine: 'Caribbean', ingredients: ['2 cups rice','1 can coconut milk','1 can kidney beans','Thyme','Garlic','Scotch bonnet pepper','Salt'], instructions: 'Sauté garlic and thyme.\nAdd rice and toast.\nAdd coconut milk, water, beans, and scotch bonnet pepper.\nCook for 20 minutes.\nSeason to taste.\nServe hot.' }
+    };
+
+    // ============================================================
+    // RECIPE FAVORITES
+    // ============================================================
+    function getFavorites() {
+        try { return JSON.parse(localStorage.getItem('recipe_favorites')) || []; } catch(e) { return []; }
+    }
+    function toggleFavorite(key) {
+        let favs = getFavorites();
+        const idx = favs.indexOf(key);
+        if (idx > -1) favs.splice(idx, 1);
+        else favs.push(key);
+        localStorage.setItem('recipe_favorites', JSON.stringify(favs));
+    }
+    function isFavorite(key) { return getFavorites().includes(key); }
+
+    // ============================================================
+    // GENERATE RECIPE
+    // ============================================================
+    let lastRecipeKey = null;
+    function generateRecipe() {
+        const ingredientsInput = document.getElementById('recipeInput').value.trim().toLowerCase();
+        const selectedCuisine = document.getElementById('recipeCuisine').value.toLowerCase();
+        if (!ingredientsInput) { alert('Please enter some ingredients.'); return; }
+        const userIngredients = ingredientsInput.split(',').map(i => i.trim()).filter(i => i.length > 0);
+        const firstIngredient = userIngredients[0] || 'ingredients';
+        let filteredRecipes = [];
+        if (selectedCuisine === 'any' || !selectedCuisine) {
+            filteredRecipes = Object.entries(recipeDatabase).map(([key, recipe]) => ({ ...recipe, key }));
+        } else {
+            for (const [key, recipe] of Object.entries(recipeDatabase)) {
+                if (recipe.cuisine && recipe.cuisine.toLowerCase() === selectedCuisine) {
+                    filteredRecipes.push({ ...recipe, key });
                 }
             }
-
-            if (filteredRecipes.length === 0) {
-                filteredRecipes = Object.entries(recipeDatabase).map(([key, recipe]) => ({ ...recipe, key }));
-            }
-
-            let matchedRecipe = null;
-
+        }
+        if (filteredRecipes.length === 0) {
+            filteredRecipes = Object.entries(recipeDatabase).map(([key, recipe]) => ({ ...recipe, key }));
+        }
+        let matchedRecipe = null;
+        for (const recipe of filteredRecipes) {
+            const recipeIngredientStrings = recipe.ingredients.map(i => i.toLowerCase());
+            const allMatch = userIngredients.every(ing => recipeIngredientStrings.some(ri => ri.includes(ing)));
+            if (allMatch && userIngredients.length > 0) { matchedRecipe = recipe; break; }
+        }
+        if (!matchedRecipe) {
             for (const recipe of filteredRecipes) {
                 const recipeIngredientStrings = recipe.ingredients.map(i => i.toLowerCase());
-                const allMatch = userIngredients.every(ing => {
-                    return recipeIngredientStrings.some(ri => ri.includes(ing));
-                });
-                if (allMatch && userIngredients.length > 0) {
-                    matchedRecipe = recipe;
-                    break;
-                }
+                const partialMatch = userIngredients.some(ing => recipeIngredientStrings.some(ri => ri.includes(ing)));
+                if (partialMatch) { matchedRecipe = recipe; break; }
             }
-
-            if (!matchedRecipe) {
-                for (const recipe of filteredRecipes) {
-                    const recipeIngredientStrings = recipe.ingredients.map(i => i.toLowerCase());
-                    const partialMatch = userIngredients.some(ing => {
-                        return recipeIngredientStrings.some(ri => ri.includes(ing));
-                    });
-                    if (partialMatch) {
-                        matchedRecipe = recipe;
-                        break;
-                    }
-                }
-            }
-
-            if (!matchedRecipe) {
-                const cuisineDisplay = selectedCuisine === 'any' ? 'International' :
-                    selectedCuisine.charAt(0).toUpperCase() + selectedCuisine.slice(1);
-                matchedRecipe = {
-                    name: `Creative ${firstIngredient.charAt(0).toUpperCase() + firstIngredient.slice(1)} Dish`,
-                    time: '30 mins',
-                    servings: '2 servings',
-                    cuisine: cuisineDisplay,
-                    ingredients: userIngredients,
-                    instructions: `Prepare all ingredients.\nHeat oil in a pan.\nAdd ${userIngredients.join(', ')} and cook for 15-20 minutes.\nSeason to taste.\nServe hot and enjoy!`
-                };
-            }
-
-            const cuisineDisplay = matchedRecipe.cuisine || 'Any';
-            const output = `
-                <div class="recipe-card">
+        }
+        if (!matchedRecipe) {
+            const cuisineDisplay = selectedCuisine === 'any' ? 'International' : selectedCuisine.charAt(0).toUpperCase() + selectedCuisine.slice(1);
+            matchedRecipe = {
+                name: `Creative ${firstIngredient.charAt(0).toUpperCase() + firstIngredient.slice(1)} Dish`,
+                time: '30 mins', servings: '2 servings', cuisine: cuisineDisplay,
+                ingredients: userIngredients,
+                instructions: `Prepare all ingredients.\nHeat oil in a pan.\nAdd ${userIngredients.join(', ')} and cook for 15-20 minutes.\nSeason to taste.\nServe hot and enjoy!`
+            };
+        }
+        lastRecipeKey = matchedRecipe.key || 'custom';
+        const isFav = isFavorite(lastRecipeKey);
+        const cuisineDisplay = matchedRecipe.cuisine || 'Any';
+        const output = `
+            <div class="recipe-card">
+                <div style="display:flex; justify-content:space-between; align-items:start;">
                     <h3>🍽️ ${matchedRecipe.name}</h3>
-                    <div class="meta">⏱️ ${matchedRecipe.time} &nbsp;|&nbsp; 🍽️ ${matchedRecipe.servings} &nbsp;|&nbsp; 🌍 ${cuisineDisplay}</div>
-                    <br/>
-                    <strong style="color:#0a2463;">Ingredients:</strong>
-                    <ul>
-                        ${matchedRecipe.ingredients.map(i => `<li>${i}</li>`).join('')}
-                    </ul>
-                    <strong style="color:#0a2463;">Instructions:</strong>
-                    <ol>
-                        ${matchedRecipe.instructions.split('\n').filter(s => s.trim()).map(s => `<li>${s}</li>`).join('')}
-                    </ol>
+                    <button class="fav-btn ${isFav ? 'fav' : ''}" onclick="toggleFavorite('${lastRecipeKey}'); generateRecipe();" title="Favorite"><i class="fas fa-heart"></i></button>
                 </div>
-            `;
-
-            showOutput('recipeOutput', output);
-        }
-
-        // ============================================================
-        // DISPLAY ALL RECIPES
-        // ============================================================
-
-        function displayAllRecipes() {
-            const container = document.getElementById('recipeListContainer');
-            const grouped = {};
-
-            for (const [key, recipe] of Object.entries(recipeDatabase)) {
-                const cuisine = recipe.cuisine || 'Other';
-                if (!grouped[cuisine]) grouped[cuisine] = [];
-                grouped[cuisine].push({ key, name: recipe.name });
-            }
-
-            let html = '';
-            const order = ['Nigerian', 'Italian', 'Mexican', 'Indian', 'Chinese', 'Japanese', 'French', 'American', 'Thai',
-                'Mediterranean', 'Other'
-            ];
-
-            for (const cuisine of order) {
-                if (grouped[cuisine]) {
-                    html += `<div class="cuisine-group"><h4>🌍 ${cuisine}</h4><div class="recipe-list-grid">`;
-                    grouped[cuisine].forEach(recipe => {
-                        html += `
-                            <div class="recipe-list-item" onclick="loadRecipe('${recipe.key}')">
-                                <span class="dish-name">${recipe.name}</span>
-                                <span class="cuisine-tag">${cuisine}</span>
-                            </div>
-                        `;
-                    });
-                    html += `</div></div>`;
-                }
-            }
-
-            container.innerHTML = html;
-        }
-
-        function loadRecipe(key) {
-            const recipe = recipeDatabase[key];
-            if (recipe) {
-                const ingredientString = recipe.ingredients.join(', ');
-                document.getElementById('recipeInput').value = ingredientString;
-                generateRecipe();
-                document.getElementById('recipeOutput').scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        // ============================================================
-        // TOGGLE RECIPE LIST
-        // ============================================================
-
-        function toggleRecipeList() {
-            const wrapper = document.getElementById('recipeListWrapper');
-            const btn = document.getElementById('toggleRecipeBtn');
-            wrapper.classList.toggle('show');
-            if (wrapper.classList.contains('show')) {
-                btn.innerHTML = '<i class="fas fa-chevron-up"></i> Hide All Recipes';
-            } else {
-                btn.innerHTML = '<i class="fas fa-chevron-down"></i> Show All Recipes';
-            }
-        }
-
-        // ============================================================
-        // RESUME BUILDER — with Download & Print
-        // ============================================================
-
-        let currentResumeHTML = '';
-
-        function generateResume() {
-            const name = document.getElementById('resumeName').value.trim();
-            const title = document.getElementById('resumeTitle').value.trim();
-            const email = document.getElementById('resumeEmail').value.trim();
-            const phone = document.getElementById('resumePhone').value.trim();
-            const details = document.getElementById('resumeDetails').value.trim();
-
-            if (!name || !title) {
-                alert('Please enter your name and job title.');
-                return;
-            }
-
-            // Parse details into sections
-            let experience = '• [Company Name] - [Role] (20XX-20XX)';
-            let education = '• [Degree] - [University] (20XX-20XX)';
-            let skills = '• Communication • Teamwork • Problem Solving • Leadership';
-
-            if (details) {
-                const lines = details.split('\n').filter(line => line.trim());
-                const expLines = lines.filter(l => l.toLowerCase().includes('experience') || l.toLowerCase().includes(
-                'company') || l.toLowerCase().includes('role'));
-                const eduLines = lines.filter(l => l.toLowerCase().includes('education') || l.toLowerCase().includes(
-                    'degree') || l.toLowerCase().includes('university'));
-                const skillLines = lines.filter(l => l.toLowerCase().includes('skill') || l.toLowerCase().includes(
-                    'proficient') || l.toLowerCase().includes('expert'));
-
-                if (expLines.length > 0) experience = expLines.map(l => '• ' + l.replace(/^(experience|education|skills):/i,
-                    '').trim()).join('\n');
-                else if (lines.length > 0) experience = lines.map(l => '• ' + l).join('\n');
-
-                if (eduLines.length > 0) education = eduLines.map(l => '• ' + l.replace(/^(experience|education|skills):/i,
-                    '').trim()).join('\n');
-
-                if (skillLines.length > 0) skills = skillLines.map(l => '• ' + l.replace(/^(experience|education|skills):/i,
-                    '').trim()).join('\n');
-
-                if (!expLines.length && !eduLines.length && !skillLines.length && lines.length > 0) {
-                    // If no clear sections, put everything in experience
-                    experience = lines.map(l => '• ' + l).join('\n');
-                }
-            }
-
-            const contactHtml = (email || phone) ?
-                `<div class="resume-contact">${email ? '📧 ' + email : ''}${email && phone ? ' &nbsp;|&nbsp; ' : ''}${phone ? '📞 ' + phone : ''}</div>` :
-                '';
-
-            const experienceHtml = experience.split('\n').filter(s => s.trim()).map(s => `<p>${s}</p>`).join('');
-            const educationHtml = education.split('\n').filter(s => s.trim()).map(s => `<p>${s}</p>`).join('');
-            const skillsHtml = skills.split('\n').filter(s => s.trim()).map(s => `<p>${s}</p>`).join('');
-
-            const resumeHTML = `
-                <div class="resume-container" id="resumeContent">
-                    <h3>${name}</h3>
-                    <div class="resume-title">${title}</div>
-                    ${contactHtml}
-                    <hr style="border: none; border-top: 2px solid #d4af37; margin: 0.5rem 0;" />
-                    <div class="resume-section">
-                        <h4>Professional Summary</h4>
-                        <p>${details || 'A dedicated professional with experience in ' + title + '. Passionate about delivering results and continuous learning.'}</p>
-                    </div>
-                    <div class="resume-section">
-                        <h4>Experience</h4>
-                        ${experienceHtml}
-                    </div>
-                    <div class="resume-section">
-                        <h4>Education</h4>
-                        ${educationHtml}
-                    </div>
-                    <div class="resume-section">
-                        <h4>Skills</h4>
-                        ${skillsHtml}
-                    </div>
-                    <div style="margin-top: 1.5rem; font-size: 0.75rem; color: #6c757d; text-align: center; border-top: 1px solid #e9ecef; padding-top: 0.8rem;">
-                        📄 Resume generated by Nusaybah Hub — ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                    </div>
+                <div class="meta">⏱️ ${matchedRecipe.time} &nbsp;|&nbsp; 🍽️ ${matchedRecipe.servings} &nbsp;|&nbsp; 🌍 ${cuisineDisplay}</div>
+                <br/>
+                <strong style="color:#0a2463;">Ingredients:</strong>
+                <ul>${matchedRecipe.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
+                <strong style="color:#0a2463;">Instructions:</strong>
+                <ol>${matchedRecipe.instructions.split('\n').filter(s => s.trim()).map(s => `<li>${s}</li>`).join('')}</ol>
+                <button class="btn btn-sm btn-gold" onclick="exportRecipeImage()" style="margin-top:0.5rem;"><i class="fas fa-image"></i> Export as Image</button>
+                <div class="share-buttons">
+                    <button onclick="shareRecipe('${matchedRecipe.name}')"><i class="fas fa-share-alt" style="color:var(--secondary);"></i> Share</button>
                 </div>
-                <div class="resume-actions">
-                    <button class="btn btn-success" onclick="downloadResumeHTML()"><i class="fas fa-file-download"></i> Download HTML</button>
-                    <button class="btn btn-info" onclick="printResume()"><i class="fas fa-print"></i> Print / PDF</button>
-                </div>
-            `;
+            </div>
+        `;
+        showOutput('recipeOutput', output);
+        incrementStat('recipes');
+    }
 
-            currentResumeHTML = resumeHTML;
-            showOutput('resumeOutput', resumeHTML);
+    function shareRecipe(name) {
+        const text = encodeURIComponent(`🍽️ Check out this recipe: ${name} from Nusaybah Hub!`);
+        window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(window.location.href)}`, '_blank', 'width=600,height=400');
+    }
+
+    function exportRecipeImage() {
+        const el = document.querySelector('.recipe-card');
+        if (!el) { alert('Generate a recipe first.'); return; }
+        html2canvas(el).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'recipe.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }).catch(() => alert('Could not export image. Try using a screenshot.'));
+    }
+
+    // ============================================================
+    // DISPLAY ALL RECIPES
+    // ============================================================
+    function displayAllRecipes() {
+        const container = document.getElementById('recipeListContainer');
+        const grouped = {};
+        for (const [key, recipe] of Object.entries(recipeDatabase)) {
+            const cuisine = recipe.cuisine || 'Other';
+            if (!grouped[cuisine]) grouped[cuisine] = [];
+            grouped[cuisine].push({ key, name: recipe.name });
         }
-
-        function downloadResumeHTML() {
-            const content = document.getElementById('resumeContent');
-            if (!content) {
-                alert('Please generate a resume first.');
-                return;
-            }
-
-            const name = document.getElementById('resumeName').value.trim() || 'resume';
-            const htmlContent = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>${name} - Resume</title>
-                    <style>
-                        body {
-                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                            max-width: 900px;
-                            margin: 2rem auto;
-                            padding: 2rem;
-                            background: white;
-                            color: #212529;
-                            line-height: 1.7;
-                        }
-                        .resume-container {
-                            background: white;
-                            padding: 2rem;
-                            border-radius: 8px;
-                            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-                        }
-                        .resume-container h3 {
-                            color: #0a2463;
-                            font-size: 1.8rem;
-                            margin-bottom: 0.2rem;
-                        }
-                        .resume-container .resume-title {
-                            font-size: 1.2rem;
-                            color: #0a2463;
-                            font-weight: 600;
-                        }
-                        .resume-container .resume-contact {
-                            color: #6c757d;
-                            font-size: 0.95rem;
-                            margin: 0.3rem 0 0.8rem 0;
-                        }
-                        .resume-container .resume-section {
-                            margin-top: 1.2rem;
-                        }
-                        .resume-container .resume-section h4 {
-                            color: #0a2463;
-                            border-bottom: 2px solid #d4af37;
-                            padding-bottom: 0.2rem;
-                            margin-bottom: 0.4rem;
-                            font-size: 1.05rem;
-                            text-transform: uppercase;
-                            letter-spacing: 0.5px;
-                        }
-                        .resume-container .resume-section p {
-                            margin: 0.2rem 0;
-                        }
-                        hr {
-                            border: none;
-                            border-top: 2px solid #d4af37;
-                            margin: 0.5rem 0;
-                        }
-                        .footer-note {
-                            margin-top: 1.5rem;
-                            font-size: 0.75rem;
-                            color: #6c757d;
-                            text-align: center;
-                            border-top: 1px solid #e9ecef;
-                            padding-top: 0.8rem;
-                        }
-                        @media print {
-                            body { margin: 0; padding: 0.5in; }
-                            .resume-container { box-shadow: none; padding: 0; }
-                            .footer-note { position: fixed; bottom: 0; left: 0; right: 0; }
-                        }
-                    </style>
-                </head>
-                <body>
-                    ${content.outerHTML}
-                </body>
-                </html>
-            `;
-
-            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${name.replace(/\s+/g, '_')}_Resume.html`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        function printResume() {
-            const content = document.getElementById('resumeContent');
-            if (!content) {
-                alert('Please generate a resume first.');
-                return;
-            }
-
-            const printWindow = window.open('', '_blank', 'width=900,height=700');
-            if (!printWindow) {
-                alert('Please allow popups to print your resume.');
-                return;
-            }
-
-            const name = document.getElementById('resumeName').value.trim() || 'Resume';
-            printWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>${name} - Resume</title>
-                    <style>
-                        body {
-                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                            max-width: 900px;
-                            margin: 1rem auto;
-                            padding: 1.5rem;
-                            background: white;
-                            color: #212529;
-                            line-height: 1.7;
-                        }
-                        .resume-container {
-                            background: white;
-                            padding: 1.5rem;
-                            border-radius: 8px;
-                        }
-                        .resume-container h3 {
-                            color: #0a2463;
-                            font-size: 1.8rem;
-                            margin-bottom: 0.2rem;
-                        }
-                        .resume-container .resume-title {
-                            font-size: 1.2rem;
-                            color: #0a2463;
-                            font-weight: 600;
-                        }
-                        .resume-container .resume-contact {
-                            color: #6c757d;
-                            font-size: 0.95rem;
-                            margin: 0.3rem 0 0.8rem 0;
-                        }
-                        .resume-container .resume-section {
-                            margin-top: 1.2rem;
-                        }
-                        .resume-container .resume-section h4 {
-                            color: #0a2463;
-                            border-bottom: 2px solid #d4af37;
-                            padding-bottom: 0.2rem;
-                            margin-bottom: 0.4rem;
-                            font-size: 1.05rem;
-                            text-transform: uppercase;
-                            letter-spacing: 0.5px;
-                        }
-                        .resume-container .resume-section p {
-                            margin: 0.2rem 0;
-                        }
-                        hr {
-                            border: none;
-                            border-top: 2px solid #d4af37;
-                            margin: 0.5rem 0;
-                        }
-                        .footer-note {
-                            margin-top: 1.5rem;
-                            font-size: 0.75rem;
-                            color: #6c757d;
-                            text-align: center;
-                            border-top: 1px solid #e9ecef;
-                            padding-top: 0.8rem;
-                        }
-                        @media print {
-                            body { margin: 0; padding: 0.3in; }
-                            .resume-container { box-shadow: none; padding: 0; }
-                            .footer-note { position: fixed; bottom: 0; left: 0; right: 0; }
-                        }
-                    </style>
-                </head>
-                <body>
-                    ${content.outerHTML}
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.focus();
-
-            // Wait for styles to load then print
-            setTimeout(() => {
-                printWindow.print();
-            }, 500);
-        }
-
-        // ============================================================
-        // CONTENT WRITER
-        // ============================================================
-
-        function generateContent() {
-            const topic = document.getElementById('contentTopic').value.trim();
-            const type = document.getElementById('contentType').value;
-            const tone = document.getElementById('contentTone').value;
-            const audience = document.getElementById('contentAudience').value.trim() || 'General audience';
-
-            if (!topic) {
-                alert('Please enter a topic.');
-                return;
-            }
-
-            const templates = {
-                'Blog Post': `<h3>📝 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Introduction</strong><br/>A ${tone.toLowerCase()} blog post on ${topic} is a powerful way to engage your audience.</p><p><strong>Body</strong><br/>${topic} is relevant because it addresses key challenges and opportunities.</p><p><strong>Conclusion</strong><br/>Wrap up with a strong conclusion that reinforces the main points.</p>`,
-                'Social Media Post': `<h3>📱 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p>🌟 ${topic} is changing the way we think about [industry].</p><p>👉 <strong>Why it matters:</strong> ${topic} addresses [key need].</p><p>💬 <strong>Let's discuss:</strong> What's your experience? Drop a comment!</p><p>#${topic.replace(/ /g, '')} #Trending #NusaybahHub</p>`,
-                'Product Description': `<h3>🛍️ ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Introducing ${topic}</strong></p><p>${topic} is designed with quality and affordability in mind.</p><ul><li>✅ Premium quality</li><li>✅ Affordable price</li><li>✅ Satisfaction guaranteed</li></ul><p>📞 <strong>Order Now:</strong> +234 810 525 7672</p>`,
-                'Email Newsletter': `<h3>📧 Subject: ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p>Hello [Name],</p><p>We're excited to share this update on ${topic}.</p><ul><li>📌 Key point 1</li><li>📌 Key point 2</li><li>📌 Key point 3</li></ul><p>Best regards,<br/>Nusaybah Hub Team</p>`,
-                'Advertisement Copy': `<h3>🔥 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Headline:</strong> ${topic} – Limited Time Offer!</p><p><strong>Body:</strong> Don't miss out on ${topic}.</p><ul><li>✅ [Benefit 1]</li><li>✅ [Benefit 2]</li><li>✅ [Benefit 3]</li></ul><p><strong>Call to Action:</strong> 📞 Call now: +234 810 525 7672</p>`,
-                'Press Release': `<h3>📰 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Headline:</strong> Nusaybah Hub Announces Update on ${topic}</p><p><strong>Date:</strong> ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p><p>Nusaybah Hub is proud to announce [key announcement].</p><p>For inquiries: +234 810 525 7672</p>`,
-                'Case Study': `<h3>📊 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Client:</strong> [Client Name]</p><p><strong>Challenge:</strong> [Challenge related to ${topic}]</p><p><strong>Solution:</strong> Nusaybah Hub provided ${topic} solutions.</p><p><strong>Results:</strong></p><ul><li>✅ [Result 1]</li><li>✅ [Result 2]</li><li>✅ [Result 3]</li></ul>`,
-                'How-To Guide': `<h3>📖 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Step 1:</strong> Gather your materials.</p><p><strong>Step 2:</strong> Follow the process.</p><p><strong>Step 3:</strong> Review your results.</p>`,
-                'Video Script': `<h3>🎬 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Scene 1:</strong> Opening hook – "Did you know about ${topic}?"</p><p><strong>Scene 2:</strong> Problem – "Many people struggle with [problem]."</p><p><strong>Scene 3:</strong> Solution – "Here's how ${topic} solves this."</p><p><strong>Scene 4:</strong> Call to Action – "Visit Nusaybah Hub!"</p>`,
-                'Landing Page Copy': `<h3>🌐 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Headline:</strong> ${topic} – Your Solution</p><p><strong>Body:</strong> Discover why ${topic} is the best choice.</p><ul><li>✅ [Feature 1]</li><li>✅ [Feature 2]</li><li>✅ [Feature 3]</li></ul><p><strong>Call to Action:</strong> <a href="#" style="color:var(--secondary);">Get Started Today!</a></p>`
-            };
-
-            const result = templates[type] || templates['Blog Post'];
-            showOutput('contentOutput', `<div style="font-size:1rem; line-height:1.8;">${result}</div>`);
-        }
-
-        // ============================================================
-        // LEAD GENERATOR
-        // ============================================================
-
-        function generateLeads() {
-            const business = document.getElementById('leadBusiness').value.trim();
-            const location = document.getElementById('leadLocation').value.trim();
-            const audience = document.getElementById('leadAudience').value.trim();
-            const stage = document.getElementById('leadStage').value;
-
-            if (!business) {
-                alert('Please enter a business type.');
-                return;
-            }
-
-            const leads = `
-                <div style="font-family: 'Segoe UI', sans-serif; line-height: 1.8;">
-                    <h3 style="color:#0a2463;">🎯 Lead Generation Report</h3>
-                    <p><strong>Business:</strong> ${business}<br/><strong>Location:</strong> ${location || 'Any'}<br/><strong>Target:</strong> ${audience || 'General'}<br/><strong>Business Stage:</strong> ${stage || 'Any'}</p>
-                    <hr/>
-                    <p><strong style="color:#0a2463;">Top 7 Customer Segments</strong></p>
-                    <p><strong>1. Segment A</strong> – ${audience || 'Primary customers'} who need ${business}<br/>📍 Where to find: Social media, local events<br/>📝 Outreach: "Hello! We offer premium ${business} in ${location || 'your area'}."</p>
-                    <p><strong>2. Segment B</strong> – Secondary market<br/>📍 Where to find: Online directories, referrals<br/>📝 Outreach: "Hi there! We specialize in ${business}."</p>
-                    <p><strong>3. Segment C</strong> – Niche audience<br/>📍 Where to find: Community groups, LinkedIn<br/>📝 Outreach: "Looking for quality ${business}? We've got you covered!"</p>
-                    <p><strong>4. Segment D</strong> – Corporate clients<br/>📍 Where to find: LinkedIn, business networks<br/>📝 Outreach: "We provide ${business} solutions for businesses like yours."</p>
-                    <p><strong>5. Segment E</strong> – Repeat customers<br/>📍 Where to find: Past clients, email lists<br/>📝 Outreach: "We value your loyalty. Here's a special offer!"</p>
-                    <p><strong>6. Segment F</strong> – Influencers<br/>📍 Where to find: Instagram, TikTok, YouTube<br/>📝 Outreach: "We'd like to collaborate with you on ${business}."</p>
-                    <p><strong>7. Segment G</strong> – Event organizers<br/>📍 Where to find: Event planning groups, expos<br/>📝 Outreach: "We provide ${business} for events. Let's work together!"</p>
-                    <hr/>
-                    <p><strong style="color:#0a2463;">Priority Recommendations</strong></p>
-                    <p>1. Start with Segments A and B for quick wins.</p>
-                    <p>2. Use social media to reach Segment F.</p>
-                    <p>3. Attend local events for Segments A and G.</p>
-                    <p>4. Use email marketing for Segment E.</p>
-                </div>
-            `;
-
-            showOutput('leadOutput', leads);
-        }
-
-        // ============================================================
-        // AI ASSISTANT
-        // ============================================================
-
-        function askAssistant() {
-            const input = document.getElementById('assistantInput').value.trim();
-
-            if (!input) {
-                alert('Please ask a question.');
-                return;
-            }
-
-            const lowerInput = input.toLowerCase();
-
-            const answers = {
-                'address': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
-                'location': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
-                'where': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
-                'phone': '📞 Call or WhatsApp us at +234 810 525 7672.',
-                'number': '📞 Call or WhatsApp us at +234 810 525 7672.',
-                'contact': '📞 Call or WhatsApp us at +234 810 525 7672. Email: nusaybahpower@gmail.com',
-                'whatsapp': '📞 WhatsApp us at +234 810 525 7672.',
-                'hour': '🕐 Mon–Thu: 8 AM – 6 PM | Fri: 8 AM – 5 PM | Sat–Sun: 8 AM – 6 PM',
-                'open': '🕐 We are open Monday to Sunday. Mon–Thu & Sat–Sun: 8 AM – 6 PM. Fri: 8 AM – 5 PM.',
-                'sell': '🛍️ We sell fashion, electronics, tailoring, home appliances, and thrift items.',
-                'offer': '🛍️ We offer custom tailoring, modest fashion, thrift abayas (₦5,000), hand sleeves (₦800), pins (₦700), visor hats, digital marketing, tech accessories, and power banks.',
-                'product': '🛍️ Products: thrift abayas (₦5,000), hand sleeves (₦800), pins (₦700), visor hats, power banks (20,000–50,000mAh), home appliances, custom tailoring.',
-                'fashion': '👗 Yes! Modest fashion including thrift abayas (₦5,000), hand sleeves (₦800), pins (₦700), and visor hats.',
-                'tailoring': '✂️ Yes! Custom tailoring at Nusaybah Power & Stitch.',
-                'abaya': '👗 Yes! Thrift abayas for ₦5,000.',
-                'sleeve': '🧤 Yes! Hand sleeves for ₦800. Black and white. Fits all sizes.',
-                'pin': '📌 Yes! Fashion pins for ₦700.',
-                'visor': '🧢 Yes! Visor hats. Contact us for designs.',
-                'power bank': '🔋 Yes! Power banks in 20,000mAh, 30,000mAh, 40,000mAh, and 50,000mAh.',
-                'blender': '🔋 Yes! Silver Crest blenders. Price: ₦25,000.',
-                'iron': '🔋 Yes! Hansen dry irons. 1200W, heats in 37 seconds.',
-                'delivery': '📦 Yes! We deliver locally in Jos and ship nationwide.',
-                'shipping': '📦 Yes! We deliver locally in Jos and ship nationwide.',
-                'facebook': '📱 Follow us on Facebook: https://www.facebook.com/100077686659565/',
-                'instagram': '📱 Follow us on Instagram: https://www.instagram.com/nusaybahyaaqub/',
-                'tiktok': '📱 Follow us on TikTok: @nusaybahpowerstitch',
-                'price': '💰 Thrift abayas: ₦5,000 | Hand sleeves: ₦800 | Pins: ₦700 | Blender: ₦25,000',
-                'pay': '💳 Payment methods: Bank transfer, cash on delivery, or pay in-store.',
-                'order': '📝 Place an order on WhatsApp at +234 810 525 7672 or visit our store.',
-                'about': '🏢 Nusaybah Hub is a multi-service business in Jos, Nigeria.',
-                'help': '🤖 I\'m here to help! Ask me about our products, services, hours, location, and pricing.',
-                'hello': '👋 Hello! Welcome to Nusaybah Hub. How can I help you today?',
-                'hi': '👋 Hi! Welcome to Nusaybah Hub.',
-                'thanks': '😊 You\'re welcome! Thank you for choosing Nusaybah Hub.',
-                'thank you': '😊 You\'re welcome!',
-                'bye': '👋 Goodbye! Visit us anytime.',
-                'goodbye': '👋 Goodbye! Visit us anytime.'
-            };
-
-            let result = null;
-
-            for (const [key, value] of Object.entries(answers)) {
-                if (lowerInput.includes(key)) {
-                    result = value;
-                    break;
-                }
-            }
-
-            if (!result) {
-                result = `🤖 I'm sorry, I don't have an answer for that yet. Please contact us directly:
-
-        📞 Call/WhatsApp: +234 810 525 7672
-        📍 Address: C/73 Alhaji Ango Street, Jos North, Plateau State
-        📧 Email: nusaybahpower@gmail.com
-
-        We would love to help you! 😊`;
-            }
-
-            showOutput('assistantOutput', `<div style="font-size:1rem; line-height:1.8;">${result.replace(/\n/g, '<br/>')}</div>`);
-        }
-
-        // ============================================================
-        // QR CODE GENERATOR
-        // ============================================================
-
-        function generateQR() {
-            const text = document.getElementById('qrInput').value.trim();
-            if (!text) {
-                alert('Please enter some text or a URL.');
-                return;
-            }
-
-            const qrUrl =
-                `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(text)}`;
-
-            const resultHtml = `
-                <img id="qrImage" src="${qrUrl}" alt="QR Code" style="max-width:300px; width:100%; margin:0 auto; display:block; border:2px solid #ddd; border-radius:8px;" />
-                <div style="margin-top:1rem;">
-                    <button class="btn" onclick="downloadQR()" style="background:var(--secondary); color:var(--primary);">
-                        ⬇️ Download QR Code
-                    </button>
-                </div>
-            `;
-
-            showOutput('qrOutput', resultHtml);
-        }
-
-        function downloadQR() {
-            const img = document.getElementById('qrImage');
-            if (!img) {
-                alert('Please generate a QR code first.');
-                return;
-            }
-
-            fetch(img.src, { mode: 'cors' })
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.blob();
-                })
-                .then(blob => {
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(blob);
-                    const text = document.getElementById('qrInput').value.trim() || 'qrcode';
-                    link.download = `qrcode_${text.substring(0, 20)}.png`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    URL.revokeObjectURL(link.href);
-                })
-                .catch(() => {
-                    const link = document.createElement('a');
-                    link.href = img.src;
-                    const text = document.getElementById('qrInput').value.trim() || 'qrcode';
-                    link.download = `qrcode_${text.substring(0, 20)}.png`;
-                    link.target = '_blank';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
+        let html = '';
+        const order = ['Nigerian','Italian','Mexican','Indian','Chinese','Japanese','French','American','Thai','Mediterranean','Korean','Greek','Turkish','Caribbean','Other'];
+        for (const cuisine of order) {
+            if (grouped[cuisine]) {
+                html += `<div class="cuisine-group"><h4>🌍 ${cuisine}</h4><div class="recipe-list-grid">`;
+                grouped[cuisine].forEach(recipe => {
+                    const fav = isFavorite(recipe.key);
+                    html += `<div class="recipe-list-item" onclick="loadRecipe('${recipe.key}')">
+                        <span class="dish-name">${recipe.name} ${fav ? '❤️' : ''}</span>
+                        <span class="cuisine-tag">${cuisine}</span>
+                    </div>`;
                 });
+                html += `</div></div>`;
+            }
+        }
+        container.innerHTML = html;
+    }
+
+    function loadRecipe(key) {
+        const recipe = recipeDatabase[key];
+        if (recipe) {
+            document.getElementById('recipeInput').value = recipe.ingredients.join(', ');
+            generateRecipe();
+            document.getElementById('recipeOutput').scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    function toggleRecipeList() {
+        const wrapper = document.getElementById('recipeListWrapper');
+        const btn = document.getElementById('toggleRecipeBtn');
+        wrapper.classList.toggle('show');
+        btn.innerHTML = wrapper.classList.contains('show') ? '<i class="fas fa-chevron-up"></i> Hide All Recipes' : '<i class="fas fa-chevron-down"></i> Show All Recipes';
+    }
+
+    // ============================================================
+    // RESUME BUILDER with Templates & Photo
+    // ============================================================
+    let currentResumeHTML = '';
+    let selectedTemplate = 'classic';
+    let resumePhotoData = null;
+
+    document.querySelectorAll('#templateSelector button').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('#templateSelector button').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            selectedTemplate = this.dataset.template;
+        });
+    });
+
+    document.getElementById('resumePhoto').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(ev) { resumePhotoData = ev.target.result; };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function generateResume() {
+        const name = document.getElementById('resumeName').value.trim();
+        const title = document.getElementById('resumeTitle').value.trim();
+        const email = document.getElementById('resumeEmail').value.trim();
+        const phone = document.getElementById('resumePhone').value.trim();
+        const details = document.getElementById('resumeDetails').value.trim();
+        if (!name || !title) { alert('Please enter your name and job title.'); return; }
+
+        let experience = '• [Company Name] - [Role] (20XX-20XX)';
+        let education = '• [Degree] - [University] (20XX-20XX)';
+        let skills = '• Communication • Teamwork • Problem Solving • Leadership';
+        if (details) {
+            const lines = details.split('\n').filter(line => line.trim());
+            const expLines = lines.filter(l => l.toLowerCase().includes('experience') || l.toLowerCase().includes('company') || l.toLowerCase().includes('role'));
+            const eduLines = lines.filter(l => l.toLowerCase().includes('education') || l.toLowerCase().includes('degree') || l.toLowerCase().includes('university'));
+            const skillLines = lines.filter(l => l.toLowerCase().includes('skill') || l.toLowerCase().includes('proficient') || l.toLowerCase().includes('expert'));
+            if (expLines.length > 0) experience = expLines.map(l => '• ' + l.replace(/^(experience|education|skills):/i,'').trim()).join('\n');
+            else if (lines.length > 0) experience = lines.map(l => '• ' + l).join('\n');
+            if (eduLines.length > 0) education = eduLines.map(l => '• ' + l.replace(/^(experience|education|skills):/i,'').trim()).join('\n');
+            if (skillLines.length > 0) skills = skillLines.map(l => '• ' + l.replace(/^(experience|education|skills):/i,'').trim()).join('\n');
+            if (!expLines.length && !eduLines.length && !skillLines.length && lines.length > 0) {
+                experience = lines.map(l => '• ' + l).join('\n');
+            }
         }
 
-        // ============================================================
-        // PASSWORD GENERATOR
-        // ============================================================
+        const contactHtml = (email || phone) ? `<div class="resume-contact">${email ? '📧 ' + email : ''}${email && phone ? ' &nbsp;|&nbsp; ' : ''}${phone ? '📞 ' + phone : ''}</div>` : '';
+        const photoHtml = resumePhotoData ? `<img src="${resumePhotoData}" alt="Profile" class="resume-photo" />` : '';
 
-        let generatedPassword = '';
-
-        function generatePassword() {
-            const length = parseInt(document.getElementById('passLength').value) || 12;
-            const upper = document.getElementById('passUpper').checked;
-            const lower = document.getElementById('passLower').checked;
-            const numbers = document.getElementById('passNumbers').checked;
-            const symbols = document.getElementById('passSymbols').checked;
-
-            let chars = '';
-            if (upper) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            if (lower) chars += 'abcdefghijklmnopqrstuvwxyz';
-            if (numbers) chars += '0123456789';
-            if (symbols) chars += '!@#$%^&*()_+-=[]{}|;:,.<>?';
-
-            if (!chars) {
-                alert('Please select at least one character type.');
-                return;
-            }
-
-            let password = '';
-            for (let i = 0; i < length; i++) {
-                password += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-
-            generatedPassword = password;
-            showOutput('passOutput', `
-                <div style="font-size:1.2rem; font-weight:bold; word-break:break-all; color:#0a2463;">${password}</div>
-                <button class="btn" style="margin-top:0.5rem; padding:0.4rem 1.2rem; font-size:0.85rem;" onclick="copyPassword()">📋 Copy</button>
-            `);
+        // Template styles
+        let templateStyles = '';
+        if (selectedTemplate === 'modern') {
+            templateStyles = `
+                .resume-container { background: #f8f4f0; border-radius: 16px; padding: 2.5rem; }
+                .resume-container h3 { color: #2c3e50; font-size: 2rem; }
+                .resume-container .resume-title { color: #e67e22; }
+                .resume-container .resume-section h4 { color: #2c3e50; border-bottom-color: #e67e22; text-transform: none; font-size: 1.1rem; }
+            `;
+        } else if (selectedTemplate === 'minimal') {
+            templateStyles = `
+                .resume-container { background: white; border-radius: 4px; padding: 2rem; border: 1px solid #ddd; }
+                .resume-container h3 { color: #111; font-size: 1.8rem; }
+                .resume-container .resume-title { color: #555; font-weight: 400; }
+                .resume-container .resume-section h4 { color: #111; border-bottom: 1px solid #ccc; text-transform: none; font-size: 1rem; }
+                .resume-container .resume-contact { color: #888; }
+            `;
         }
 
-        function copyPassword() {
-            if (!generatedPassword) {
-                alert('Generate a password first.');
-                return;
-            }
-            navigator.clipboard.writeText(generatedPassword).then(() => alert('✅ Copied!')).catch(() => {
-                const textarea = document.createElement('textarea');
-                textarea.value = generatedPassword;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                alert('✅ Copied!');
-            });
-        }
+        const experienceHtml = experience.split('\n').filter(s => s.trim()).map(s => `<p>${s}</p>`).join('');
+        const educationHtml = education.split('\n').filter(s => s.trim()).map(s => `<p>${s}</p>`).join('');
+        const skillsHtml = skills.split('\n').filter(s => s.trim()).map(s => `<p>${s}</p>`).join('');
 
-        // ============================================================
-        // TEXT SUMMARIZER
-        // ============================================================
-
-        function summarizeText() {
-            const text = document.getElementById('summarizerInput').value.trim();
-            if (!text) {
-                alert('Please enter some text to summarize.');
-                return;
-            }
-
-            const words = text.split(/\s+/);
-            let summary = '';
-
-            if (words.length <= 50) {
-                summary = text;
-            } else {
-                const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-                summary = sentences.slice(0, 3).join(' ') + ' ... [Summary continues]';
-            }
-
-            showOutput('summarizerOutput', `
-                <div style="font-size:1rem; line-height:1.8;">
-                    <p><strong style="color:#0a2463;">Original:</strong> ${text.length} characters, ${words.length} words</p>
-                    <p><strong style="color:#0a2463;">Summary:</strong><br/>${summary}</p>
+        const resumeHTML = `
+            <div class="resume-container" id="resumeContent">
+                <style>${templateStyles}</style>
+                ${photoHtml}
+                <h3>${name}</h3>
+                <div class="resume-title">${title}</div>
+                ${contactHtml}
+                <hr style="border:none; border-top:2px solid #d4af37; margin:0.5rem 0;" />
+                <div class="resume-section"><h4>Professional Summary</h4><p>${details || 'A dedicated professional with experience in ' + title + '. Passionate about delivering results and continuous learning.'}</p></div>
+                <div class="resume-section"><h4>Experience</h4>${experienceHtml}</div>
+                <div class="resume-section"><h4>Education</h4>${educationHtml}</div>
+                <div class="resume-section"><h4>Skills</h4>${skillsHtml}</div>
+                <div style="margin-top:1.5rem; font-size:0.75rem; color:#6c757d; text-align:center; border-top:1px solid #e9ecef; padding-top:0.8rem;">
+                    📄 Resume generated by Nusaybah Hub — ${new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })}
                 </div>
-            `);
+            </div>
+            <div class="resume-actions">
+                <button class="btn btn-success" onclick="downloadResumeHTML()"><i class="fas fa-file-download"></i> Download HTML</button>
+                <button class="btn btn-info" onclick="printResume()"><i class="fas fa-print"></i> Print / PDF</button>
+                <button class="btn" onclick="shareResume()" style="background:#1da1f2;"><i class="fas fa-share-alt"></i> Share</button>
+            </div>
+        `;
+
+        currentResumeHTML = resumeHTML;
+        showOutput('resumeOutput', resumeHTML);
+        incrementStat('resumes');
+    }
+
+    function shareResume() {
+        const name = document.getElementById('resumeName').value.trim() || 'Resume';
+        const text = encodeURIComponent(`📄 Check out my resume: ${name} built with Nusaybah Hub!`);
+        window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(window.location.href)}`, '_blank', 'width=600,height=400');
+    }
+
+    function downloadResumeHTML() {
+        const content = document.getElementById('resumeContent');
+        if (!content) { alert('Please generate a resume first.'); return; }
+        const name = document.getElementById('resumeName').value.trim() || 'resume';
+        const htmlContent = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${name} - Resume</title><style>body{font-family:'Segoe UI',sans-serif;max-width:900px;margin:2rem auto;padding:2rem;background:white;color:#212529;line-height:1.7;}.resume-container{background:white;padding:2rem;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.06);}.resume-container h3{color:#0a2463;font-size:1.8rem;margin-bottom:0.2rem;}.resume-container .resume-title{font-size:1.2rem;color:#0a2463;font-weight:600;}.resume-container .resume-contact{color:#6c757d;font-size:0.95rem;margin:0.3rem 0 0.8rem 0;}.resume-container .resume-section{margin-top:1.2rem;}.resume-container .resume-section h4{color:#0a2463;border-bottom:2px solid #d4af37;padding-bottom:0.2rem;margin-bottom:0.4rem;font-size:1.05rem;text-transform:uppercase;letter-spacing:0.5px;}.resume-container .resume-section p{margin:0.2rem 0;}hr{border:none;border-top:2px solid #d4af37;margin:0.5rem 0;}.resume-photo{float:right;width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #d4af37;margin-left:1rem;}@media print{body{margin:0;padding:0.5in;}.resume-container{box-shadow:none;padding:0;}}</style></head><body>${content.outerHTML}</body></html>`;
+        const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${name.replace(/\s+/g, '_')}_Resume.html`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function printResume() {
+        const content = document.getElementById('resumeContent');
+        if (!content) { alert('Please generate a resume first.'); return; }
+        const printWindow = window.open('', '_blank', 'width=900,height=700');
+        if (!printWindow) { alert('Please allow popups to print your resume.'); return; }
+        const name = document.getElementById('resumeName').value.trim() || 'Resume';
+        printWindow.document.write(`<!DOCTYPE html><html><head><title>${name} - Resume</title><style>body{font-family:'Segoe UI',sans-serif;max-width:900px;margin:1rem auto;padding:1.5rem;background:white;color:#212529;line-height:1.7;}.resume-container{background:white;padding:1.5rem;border-radius:8px;}.resume-container h3{color:#0a2463;font-size:1.8rem;margin-bottom:0.2rem;}.resume-container .resume-title{font-size:1.2rem;color:#0a2463;font-weight:600;}.resume-container .resume-contact{color:#6c757d;font-size:0.95rem;margin:0.3rem 0 0.8rem 0;}.resume-container .resume-section{margin-top:1.2rem;}.resume-container .resume-section h4{color:#0a2463;border-bottom:2px solid #d4af37;padding-bottom:0.2rem;margin-bottom:0.4rem;font-size:1.05rem;text-transform:uppercase;letter-spacing:0.5px;}.resume-container .resume-section p{margin:0.2rem 0;}hr{border:none;border-top:2px solid #d4af37;margin:0.5rem 0;}.resume-photo{float:right;width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #d4af37;margin-left:1rem;}@media print{body{margin:0;padding:0.3in;}.resume-container{box-shadow:none;padding:0;}}</style></head><body>${content.outerHTML}</body></html>`);
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => printWindow.print(), 500);
+    }
+
+    // ============================================================
+    // RESUME KEYBOARD NAV
+    // ============================================================
+    function setupResumeKeyboardNav() {
+        const resumeCard = document.querySelector('#page-resume .card');
+        if (!resumeCard) return;
+        const focusable = resumeCard.querySelectorAll('input, textarea, .btn');
+        focusable.forEach((el, index) => {
+            el.addEventListener('keydown', function(e) {
+                if (e.key !== 'Enter') return;
+                if (e.shiftKey && this.tagName === 'TEXTAREA') return;
+                e.preventDefault();
+                if (index === focusable.length - 1) { this.click(); return; }
+                const next = focusable[index + 1];
+                if (next) { next.focus(); if (next.tagName === 'TEXTAREA') next.scrollIntoView({ behavior:'smooth', block:'center' }); }
+            });
+        });
+    }
+
+    // ============================================================
+    // CONTENT WRITER
+    // ============================================================
+    function generateContent() {
+        const topic = document.getElementById('contentTopic').value.trim();
+        const type = document.getElementById('contentType').value;
+        const tone = document.getElementById('contentTone').value;
+        const audience = document.getElementById('contentAudience').value.trim() || 'General audience';
+        if (!topic) { alert('Please enter a topic.'); return; }
+        const templates = {
+            'Blog Post': `<h3>📝 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Introduction</strong><br/>A ${tone.toLowerCase()} blog post on ${topic} is a powerful way to engage your audience.</p><p><strong>Body</strong><br/>${topic} is relevant because it addresses key challenges and opportunities.</p><p><strong>Conclusion</strong><br/>Wrap up with a strong conclusion that reinforces the main points.</p>`,
+            'Social Media Post': `<h3>📱 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p>🌟 ${topic} is changing the way we think about [industry].</p><p>👉 <strong>Why it matters:</strong> ${topic} addresses [key need].</p><p>💬 <strong>Let's discuss:</strong> What's your experience? Drop a comment!</p><p>#${topic.replace(/ /g,'')} #Trending #NusaybahHub</p>`,
+            'Product Description': `<h3>🛍️ ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Introducing ${topic}</strong></p><p>${topic} is designed with quality and affordability in mind.</p><ul><li>✅ Premium quality</li><li>✅ Affordable price</li><li>✅ Satisfaction guaranteed</li></ul><p>📞 <strong>Order Now:</strong> +234 810 525 7672</p>`,
+            'Email Newsletter': `<h3>📧 Subject: ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p>Hello [Name],</p><p>We're excited to share this update on ${topic}.</p><ul><li>📌 Key point 1</li><li>📌 Key point 2</li><li>📌 Key point 3</li></ul><p>Best regards,<br/>Nusaybah Hub Team</p>`,
+            'Advertisement Copy': `<h3>🔥 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Headline:</strong> ${topic} – Limited Time Offer!</p><p><strong>Body:</strong> Don't miss out on ${topic}.</p><ul><li>✅ [Benefit 1]</li><li>✅ [Benefit 2]</li><li>✅ [Benefit 3]</li></ul><p><strong>Call to Action:</strong> 📞 Call now: +234 810 525 7672</p>`,
+            'Press Release': `<h3>📰 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Headline:</strong> Nusaybah Hub Announces Update on ${topic}</p><p><strong>Date:</strong> ${new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })}</p><p>Nusaybah Hub is proud to announce [key announcement].</p><p>For inquiries: +234 810 525 7672</p>`,
+            'Case Study': `<h3>📊 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Client:</strong> [Client Name]</p><p><strong>Challenge:</strong> [Challenge related to ${topic}]</p><p><strong>Solution:</strong> Nusaybah Hub provided ${topic} solutions.</p><p><strong>Results:</strong></p><ul><li>✅ [Result 1]</li><li>✅ [Result 2]</li><li>✅ [Result 3]</li></ul>`,
+            'How-To Guide': `<h3>📖 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Step 1:</strong> Gather your materials.</p><p><strong>Step 2:</strong> Follow the process.</p><p><strong>Step 3:</strong> Review your results.</p>`,
+            'Video Script': `<h3>🎬 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Scene 1:</strong> Opening hook – "Did you know about ${topic}?"</p><p><strong>Scene 2:</strong> Problem – "Many people struggle with [problem]."</p><p><strong>Scene 3:</strong> Solution – "Here's how ${topic} solves this."</p><p><strong>Scene 4:</strong> Call to Action – "Visit Nusaybah Hub!"</p>`,
+            'Landing Page Copy': `<h3>🌐 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Headline:</strong> ${topic} – Your Solution</p><p><strong>Body:</strong> Discover why ${topic} is the best choice.</p><ul><li>✅ [Feature 1]</li><li>✅ [Feature 2]</li><li>✅ [Feature 3]</li></ul><p><strong>Call to Action:</strong> <a href="#" style="color:var(--secondary);">Get Started Today!</a></p>`
+        };
+        const result = templates[type] || templates['Blog Post'];
+        showOutput('contentOutput', `<div style="font-size:1rem; line-height:1.8;">${result}</div>`);
+        incrementStat('content');
+    }
+
+    // ============================================================
+    // LEAD GENERATOR
+    // ============================================================
+    function generateLeads() {
+        const business = document.getElementById('leadBusiness').value.trim();
+        const location = document.getElementById('leadLocation').value.trim();
+        const audience = document.getElementById('leadAudience').value.trim();
+        const stage = document.getElementById('leadStage').value;
+        if (!business) { alert('Please enter a business type.'); return; }
+        const leads = `<div style="font-family:'Segoe UI',sans-serif;line-height:1.8;"><h3 style="color:#0a2463;">🎯 Lead Generation Report</h3><p><strong>Business:</strong> ${business}<br/><strong>Location:</strong> ${location || 'Any'}<br/><strong>Target:</strong> ${audience || 'General'}<br/><strong>Business Stage:</strong> ${stage || 'Any'}</p><hr/><p><strong style="color:#0a2463;">Top 7 Customer Segments</strong></p><p><strong>1. Segment A</strong> – ${audience || 'Primary customers'} who need ${business}<br/>📍 Where to find: Social media, local events<br/>📝 Outreach: "Hello! We offer premium ${business} in ${location || 'your area'}."</p><p><strong>2. Segment B</strong> – Secondary market<br/>📍 Where to find: Online directories, referrals<br/>📝 Outreach: "Hi there! We specialize in ${business}."</p><p><strong>3. Segment C</strong> – Niche audience<br/>📍 Where to find: Community groups, LinkedIn<br/>📝 Outreach: "Looking for quality ${business}? We've got you covered!"</p><p><strong>4. Segment D</strong> – Corporate clients<br/>📍 Where to find: LinkedIn, business networks<br/>📝 Outreach: "We provide ${business} solutions for businesses like yours."</p><p><strong>5. Segment E</strong> – Repeat customers<br/>📍 Where to find: Past clients, email lists<br/>📝 Outreach: "We value your loyalty. Here's a special offer!"</p><p><strong>6. Segment F</strong> – Influencers<br/>📍 Where to find: Instagram, TikTok, YouTube<br/>📝 Outreach: "We'd like to collaborate with you on ${business}."</p><p><strong>7. Segment G</strong> – Event organizers<br/>📍 Where to find: Event planning groups, expos<br/>📝 Outreach: "We provide ${business} for events. Let's work together!"</p><hr/><p><strong style="color:#0a2463;">Priority Recommendations</strong></p><p>1. Start with Segments A and B for quick wins.</p><p>2. Use social media to reach Segment F.</p><p>3. Attend local events for Segments A and G.</p><p>4. Use email marketing for Segment E.</p></div>`;
+        showOutput('leadOutput', leads);
+        incrementStat('leads');
+    }
+
+    // ============================================================
+    // AI ASSISTANT
+    // ============================================================
+    function askAssistant() {
+        const input = document.getElementById('assistantInput').value.trim();
+        if (!input) { alert('Please ask a question.'); return; }
+        const lowerInput = input.toLowerCase();
+        const answers = {
+            'address': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
+            'location': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
+            'where': '📍 Our address is C/73 Alhaji Ango Street, Jos North, Plateau State, Nigeria.',
+            'phone': '📞 Call or WhatsApp us at +234 810 525 7672.',
+            'number': '📞 Call or WhatsApp us at +234 810 525 7672.',
+            'contact': '📞 Call or WhatsApp us at +234 810 525 7672. Email: nusaybahpower@gmail.com',
+            'whatsapp': '📞 WhatsApp us at +234 810 525 7672.',
+            'hour': '🕐 Mon–Thu: 8 AM – 6 PM | Fri: 8 AM – 5 PM | Sat–Sun: 8 AM – 6 PM',
+            'open': '🕐 We are open Monday to Sunday. Mon–Thu & Sat–Sun: 8 AM – 6 PM. Fri: 8 AM – 5 PM.',
+            'sell': '🛍️ We sell fashion, electronics, tailoring, home appliances, and thrift items.',
+            'offer': '🛍️ We offer custom tailoring, modest fashion, thrift abayas (₦5,000), hand sleeves (₦800), pins (₦700), visor hats, digital marketing, tech accessories, and power banks.',
+            'product': '🛍️ Products: thrift abayas (₦5,000), hand sleeves (₦800), pins (₦700), visor hats, power banks (20,000–50,000mAh), home appliances, custom tailoring.',
+            'fashion': '👗 Yes! Modest fashion including thrift abayas (₦5,000), hand sleeves (₦800), pins (₦700), and visor hats.',
+            'tailoring': '✂️ Yes! Custom tailoring at Nusaybah Power & Stitch.',
+            'abaya': '👗 Yes! Thrift abayas for ₦5,000.',
+            'sleeve': '🧤 Yes! Hand sleeves for ₦800. Black and white. Fits all sizes.',
+            'pin': '📌 Yes! Fashion pins for ₦700.',
+            'visor': '🧢 Yes! Visor hats. Contact us for designs.',
+            'power bank': '🔋 Yes! Power banks in 20,000mAh, 30,000mAh, 40,000mAh, and 50,000mAh.',
+            'blender': '🔋 Yes! Silver Crest blenders. Price: ₦25,000.',
+            'iron': '🔋 Yes! Hansen dry irons. 1200W, heats in 37 seconds.',
+            'delivery': '📦 Yes! We deliver locally in Jos and ship nationwide.',
+            'shipping': '📦 Yes! We deliver locally in Jos and ship nationwide.',
+            'facebook': '📱 Follow us on Facebook: https://www.facebook.com/100077686659565/',
+            'instagram': '📱 Follow us on Instagram: https://www.instagram.com/nusaybahyaaqub/',
+            'tiktok': '📱 Follow us on TikTok: @nusaybahpowerstitch',
+            'price': '💰 Thrift abayas: ₦5,000 | Hand sleeves: ₦800 | Pins: ₦700 | Blender: ₦25,000',
+            'pay': '💳 Payment methods: Bank transfer, cash on delivery, or pay in-store.',
+            'order': '📝 Place an order on WhatsApp at +234 810 525 7672 or visit our store.',
+            'about': '🏢 Nusaybah Hub is a multi-service business in Jos, Nigeria.',
+            'help': '🤖 I\'m here to help! Ask me about our products, services, hours, location, and pricing.',
+            'hello': '👋 Hello! Welcome to Nusaybah Hub. How can I help you today?',
+            'hi': '👋 Hi! Welcome to Nusaybah Hub.',
+            'thanks': '😊 You\'re welcome! Thank you for choosing Nusaybah Hub.',
+            'thank you': '😊 You\'re welcome!',
+            'bye': '👋 Goodbye! Visit us anytime.',
+            'goodbye': '👋 Goodbye! Visit us anytime.'
+        };
+        let result = null;
+        for (const [key, value] of Object.entries(answers)) {
+            if (lowerInput.includes(key)) { result = value; break; }
         }
+        if (!result) {
+            result = `🤖 I'm sorry, I don't have an answer for that yet. Please contact us directly:\n\n📞 Call/WhatsApp: +234 810 525 7672\n📍 Address: C/73 Alhaji Ango Street, Jos North, Plateau State\n📧 Email: nusaybahpower@gmail.com\n\nWe would love to help you! 😊`;
+        }
+        showOutput('assistantOutput', `<div style="font-size:1rem; line-height:1.8;">${result.replace(/\n/g, '<br/>')}</div>`);
+        incrementStat('assistant');
+    }
 
-        // ============================================================
-        // KEYBOARD SHORTCUT
-        // ============================================================
+    // ============================================================
+    // QR CODE GENERATOR
+    // ============================================================
+    function generateQR() {
+        const text = document.getElementById('qrInput').value.trim();
+        if (!text) { alert('Please enter some text or a URL.'); return; }
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(text)}`;
+        const resultHtml = `
+            <img id="qrImage" src="${qrUrl}" alt="QR Code" style="max-width:300px; width:100%; margin:0 auto; display:block; border:2px solid #ddd; border-radius:8px;" />
+            <div style="margin-top:1rem;">
+                <button class="btn" onclick="downloadQR()" style="background:var(--secondary); color:var(--primary);"><i class="fas fa-download"></i> Download QR Code</button>
+            </div>
+        `;
+        showOutput('qrOutput', resultHtml);
+        incrementStat('qr');
+    }
 
-        document.addEventListener('keydown', function(e) {
-            const tag = e.target.tagName;
-            if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+    function downloadQR() {
+        const img = document.getElementById('qrImage');
+        if (!img) { alert('Please generate a QR code first.'); return; }
+        fetch(img.src, { mode: 'cors' }).then(res => res.blob()).then(blob => {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            const text = document.getElementById('qrInput').value.trim() || 'qrcode';
+            link.download = `qrcode_${text.substring(0,20)}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+        }).catch(() => {
+            const link = document.createElement('a');
+            link.href = img.src;
+            link.download = 'qrcode.png';
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
 
-            if (e.key === 'Enter') {
-                const activePage = document.querySelector('.page.active');
-                if (activePage) {
-                    const id = activePage.id;
-                    if (id === 'page-recipe') generateRecipe();
-                    else if (id === 'page-resume') generateResume();
-                    else if (id === 'page-content') generateContent();
-                    else if (id === 'page-leads') generateLeads();
-                    else if (id === 'page-assistant') askAssistant();
-                    else if (id === 'page-qr') generateQR();
-                    else if (id === 'page-password') generatePassword();
-                    else if (id === 'page-summarizer') summarizeText();
-                }
+    // ============================================================
+    // PASSWORD GENERATOR
+    // ============================================================
+    let generatedPassword = '';
+    function generatePassword() {
+        const length = parseInt(document.getElementById('passLength').value) || 12;
+        const upper = document.getElementById('passUpper').checked;
+        const lower = document.getElementById('passLower').checked;
+        const numbers = document.getElementById('passNumbers').checked;
+        const symbols = document.getElementById('passSymbols').checked;
+        let chars = '';
+        if (upper) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        if (lower) chars += 'abcdefghijklmnopqrstuvwxyz';
+        if (numbers) chars += '0123456789';
+        if (symbols) chars += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+        if (!chars) { alert('Please select at least one character type.'); return; }
+        let password = '';
+        for (let i = 0; i < length; i++) password += chars.charAt(Math.floor(Math.random() * chars.length));
+        generatedPassword = password;
+        showOutput('passOutput', `
+            <div style="font-size:1.2rem; font-weight:bold; word-break:break-all; color:#0a2463;">${password}</div>
+            <button class="btn btn-sm" style="margin-top:0.5rem;" onclick="copyPassword()"><i class="fas fa-copy"></i> Copy</button>
+        `);
+        incrementStat('passwords');
+    }
+
+    function copyPassword() {
+        if (!generatedPassword) { alert('Generate a password first.'); return; }
+        navigator.clipboard.writeText(generatedPassword).then(() => alert('✅ Copied!')).catch(() => {
+            const textarea = document.createElement('textarea');
+            textarea.value = generatedPassword;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('✅ Copied!');
+        });
+    }
+
+    // ============================================================
+    // TEXT SUMMARIZER
+    // ============================================================
+    function summarizeText() {
+        const text = document.getElementById('summarizerInput').value.trim();
+        if (!text) { alert('Please enter some text to summarize.'); return; }
+        const words = text.split(/\s+/);
+        let summary = '';
+        if (words.length <= 50) summary = text;
+        else {
+            const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+            summary = sentences.slice(0, 3).join(' ') + ' ... [Summary continues]';
+        }
+        showOutput('summarizerOutput', `
+            <div style="font-size:1rem; line-height:1.8;">
+                <p><strong style="color:#0a2463;">Original:</strong> ${text.length} characters, ${words.length} words</p>
+                <p><strong style="color:#0a2463;">Summary:</strong><br/>${summary}</p>
+            </div>
+        `);
+        incrementStat('summaries');
+    }
+
+    // ============================================================
+    // KEYBOARD SHORTCUT (global)
+    // ============================================================
+    document.addEventListener('keydown', function(e) {
+        const tag = e.target.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+        if (e.key === 'Enter') {
+            const activePage = document.querySelector('.page.active');
+            if (activePage) {
+                const id = activePage.id;
+                if (id === 'page-recipe') generateRecipe();
+                else if (id === 'page-resume') generateResume();
+                else if (id === 'page-content') generateContent();
+                else if (id === 'page-leads') generateLeads();
+                else if (id === 'page-assistant') askAssistant();
+                else if (id === 'page-qr') generateQR();
+                else if (id === 'page-password') generatePassword();
+                else if (id === 'page-summarizer') summarizeText();
             }
-        });
+        }
+    });
 
-        // ============================================================
-        // INIT
-        // ============================================================
-
-        document.addEventListener('DOMContentLoaded', function() {
-            displayAllRecipes();
-        });
+    // ============================================================
+    // INIT
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        displayAllRecipes();
+        setupResumeKeyboardNav();
+        updateStats();
+    });
     </script>
 </body>
 </html>
