@@ -972,12 +972,12 @@
         <!-- ===== SUMMARIZER ===== -->
         <div class="page" id="page-summarizer">
             <div class="card">
-                <h2><i class="fas fa-compress-alt"></i> Smart Academic Summarizer</h2>
-                <p class="sub">Paste your text and get an AI-grade summary optimized for research and PGD projects. (100% local)</p>
+                <h2><i class="fas fa-compress-alt"></i> Smart Summarizer</h2>
+                <p class="sub">Paste any text and get a professional, high-quality summary instantly. (100% local, no API needed)</p>
 
                 <div class="form-group">
                     <label>Enter Text to Summarize</label>
-                    <textarea id="summarizerInput" rows="8" placeholder="Paste your Abstract, Findings, or Conclusion here..."></textarea>
+                    <textarea id="summarizerInput" rows="8" placeholder="Paste your text here..."></textarea>
                     <div class="char-counter"><span id="summarizerCharCount">0</span> characters</div>
                 </div>
 
@@ -1001,9 +1001,9 @@
                 </div>
             </div>
 
-            <!-- ===== NEW: SUMMARY HISTORY DASHBOARD ===== -->
+            <!-- ===== SUMMARY HISTORY DASHBOARD ===== -->
             <div class="card" style="border-left-color: var(--primary);">
-                <h3><i class="fas fa-clock"></i> 📜 Summary History (Project Dashboard)</h3>
+                <h3><i class="fas fa-clock"></i> 📜 Summary History</h3>
                 <p class="sub">Your previously generated summaries are saved locally in your browser. Click any item to reload it instantly.</p>
                 <div id="summaryHistoryList" style="max-height:300px; overflow-y:auto; margin-bottom:1rem;">
                     <p style="color:var(--gray);">No summaries saved yet.</p>
@@ -1032,7 +1032,7 @@
     </footer>
 
     <!-- ============================================================
-    JAVASCRIPT – ALL FEATURES INCLUDED
+    JAVASCRIPT – ALL FEATURES INCLUDED (General Purpose)
     ============================================================ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
@@ -1091,7 +1091,7 @@
             document.getElementById('page-' + this.dataset.page).classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
             updateStats();
-            renderHistory(); // Refresh history if navigated to summarizer
+            renderHistory();
         });
     });
     function goTo(page) {
@@ -1647,7 +1647,7 @@
     }
 
     // ============================================================
-    // 🎓 ACADEMIC-GRADE SUMMARIZER + HISTORY + PDF EXPORT
+    // 🎯 SMART SUMMARIZER (General Purpose) + HISTORY + PDF
     // ============================================================
 
     // Stopwords
@@ -1716,8 +1716,7 @@
       const reduction = Math.round(((origWords - sumWords) / origWords) * 100);
       return `
         <div style="margin-bottom:1rem; border-left: 4px solid #d4af37; padding-left:1rem;">
-          <strong style="color:var(--primary);">📚 Academic-Grade Summary</strong>
-          <span style="background:#0a2463; color:white; padding:0.1rem 0.6rem; border-radius:12px; font-size:0.65rem; margin-left:0.5rem;">🔬 PGD Optimized</span>
+          <strong style="color:var(--primary);">📝 Smart Summary</strong>
           <p style="margin-top:0.5rem; line-height:1.8; font-size:1.05rem;">${summary}</p>
         </div>
         <div style="margin-bottom:1rem;">
@@ -1743,7 +1742,7 @@
     }
 
     // ============================================================
-    // 📜 SUMMARY HISTORY (Project Dashboard)
+    // 📜 SUMMARY HISTORY
     // ============================================================
     function getHistory() {
         try { return JSON.parse(localStorage.getItem('nusaybah_summary_history')) || []; } catch(e) { return []; }
@@ -1758,8 +1757,8 @@
             summary: summaryText,
             snippet: originalSnippet.substring(0, 120) + (originalSnippet.length > 120 ? '...' : '')
         };
-        history.unshift(entry); // newest first
-        if (history.length > 50) history.pop(); // limit to 50 items
+        history.unshift(entry);
+        if (history.length > 50) history.pop();
         saveHistory(history);
         renderHistory();
     }
@@ -1793,21 +1792,15 @@
         const history = getHistory();
         if (index >= history.length || index < 0) { alert('Item not found.'); return; }
         const item = history[index];
-        // Display it in the output box
         const outputBox = document.getElementById('summarizerOutput');
         const resultDiv = document.getElementById('summarizerResult');
         
-        // Reconstruct the summary HTML (approximate)
-        // Extract key points from the summary text (quick hack: split by lines or just use as is)
         const summaryText = item.summary || item.snippet;
-        const wordCount = summaryText.split(/\s+/).length;
         
-        // Simple key points extraction from the saved text (if we have the full summary)
-        // We'll just display it nicely
         resultDiv.innerHTML = `
             <div style="margin-bottom:1rem; border-left: 4px solid #d4af37; padding-left:1rem;">
-                <strong style="color:var(--primary);">📚 Loaded from History</strong>
-                <span style="background:#0a2463; color:white; padding:0.1rem 0.6rem; border-radius:12px; font-size:0.65rem; margin-left:0.5rem;">🔬 ${item.date}</span>
+                <strong style="color:var(--primary);">📝 Loaded from History</strong>
+                <span style="background:#0a2463; color:white; padding:0.1rem 0.6rem; border-radius:12px; font-size:0.65rem; margin-left:0.5rem;">📅 ${item.date}</span>
                 <p style="margin-top:0.5rem; line-height:1.8; font-size:1.05rem;">${summaryText}</p>
             </div>
             <div style="display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center; color:var(--gray); font-size:0.85rem; border-top:1px solid var(--border); padding-top:0.8rem;">
@@ -1819,7 +1812,6 @@
             </div>
         `;
         outputBox.classList.add('show');
-        // Scroll to it
         outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
@@ -1839,7 +1831,7 @@
     }
 
     // ============================================================
-    // 🏆 EXECUTIVE PDF EXPORT (With Letterhead)
+    // 🏆 EXECUTIVE PDF EXPORT (General Purpose)
     // ============================================================
     function printSummary() {
       const content = document.getElementById('summarizerResult');
@@ -1848,16 +1840,14 @@
         return;
       }
 
-      // Grab the raw text
       const rawText = content.innerText || '';
-      const summaryMatch = rawText.match(/📚 Academic-Grade Summary\s*🔬 PGD Optimized\s*([\s\S]*?)(?=📌 Extracted Key Points)/);
+      const summaryMatch = rawText.match(/📝 Smart Summary\s*([\s\S]*?)(?=📌 Extracted Key Points)/);
       const summaryBody = summaryMatch ? summaryMatch[1].trim() : rawText;
       
       const keyPointsMatch = rawText.match(/📌 Extracted Key Points\s*([\s\S]*?)(?=📊 Original:)/);
       const keyPoints = keyPointsMatch ? keyPointsMatch[1].trim() : 'N/A';
 
-      // Prompt for Title
-      const projectTitle = prompt("📝 Enter the Title of your Project (for the document header):", "Postgraduate Diploma Research Project") || "Academic Research Summary";
+      const projectTitle = prompt("📝 Enter the Title of your document (for the header):", "Document Summary") || "Document Summary";
 
       const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
@@ -1871,7 +1861,7 @@
         <!DOCTYPE html>
         <html>
         <head>
-          <title>Academic Summary - Nusaybah Hub</title>
+          <title>Smart Summary - Nusaybah Hub</title>
           <style>
             @page { margin: 2cm; }
             body { 
@@ -1961,22 +1951,22 @@
 
           <div class="letterhead">
             <h1>Nusaybah <span>Hub</span></h1>
-            <div class="sub">Your Trusted Shopping Hub • Academic Division</div>
+            <div class="sub">Your Trusted Shopping Hub • Productivity Division</div>
           </div>
 
           <div class="doc-title">${projectTitle}</div>
-          <div class="doc-meta">📅 Generated on ${date} • PGD Academic Summary</div>
+          <div class="doc-meta">📅 Generated on ${date} • Smart Summary</div>
 
-          <h3 style="color:#0a2463;">📝 Executive Summary</h3>
+          <h3 style="color:#0a2463;">📝 Summary</h3>
           <div class="summary-body">${summaryBody}</div>
 
           <div class="key-points">
-            <h3>📌 Extracted Key Findings</h3>
+            <h3>📌 Extracted Key Points</h3>
             ${keyPoints.replace(/\n/g, '<br/>')}
           </div>
 
           <div class="footer">
-            <p>This document was generated automatically using the Nusaybah Hub AI Summarizer. 
+            <p>This document was generated automatically using the Nusaybah Hub Smart Summarizer. 
             <br/>For the full report or to regenerate, visit the official tool.</p>
             <p style="font-size:8pt; opacity:0.6;">© 2025 Nusaybah Hub — Built with ❤ by Nusaiba Yakub</p>
           </div>
@@ -2002,10 +1992,9 @@
         return;
       }
 
-      // ---- WORD LIMIT WARNING ----
       const wordCountEstimate = text.split(/\s+/).length;
       if (wordCountEstimate > 8000) {
-        if (!confirm(`⚠️ Your text is about ${wordCountEstimate} words long. For the best performance and accuracy (especially for academic work), please summarize only the Abstract, Findings, or Conclusion sections at a time. Do you want to continue anyway?`)) {
+        if (!confirm(`⚠️ Your text is about ${wordCountEstimate} words long. For the best performance and accuracy, please summarize smaller sections at a time. Do you want to continue anyway?`)) {
           return;
         }
       }
@@ -2017,7 +2006,7 @@
       resultDiv.innerHTML = `
         <div style="text-align:center; padding:1.5rem;">
           <i class="fas fa-spinner fa-spin" style="font-size:1.5rem; color:var(--secondary);"></i>
-          <p style="margin-top:0.5rem;">🧠 Analyzing your academic text...</p>
+          <p style="margin-top:0.5rem;">🧠 Analyzing your text...</p>
         </div>
       `;
 
@@ -2039,7 +2028,6 @@
             const keyPoints = extractKeyPoints(text);
             const summary = text;
             resultDiv.innerHTML = buildSummaryHTML(summary, wordCount, wordCount, keyPoints);
-            // Save to history
             saveSummaryToHistory(summary, text);
             incrementStat('summaries');
             return;
@@ -2047,13 +2035,12 @@
 
           const { tfidf, docWords } = computeTFIDF(sentences);
 
-          // ---- ACADEMIC KEYWORD BOOST ----
-          const academicKeywords = [
+          // ---- SMART KEYWORD BOOST (General Purpose) ----
+          const smartKeywords = [
             'conclusion', 'findings', 'results', 'study', 'research', 'analysis', 
-            'reveals', 'suggests', 'indicates', 'demonstrates', 'hypothesis', 
-            'objective', 'aim', 'purpose', 'significant', 'correlation', 
-            'effect', 'impact', 'therefore', 'consequently', 'this paper', 
-            'we propose', 'we find', 'methodology', 'data shows', 'evidence'
+            'reveals', 'suggests', 'indicates', 'demonstrates', 'important',
+            'objective', 'aim', 'purpose', 'significant', 'key', 'impact',
+            'therefore', 'consequently', 'finally', 'overall', 'recommend'
           ];
 
           const scoredSentences = sentences.map((sentence, idx) => {
@@ -2062,15 +2049,15 @@
             const tfidfObj = tfidf[idx];
             for (const w of words) score += tfidfObj[w] || 0;
             
-            let academicScore = 0;
+            let smartScore = 0;
             const lowerSentence = sentence.toLowerCase();
-            for (const keyword of academicKeywords) {
-              if (lowerSentence.includes(keyword)) academicScore += 0.6;
+            for (const keyword of smartKeywords) {
+              if (lowerSentence.includes(keyword)) smartScore += 0.5;
             }
-            if (words.length > 0 && words.length < 15) academicScore += 0.3;
+            if (words.length > 0 && words.length < 15) smartScore += 0.2;
             
-            const posBonus = (idx === 0) ? 1.8 : (idx === totalSentences - 1) ? 1.6 : 1.0;
-            score = (score * 1.5) + academicScore;
+            const posBonus = (idx === 0) ? 1.6 : (idx === totalSentences - 1) ? 1.4 : 1.0;
+            score = (score * 1.3) + smartScore;
             score *= posBonus;
             
             if (words.length > 0) score = score / Math.sqrt(words.length);
@@ -2118,15 +2105,12 @@
           const keyPoints = extractKeyPoints(text);
 
           resultDiv.innerHTML = buildSummaryHTML(summary, wordCount, summaryWordCount, keyPoints);
-          
-          // ---- SAVE TO HISTORY ----
           saveSummaryToHistory(summary, text);
-          
           incrementStat('summaries');
 
         } catch (error) {
           console.error(error);
-          resultDiv.innerHTML = `<div style="color:#dc3545; padding:1rem; background:#f8d7da; border-radius:4px;"><strong>⚠️ Error:</strong> Please try with a shorter section of your project.</div>`;
+          resultDiv.innerHTML = `<div style="color:#dc3545; padding:1rem; background:#f8d7da; border-radius:4px;"><strong>⚠️ Error:</strong> Please try with a shorter section of text.</div>`;
         }
       }, 150);
     }
