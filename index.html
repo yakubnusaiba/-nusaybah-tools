@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nusaybah Hub – Multi-Function Tools</title>
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk51c2F5YmFoIEh1YiIsCiAgInNob3J0X25hbWUiOiAiTnVzYXliYWggSHViIiwKICAiZGVzY3JpcHRpb24iOiAiQWxsLWluLU9uZSBUb29scyBmb3IgQnVzaW5lc3MsIENyZWF0aXZpdHkgJiBQcm9kdWN0aXZpdHkiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBhMjQ2MyIsCiAgInRoZW1lX2NvbG9yIjogIiNkNGFmMzciLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWwsJTNDc3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDEwMCAxMDAnJTNFJTNDcmVjdCB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcgZmlsbD0nJTIzMGEyNDYzJyByeD0nMjAlMjAlM0UlM0MvdGV4dCUzRSUzQ3RleHQgeD0nNTAnIHk9JzUwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBkeT0nLjM1ZW0nIGZvbnQtc2l6ZT0nNDBweCcgZm9udC1mYW1pbHk9J3NhbnMtc2VyaWYnIGZmlsbD0nJTIzZDRhZjM3JyBmb250LXdlaWdodD0nYm9sZCclM0VOJTNDL3RleHQlM0UlM0Mvc3ZnJTNFIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0KfQ==" />
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk51c2F5YmFoIEh1YiIsCiAgInNob3J0X25hbWUiOiAiTnVzYXliYWggSHViIiwKICAiZGVzY3JpcHRpb24iOiAiQWxsLWluLU9uZSBUb29scyBmb3IgQnVzaW5lc3MsIENyZWF0aXZpdHkgJiBQcm9kdWN0aXZpdHkiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBhMjQ2MyIsCiAgInRoZW1lX2NvbG9yIjogIiNkNGFmMzciLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWwsJTNDc3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDEwMCAxMDAnJTNFJTNDcmVjdCB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcgZmlsbD0nJTIzMGEyNDYzJyByeD0nMjAlMjAlM0UlM0MvdGV4dCUzRSUzQ3RleHQgeD0nNTAnIHk9JzUwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBkeT0nLjM1ZW0nIGZvbnQtc2l6ZT0nNDBweCcgZm9udC1mYW1pbHk9J3NhbnMtc2VyaWYnIGZpbGw9JyUyM2Q0YWYzNycgZm9udC13ZWlnaHQ9J2JvbGQnJTNFTiUzQy90ZXh0JTNFJTNDL3N2ZyUzRSIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0KICBdCn0=" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
         /* ===== RESET & ROOT ===== */
@@ -941,16 +941,27 @@
         <div class="page" id="page-summarizer">
             <div class="card">
                 <h2><i class="fas fa-compress-alt"></i> Text Summarizer</h2>
-                <p class="sub">Summarize long text into key points.</p>
-                <div class="form-group"><label>Enter Text to Summarize</label><textarea id="summarizerInput" rows="6" placeholder="Paste your long text here..."></textarea><div class="char-counter"><span id="summarizerCharCount">0</span> characters</div></div>
-                <button class="btn" onclick="summarizeText()"><i class="fas fa-compress-alt"></i> Summarize</button>
+                <p class="sub">Summarize long text into key points with intelligent extraction.</p>
+
+                <div class="form-group">
+                    <label>Enter Text to Summarize</label>
+                    <textarea id="summarizerInput" rows="8" placeholder="Paste your long text here..."></textarea>
+                    <div class="char-counter"><span id="summarizerCharCount">0</span> characters</div>
+                </div>
+
+                <div class="form-group" style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
+                    <label style="font-weight:600; margin:0;">Summary Length</label>
+                    <select id="summaryLength" style="padding:0.4rem 0.8rem; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text);">
+                        <option value="short">Short (3 sentences)</option>
+                        <option value="medium" selected>Medium (5 sentences)</option>
+                        <option value="long">Long (8 sentences)</option>
+                    </select>
+                    <button class="btn" onclick="summarizeText()"><i class="fas fa-compress-alt"></i> Summarize</button>
+                </div>
+
                 <div class="output-box" id="summarizerOutput">
                     <h4>📝 Summary</h4>
                     <div id="summarizerResult"></div>
-                    <div class="toolbar">
-                        <button class="copy-btn" onclick="copyOutput('summarizerResult')"><i class="fas fa-copy"></i> Copy</button>
-                        <button class="regenerate-btn" onclick="summarizeText()"><i class="fas fa-sync-alt"></i> Regenerate</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1778,25 +1789,173 @@
     }
 
     // ============================================================
-    // TEXT SUMMARIZER
+    // SMART TEXT SUMMARIZER (Replaces the old one)
     // ============================================================
     function summarizeText() {
         const text = document.getElementById('summarizerInput').value.trim();
-        if (!text) { alert('Please enter some text to summarize.'); return; }
-        const words = text.split(/\s+/);
-        let summary = '';
-        if (words.length <= 50) summary = text;
-        else {
-            const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-            summary = sentences.slice(0, 3).join(' ') + ' ... [Summary continues]';
+        if (!text) {
+            alert('Please enter some text to summarize.');
+            return;
         }
-        showOutput('summarizerOutput', `
-            <div style="font-size:1rem; line-height:1.8;">
-                <p><strong style="color:#0a2463;">Original:</strong> ${text.length} characters, ${words.length} words</p>
-                <p><strong style="color:#0a2463;">Summary:</strong><br/>${summary}</p>
+
+        const outputBox = document.getElementById('summarizerOutput');
+        const resultDiv = document.getElementById('summarizerResult');
+
+        const lengthSelect = document.getElementById('summaryLength');
+        const lengthOption = lengthSelect ? lengthSelect.value : 'medium';
+
+        let maxSentences = 5;
+        if (lengthOption === 'short') maxSentences = 3;
+        else if (lengthOption === 'medium') maxSentences = 5;
+        else if (lengthOption === 'long') maxSentences = 8;
+
+        const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+        const wordCount = text.split(/\s+/).length;
+
+        // If text is short, return as is
+        if (sentences.length <= maxSentences) {
+            const summary = text;
+            const summaryWordCount = summary.split(/\s+/).length;
+            const keyPoints = extractKeyPoints(text);
+
+            resultDiv.innerHTML = `
+                <div style="margin-bottom:1rem;">
+                    <strong style="color:var(--primary);">📝 Summary</strong>
+                    <p style="margin-top:0.3rem; line-height:1.8;">${summary}</p>
+                </div>
+                <div style="margin-bottom:1rem;">
+                    <strong style="color:var(--primary);">📌 Key Points</strong>
+                    <ul style="margin-top:0.3rem; padding-left:1.5rem;">
+                        ${keyPoints.map(p => `<li>${p}</li>`).join('')}
+                    </ul>
+                </div>
+                <div style="display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center; color:var(--gray); font-size:0.85rem; border-top:1px solid var(--border); padding-top:0.8rem;">
+                    <span>📊 Original: ${wordCount} words</span>
+                    <span>|</span>
+                    <span>📄 Summary: ${summaryWordCount} words</span>
+                    <span>|</span>
+                    <span>✂️ Reduced by ${Math.round(((wordCount - summaryWordCount) / wordCount) * 100)}%</span>
+                    <div style="display:flex; gap:0.3rem; margin-left:auto;">
+                        <button class="btn btn-sm btn-primary" onclick="copySummary()"><i class="fas fa-copy"></i> Copy</button>
+                        <button class="btn btn-sm btn-primary" onclick="downloadSummary()"><i class="fas fa-download"></i> Download</button>
+                    </div>
+                </div>
+            `;
+            outputBox.classList.add('show');
+            return;
+        }
+
+        // Score each sentence
+        const scoredSentences = sentences.map((sentence, index) => {
+            const clean = sentence.trim();
+            const words = clean.split(/\s+/);
+
+            // Position score (first sentences are more important)
+            const positionScore = 1 - (index / sentences.length);
+
+            // Keyword score
+            const keywords = ['important', 'significant', 'key', 'main', 'primary', 'essential', 'critical', 'major', 'fundamental', 'central', 'conclusion', 'therefore', 'thus', 'hence', 'consequently', 'result', 'finally', 'overall', 'in conclusion'];
+            let keywordScore = 0;
+            keywords.forEach(keyword => {
+                if (clean.toLowerCase().includes(keyword)) {
+                    keywordScore += 1;
+                }
+            });
+            keywordScore = Math.min(keywordScore / 3, 1);
+
+            // Length score
+            const lengthScore = Math.min(words.length / 20, 1);
+
+            const totalScore = (positionScore * 0.5) + (keywordScore * 0.3) + (lengthScore * 0.2);
+
+            return {
+                sentence: clean,
+                score: totalScore,
+                wordCount: words.length,
+                originalIndex: index
+            };
+        });
+
+        // Sort by score, pick top sentences, then sort back to original order
+        scoredSentences.sort((a, b) => b.score - a.score);
+        const selected = scoredSentences.slice(0, maxSentences);
+        selected.sort((a, b) => a.originalIndex - b.originalIndex);
+
+        const summary = selected.map(s => s.sentence).join(' ');
+        const summaryWordCount = summary.split(/\s+/).length;
+        const keyPoints = extractKeyPoints(text);
+
+        resultDiv.innerHTML = `
+            <div style="margin-bottom:1rem;">
+                <strong style="color:var(--primary);">📝 Summary</strong>
+                <p style="margin-top:0.3rem; line-height:1.8;">${summary}</p>
             </div>
-        `);
-        incrementStat('summaries');
+            <div style="margin-bottom:1rem;">
+                <strong style="color:var(--primary);">📌 Key Points</strong>
+                <ul style="margin-top:0.3rem; padding-left:1.5rem;">
+                    ${keyPoints.map(p => `<li>${p}</li>`).join('')}
+                </ul>
+            </div>
+            <div style="display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center; color:var(--gray); font-size:0.85rem; border-top:1px solid var(--border); padding-top:0.8rem;">
+                <span>📊 Original: ${wordCount} words</span>
+                <span>|</span>
+                <span>📄 Summary: ${summaryWordCount} words</span>
+                <span>|</span>
+                <span>✂️ Reduced by ${Math.round(((wordCount - summaryWordCount) / wordCount) * 100)}%</span>
+                <div style="display:flex; gap:0.3rem; margin-left:auto;">
+                    <button class="btn btn-sm btn-primary" onclick="copySummary()"><i class="fas fa-copy"></i> Copy</button>
+                    <button class="btn btn-sm btn-primary" onclick="downloadSummary()"><i class="fas fa-download"></i> Download</button>
+                </div>
+            </div>
+        `;
+
+        outputBox.classList.add('show');
+    }
+
+    // Helper functions for summarizer
+    function extractKeyPoints(text) {
+        const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+        const numPoints = Math.min(3, sentences.length);
+        const points = [];
+        for (let i = 0; i < numPoints; i++) {
+            const sentence = sentences[i].trim();
+            const clean = sentence.replace(/^["']|["']$/g, '').trim();
+            points.push(clean.length > 100 ? clean.slice(0, 100) + '...' : clean);
+        }
+        return points;
+    }
+
+    function copySummary() {
+        const resultDiv = document.getElementById('summarizerResult');
+        const text = resultDiv.textContent || resultDiv.innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('✅ Summary copied to clipboard!');
+        }).catch(() => {
+            const range = document.createRange();
+            range.selectNode(resultDiv);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            showToast('✅ Summary copied!');
+        });
+    }
+
+    function downloadSummary() {
+        const resultDiv = document.getElementById('summarizerResult');
+        const text = resultDiv.textContent || resultDiv.innerText;
+        if (!text || text.includes('Please generate')) {
+            showToast('Please generate a summary first.', 'error');
+            return;
+        }
+        const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `summary_${new Date().toISOString().slice(0,10)}.txt`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+        showToast('✅ Summary downloaded!');
     }
 
     // ============================================================
