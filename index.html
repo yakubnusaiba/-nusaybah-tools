@@ -601,6 +601,48 @@
         }
         .share-buttons button:hover { background: var(--output-bg); }
 
+        /* ===== HISTORY LIST ===== */
+        .history-item {
+            background: var(--bg);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 3px solid var(--secondary);
+            transition: background 0.3s;
+            cursor: pointer;
+        }
+        .history-item:hover { background: var(--output-bg); }
+        .history-item .h-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+        .history-item .h-preview {
+            font-size: 0.8rem;
+            color: var(--gray);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+        .history-item .h-date {
+            font-size: 0.7rem;
+            color: var(--gray);
+            margin-left: 1rem;
+        }
+        .history-item .h-actions button {
+            background: transparent;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 0 0.3rem;
+            transition: 0.3s;
+        }
+        .history-item .h-actions button:hover { color: var(--danger, #dc3545); }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 992px) {
             :root { --header-height: 76px; --nav-height: 44px; }
@@ -633,6 +675,7 @@
             .resume-actions { flex-direction: column; align-items: stretch; }
             .resume-actions .btn { justify-content: center; }
             .footer .footer-contact { flex-direction: column; gap: 0.5rem; }
+            .history-item .h-preview { max-width: 100px; }
         }
         @media (max-width: 480px) {
             :root { --header-height: 60px; --nav-height: 38px; }
@@ -652,6 +695,7 @@
             .resume-container h3 { font-size: 1.3rem; }
             .resume-container .resume-photo { width: 70px; height: 70px; }
             .stats-grid { grid-template-columns: 1fr 1fr; }
+            .history-item .h-preview { max-width: 60px; }
         }
         @media (max-width: 380px) {
             :root { --header-height: 54px; --nav-height: 34px; }
@@ -928,21 +972,21 @@
         <!-- ===== SUMMARIZER ===== -->
         <div class="page" id="page-summarizer">
             <div class="card">
-                <h2><i class="fas fa-compress-alt"></i> AI Text Summarizer</h2>
-                <p class="sub">Paste any long text and get a human-like summary (powered by AI).</p>
+                <h2><i class="fas fa-compress-alt"></i> Smart Academic Summarizer</h2>
+                <p class="sub">Paste your text and get an AI-grade summary optimized for research and PGD projects. (100% local)</p>
 
                 <div class="form-group">
                     <label>Enter Text to Summarize</label>
-                    <textarea id="summarizerInput" rows="8" placeholder="Paste your long text here..."></textarea>
+                    <textarea id="summarizerInput" rows="8" placeholder="Paste your Abstract, Findings, or Conclusion here..."></textarea>
                     <div class="char-counter"><span id="summarizerCharCount">0</span> characters</div>
                 </div>
 
                 <div class="form-group" style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
                     <label style="font-weight:600; margin:0;">Summary Length</label>
                     <select id="summaryLength" style="padding:0.4rem 0.8rem; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text);">
-                        <option value="short">Short (3 sentences)</option>
-                        <option value="medium" selected>Medium (5 sentences)</option>
-                        <option value="long">Long (8 sentences)</option>
+                        <option value="short">Short</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="long">Long</option>
                     </select>
                     <button class="btn" onclick="summarizeText()"><i class="fas fa-compress-alt"></i> Summarize</button>
                 </div>
@@ -955,6 +999,16 @@
                         <button class="regenerate-btn" onclick="summarizeText()"><i class="fas fa-sync-alt"></i> Regenerate</button>
                     </div>
                 </div>
+            </div>
+
+            <!-- ===== NEW: SUMMARY HISTORY DASHBOARD ===== -->
+            <div class="card" style="border-left-color: var(--primary);">
+                <h3><i class="fas fa-clock"></i> 📜 Summary History (Project Dashboard)</h3>
+                <p class="sub">Your previously generated summaries are saved locally in your browser. Click any item to reload it instantly.</p>
+                <div id="summaryHistoryList" style="max-height:300px; overflow-y:auto; margin-bottom:1rem;">
+                    <p style="color:var(--gray);">No summaries saved yet.</p>
+                </div>
+                <button class="btn btn-danger btn-sm" onclick="clearHistory()"><i class="fas fa-trash"></i> Clear All History</button>
             </div>
         </div>
 
@@ -978,15 +1032,13 @@
     </footer>
 
     <!-- ============================================================
-    JAVASCRIPT – EVERYTHING INCLUDED (AI Summarizer Ready)
+    JAVASCRIPT – ALL FEATURES INCLUDED
     ============================================================ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
     // =============================================================
-    // 🔑 PASTE YOUR HUGGING FACE API TOKEN HERE (free account)
-    //    Get it from: https://huggingface.co/settings/tokens
+    // SECURE: No API Key is used. All logic runs locally in your browser.
     // =============================================================
-    const HF_API_TOKEN = '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
 
     // ============================================================
     // DARK MODE
@@ -1039,6 +1091,7 @@
             document.getElementById('page-' + this.dataset.page).classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
             updateStats();
+            renderHistory(); // Refresh history if navigated to summarizer
         });
     });
     function goTo(page) {
@@ -1048,6 +1101,7 @@
         document.getElementById('page-' + page).classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
         updateStats();
+        if (page === 'summarizer') renderHistory();
     }
     function showOutput(id, html) {
         const el = document.getElementById(id);
@@ -1091,7 +1145,10 @@
             updateStats();
         }
     }
-    document.addEventListener('DOMContentLoaded', updateStats);
+    document.addEventListener('DOMContentLoaded', () => {
+        updateStats();
+        renderHistory();
+    });
 
     // ============================================================
     // COPY OUTPUT
@@ -1590,10 +1647,10 @@
     }
 
     // ============================================================
-    // SUPERCHARGED AI SUMMARIZER (AI + Smart Fallback)
+    // 🎓 ACADEMIC-GRADE SUMMARIZER + HISTORY + PDF EXPORT
     // ============================================================
 
-    // ---- Stopwords ----
+    // Stopwords
     const STOPWORDS = new Set([
       'a','an','the','and','or','but','for','nor','on','at','to','by','in','of','with','without',
       'after','before','during','through','between','among','upon','about','above','below','under','over',
@@ -1656,13 +1713,15 @@
     }
 
     function buildSummaryHTML(summary, origWords, sumWords, keyPoints) {
+      const reduction = Math.round(((origWords - sumWords) / origWords) * 100);
       return `
-        <div style="margin-bottom:1rem;">
-          <strong style="color:var(--primary);">📝 Summary</strong>
-          <p style="margin-top:0.3rem; line-height:1.8;">${summary}</p>
+        <div style="margin-bottom:1rem; border-left: 4px solid #d4af37; padding-left:1rem;">
+          <strong style="color:var(--primary);">📚 Academic-Grade Summary</strong>
+          <span style="background:#0a2463; color:white; padding:0.1rem 0.6rem; border-radius:12px; font-size:0.65rem; margin-left:0.5rem;">🔬 PGD Optimized</span>
+          <p style="margin-top:0.5rem; line-height:1.8; font-size:1.05rem;">${summary}</p>
         </div>
         <div style="margin-bottom:1rem;">
-          <strong style="color:var(--primary);">📌 Key Points</strong>
+          <strong style="color:var(--primary);">📌 Extracted Key Points</strong>
           <ul style="margin-top:0.3rem; padding-left:1.5rem;">
             ${keyPoints.map(p => `<li>${p}</li>`).join('')}
           </ul>
@@ -1672,14 +1731,416 @@
           <span>|</span>
           <span>📄 Summary: ${sumWords} words</span>
           <span>|</span>
-          <span>✂️ Reduced by ${Math.round(((origWords - sumWords) / origWords) * 100)}%</span>
+          <span>✂️ Reduced by ${reduction}%</span>
+          <span style="background:#28a745; color:white; padding:0.1rem 0.6rem; border-radius:12px; font-size:0.7rem;">✅ 100% Local</span>
+          <div style="display:flex; gap:0.3rem; margin-left:auto;">
+            <button class="btn btn-sm btn-primary" onclick="copySummary()"><i class="fas fa-copy"></i> Copy</button>
+            <button class="btn btn-sm btn-success" onclick="downloadSummary()"><i class="fas fa-file-pdf"></i> Download .TXT</button>
+            <button class="btn btn-sm btn-info" onclick="printSummary()"><i class="fas fa-print"></i> PDF</button>
+          </div>
         </div>
       `;
     }
 
+    // ============================================================
+    // 📜 SUMMARY HISTORY (Project Dashboard)
+    // ============================================================
+    function getHistory() {
+        try { return JSON.parse(localStorage.getItem('nusaybah_summary_history')) || []; } catch(e) { return []; }
+    }
+    function saveHistory(history) { localStorage.setItem('nusaybah_summary_history', JSON.stringify(history)); }
+
+    function saveSummaryToHistory(summaryText, originalSnippet) {
+        const history = getHistory();
+        const entry = {
+            id: Date.now(),
+            date: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+            summary: summaryText,
+            snippet: originalSnippet.substring(0, 120) + (originalSnippet.length > 120 ? '...' : '')
+        };
+        history.unshift(entry); // newest first
+        if (history.length > 50) history.pop(); // limit to 50 items
+        saveHistory(history);
+        renderHistory();
+    }
+
+    function renderHistory() {
+        const container = document.getElementById('summaryHistoryList');
+        const history = getHistory();
+        if (history.length === 0) {
+            container.innerHTML = '<p style="color:var(--gray);">No summaries saved yet. Generate one to get started!</p>';
+            return;
+        }
+        let html = '';
+        history.forEach((item, index) => {
+            html += `
+                <div class="history-item">
+                    <div style="flex:1; cursor:pointer;" onclick="loadHistory(${index})">
+                        <div class="h-title">📄 Summary #${history.length - index}</div>
+                        <div class="h-preview">${item.snippet || 'No preview'}</div>
+                        <div class="h-date">${item.date || 'Unknown date'}</div>
+                    </div>
+                    <div class="h-actions">
+                        <button onclick="deleteHistory(${index})" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function loadHistory(index) {
+        const history = getHistory();
+        if (index >= history.length || index < 0) { alert('Item not found.'); return; }
+        const item = history[index];
+        // Display it in the output box
+        const outputBox = document.getElementById('summarizerOutput');
+        const resultDiv = document.getElementById('summarizerResult');
+        
+        // Reconstruct the summary HTML (approximate)
+        // Extract key points from the summary text (quick hack: split by lines or just use as is)
+        const summaryText = item.summary || item.snippet;
+        const wordCount = summaryText.split(/\s+/).length;
+        
+        // Simple key points extraction from the saved text (if we have the full summary)
+        // We'll just display it nicely
+        resultDiv.innerHTML = `
+            <div style="margin-bottom:1rem; border-left: 4px solid #d4af37; padding-left:1rem;">
+                <strong style="color:var(--primary);">📚 Loaded from History</strong>
+                <span style="background:#0a2463; color:white; padding:0.1rem 0.6rem; border-radius:12px; font-size:0.65rem; margin-left:0.5rem;">🔬 ${item.date}</span>
+                <p style="margin-top:0.5rem; line-height:1.8; font-size:1.05rem;">${summaryText}</p>
+            </div>
+            <div style="display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center; color:var(--gray); font-size:0.85rem; border-top:1px solid var(--border); padding-top:0.8rem;">
+                <span>📄 Loaded from history</span>
+                <div style="display:flex; gap:0.3rem; margin-left:auto;">
+                    <button class="btn btn-sm btn-primary" onclick="copySummary()"><i class="fas fa-copy"></i> Copy</button>
+                    <button class="btn btn-sm btn-info" onclick="printSummary()"><i class="fas fa-print"></i> PDF</button>
+                </div>
+            </div>
+        `;
+        outputBox.classList.add('show');
+        // Scroll to it
+        outputBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function deleteHistory(index) {
+        if (!confirm('Delete this saved summary?')) return;
+        const history = getHistory();
+        history.splice(index, 1);
+        saveHistory(history);
+        renderHistory();
+    }
+
+    function clearHistory() {
+        if (!confirm('Delete ALL saved summaries?')) return;
+        saveHistory([]);
+        renderHistory();
+        alert('✅ History cleared!');
+    }
+
+    // ============================================================
+    // 🏆 EXECUTIVE PDF EXPORT (With Letterhead)
+    // ============================================================
+    function printSummary() {
+      const content = document.getElementById('summarizerResult');
+      if (!content || !content.innerText || content.innerText.includes('Processing') || content.innerText.includes('Analyzing')) {
+        alert('Please generate a summary first.');
+        return;
+      }
+
+      // Grab the raw text
+      const rawText = content.innerText || '';
+      const summaryMatch = rawText.match(/📚 Academic-Grade Summary\s*🔬 PGD Optimized\s*([\s\S]*?)(?=📌 Extracted Key Points)/);
+      const summaryBody = summaryMatch ? summaryMatch[1].trim() : rawText;
+      
+      const keyPointsMatch = rawText.match(/📌 Extracted Key Points\s*([\s\S]*?)(?=📊 Original:)/);
+      const keyPoints = keyPointsMatch ? keyPointsMatch[1].trim() : 'N/A';
+
+      // Prompt for Title
+      const projectTitle = prompt("📝 Enter the Title of your Project (for the document header):", "Postgraduate Diploma Research Project") || "Academic Research Summary";
+
+      const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+      const printWindow = window.open('', '_blank', 'width=900,height=700');
+      if (!printWindow) {
+        alert('Please allow popups to export the PDF.');
+        return;
+      }
+
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Academic Summary - Nusaybah Hub</title>
+          <style>
+            @page { margin: 2cm; }
+            body { 
+              font-family: 'Times New Roman', Times, serif; 
+              max-width: 800px; 
+              margin: 0 auto; 
+              padding: 2rem; 
+              background: white; 
+              color: #1a1a1a; 
+              line-height: 1.8; 
+              font-size: 12pt;
+            }
+            .letterhead {
+              text-align: center;
+              border-bottom: 3px double #d4af37;
+              padding-bottom: 1rem;
+              margin-bottom: 2rem;
+            }
+            .letterhead h1 {
+              color: #0a2463;
+              font-size: 24pt;
+              margin: 0;
+              letter-spacing: 1px;
+            }
+            .letterhead h1 span { color: #d4af37; }
+            .letterhead .sub {
+              color: #6c757d;
+              font-size: 10pt;
+              text-transform: uppercase;
+              letter-spacing: 3px;
+            }
+            .doc-title {
+              font-size: 18pt;
+              font-weight: bold;
+              text-align: center;
+              color: #0a2463;
+              margin: 1.5rem 0 0.5rem 0;
+              text-transform: uppercase;
+            }
+            .doc-meta {
+              text-align: center;
+              color: #555;
+              font-size: 11pt;
+              margin-bottom: 2rem;
+              border-bottom: 1px solid #ddd;
+              padding-bottom: 1rem;
+            }
+            .summary-body {
+              font-size: 12pt;
+              text-align: justify;
+              margin: 1.5rem 0;
+              padding: 1rem;
+              background: #f8f9fa;
+              border-left: 4px solid #d4af37;
+            }
+            .key-points {
+              margin: 1.5rem 0;
+              padding: 1rem 1.5rem;
+              background: #f0f4f8;
+              border-radius: 4px;
+            }
+            .key-points h3 { color: #0a2463; margin-top: 0; }
+            .footer {
+              margin-top: 2.5rem;
+              border-top: 1px solid #ddd;
+              padding-top: 1rem;
+              font-size: 10pt;
+              color: #6c757d;
+              text-align: center;
+            }
+            .watermark {
+              position: fixed;
+              bottom: 2cm;
+              right: 2cm;
+              opacity: 0.08;
+              font-size: 48pt;
+              font-weight: bold;
+              color: #0a2463;
+              transform: rotate(-15deg);
+              pointer-events: none;
+              z-index: 999;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="watermark">NUSAYBAH HUB</div>
+
+          <div class="letterhead">
+            <h1>Nusaybah <span>Hub</span></h1>
+            <div class="sub">Your Trusted Shopping Hub • Academic Division</div>
+          </div>
+
+          <div class="doc-title">${projectTitle}</div>
+          <div class="doc-meta">📅 Generated on ${date} • PGD Academic Summary</div>
+
+          <h3 style="color:#0a2463;">📝 Executive Summary</h3>
+          <div class="summary-body">${summaryBody}</div>
+
+          <div class="key-points">
+            <h3>📌 Extracted Key Findings</h3>
+            ${keyPoints.replace(/\n/g, '<br/>')}
+          </div>
+
+          <div class="footer">
+            <p>This document was generated automatically using the Nusaybah Hub AI Summarizer. 
+            <br/>For the full report or to regenerate, visit the official tool.</p>
+            <p style="font-size:8pt; opacity:0.6;">© 2025 Nusaybah Hub — Built with ❤ by Nusaiba Yakub</p>
+          </div>
+
+          <script>
+            window.onload = function() { 
+              setTimeout(function() { window.print(); }, 500); 
+            }
+          <\/script>
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+    }
+
+    // ============================================================
+    // MAIN SUMMARIZE FUNCTION (With History Saving)
+    // ============================================================
+    function summarizeText() {
+      const text = document.getElementById('summarizerInput').value.trim();
+      if (!text) {
+        alert('Please enter some text to summarize.');
+        return;
+      }
+
+      // ---- WORD LIMIT WARNING ----
+      const wordCountEstimate = text.split(/\s+/).length;
+      if (wordCountEstimate > 8000) {
+        if (!confirm(`⚠️ Your text is about ${wordCountEstimate} words long. For the best performance and accuracy (especially for academic work), please summarize only the Abstract, Findings, or Conclusion sections at a time. Do you want to continue anyway?`)) {
+          return;
+        }
+      }
+
+      const outputBox = document.getElementById('summarizerOutput');
+      const resultDiv = document.getElementById('summarizerResult');
+      outputBox.classList.add('show');
+
+      resultDiv.innerHTML = `
+        <div style="text-align:center; padding:1.5rem;">
+          <i class="fas fa-spinner fa-spin" style="font-size:1.5rem; color:var(--secondary);"></i>
+          <p style="margin-top:0.5rem;">🧠 Analyzing your academic text...</p>
+        </div>
+      `;
+
+      setTimeout(() => {
+        try {
+          const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+          const totalSentences = sentences.length;
+          const lengthSelect = document.getElementById('summaryLength');
+          const lengthOption = lengthSelect ? lengthSelect.value : 'medium';
+
+          let maxSentences;
+          if (lengthOption === 'short') maxSentences = Math.min(4, Math.ceil(totalSentences * 0.25));
+          else if (lengthOption === 'medium') maxSentences = Math.min(6, Math.ceil(totalSentences * 0.35));
+          else maxSentences = Math.min(10, Math.ceil(totalSentences * 0.4));
+          maxSentences = Math.max(2, maxSentences);
+
+          if (totalSentences <= maxSentences) {
+            const wordCount = text.split(/\s+/).length;
+            const keyPoints = extractKeyPoints(text);
+            const summary = text;
+            resultDiv.innerHTML = buildSummaryHTML(summary, wordCount, wordCount, keyPoints);
+            // Save to history
+            saveSummaryToHistory(summary, text);
+            incrementStat('summaries');
+            return;
+          }
+
+          const { tfidf, docWords } = computeTFIDF(sentences);
+
+          // ---- ACADEMIC KEYWORD BOOST ----
+          const academicKeywords = [
+            'conclusion', 'findings', 'results', 'study', 'research', 'analysis', 
+            'reveals', 'suggests', 'indicates', 'demonstrates', 'hypothesis', 
+            'objective', 'aim', 'purpose', 'significant', 'correlation', 
+            'effect', 'impact', 'therefore', 'consequently', 'this paper', 
+            'we propose', 'we find', 'methodology', 'data shows', 'evidence'
+          ];
+
+          const scoredSentences = sentences.map((sentence, idx) => {
+            const words = tokenize(sentence);
+            let score = 0;
+            const tfidfObj = tfidf[idx];
+            for (const w of words) score += tfidfObj[w] || 0;
+            
+            let academicScore = 0;
+            const lowerSentence = sentence.toLowerCase();
+            for (const keyword of academicKeywords) {
+              if (lowerSentence.includes(keyword)) academicScore += 0.6;
+            }
+            if (words.length > 0 && words.length < 15) academicScore += 0.3;
+            
+            const posBonus = (idx === 0) ? 1.8 : (idx === totalSentences - 1) ? 1.6 : 1.0;
+            score = (score * 1.5) + academicScore;
+            score *= posBonus;
+            
+            if (words.length > 0) score = score / Math.sqrt(words.length);
+            return { sentence: sentence.trim(), score, originalIndex: idx, words };
+          });
+
+          scoredSentences.sort((a, b) => b.score - a.score);
+
+          const selected = [];
+          for (const candidate of scoredSentences) {
+            let tooSimilar = false;
+            for (const sel of selected) {
+              if (sentenceSimilarity(candidate.sentence, sel.sentence) > 0.55) {
+                tooSimilar = true;
+                break;
+              }
+            }
+            if (!tooSimilar) {
+              selected.push(candidate);
+              if (selected.length >= maxSentences) break;
+            }
+          }
+
+          if (selected.length < maxSentences) {
+            for (const candidate of scoredSentences) {
+              if (selected.includes(candidate)) continue;
+              let tooSimilar = false;
+              for (const sel of selected) {
+                if (sentenceSimilarity(candidate.sentence, sel.sentence) > 0.7) {
+                  tooSimilar = true;
+                  break;
+                }
+              }
+              if (!tooSimilar) {
+                selected.push(candidate);
+                if (selected.length >= maxSentences) break;
+              }
+            }
+          }
+
+          selected.sort((a, b) => a.originalIndex - b.originalIndex);
+          const summary = selected.map(s => s.sentence).join(' ');
+          const wordCount = text.split(/\s+/).length;
+          const summaryWordCount = summary.split(/\s+/).length;
+          const keyPoints = extractKeyPoints(text);
+
+          resultDiv.innerHTML = buildSummaryHTML(summary, wordCount, summaryWordCount, keyPoints);
+          
+          // ---- SAVE TO HISTORY ----
+          saveSummaryToHistory(summary, text);
+          
+          incrementStat('summaries');
+
+        } catch (error) {
+          console.error(error);
+          resultDiv.innerHTML = `<div style="color:#dc3545; padding:1rem; background:#f8d7da; border-radius:4px;"><strong>⚠️ Error:</strong> Please try with a shorter section of your project.</div>`;
+        }
+      }, 150);
+    }
+
+    // ============================================================
+    // HELPER FUNCTIONS FOR SUMMARIZER
+    // ============================================================
     function copySummary() {
       const resultDiv = document.getElementById('summarizerResult');
       const text = resultDiv.textContent || resultDiv.innerText;
+      if (!text || text.includes('Processing') || text.includes('Analyzing')) {
+        alert('Please generate a summary first.');
+        return;
+      }
       navigator.clipboard.writeText(text).then(() => alert('✅ Summary copied!')).catch(() => {
         const range = document.createRange();
         range.selectNode(resultDiv);
@@ -1693,7 +2154,10 @@
     function downloadSummary() {
       const resultDiv = document.getElementById('summarizerResult');
       const text = resultDiv.textContent || resultDiv.innerText;
-      if (!text || text.includes('Please generate')) { alert('Please generate a summary first.'); return; }
+      if (!text || text.includes('Processing')) {
+        alert('Please generate a summary first.');
+        return;
+      }
       const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
@@ -1703,154 +2167,6 @@
       document.body.removeChild(link);
       URL.revokeObjectURL(link.href);
       alert('✅ Summary downloaded!');
-    }
-
-    // ---- Main Summarize Function (AI + Fallback) ----
-    async function summarizeText() {
-      const text = document.getElementById('summarizerInput').value.trim();
-      if (!text) {
-        alert('Please enter some text to summarize.');
-        return;
-      }
-
-      const outputBox = document.getElementById('summarizerOutput');
-      const resultDiv = document.getElementById('summarizerResult');
-      outputBox.classList.add('show');
-
-      // Show loading
-      resultDiv.innerHTML = `
-        <div style="text-align:center; padding:2rem;">
-          <i class="fas fa-spinner fa-spin" style="font-size:2rem; color:var(--secondary);"></i>
-          <p style="margin-top:1rem;">🧠 AI is reading and summarizing your text...</p>
-        </div>
-      `;
-
-      // ---- Try AI (Hugging Face) ----
-      try {
-        if (!HF_API_TOKEN || HF_API_TOKEN === 'hf_...') {
-          throw new Error('No API token provided.');
-        }
-        const response = await fetch(
-          'https://api-inference.huggingface.co/models/facebook/bart-large-cnn',
-          {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${HF_API_TOKEN}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              inputs: text,
-              parameters: {
-                max_length: 150,
-                min_length: 40,
-                do_sample: false,
-              },
-            }),
-          }
-        );
-
-        if (!response.ok) throw new Error(`API error: ${response.status}`);
-
-        const data = await response.json();
-        let aiSummary = '';
-        if (Array.isArray(data) && data.length > 0 && data[0].summary_text) {
-          aiSummary = data[0].summary_text;
-        } else if (data.summary_text) {
-          aiSummary = data.summary_text;
-        } else {
-          throw new Error('Unexpected API response');
-        }
-
-        // ---- SUCCESS: Show AI summary ----
-        const wordCount = text.split(/\s+/).length;
-        const summaryWordCount = aiSummary.split(/\s+/).length;
-        const keyPoints = extractKeyPoints(text);
-
-        resultDiv.innerHTML = `
-          <div style="margin-bottom:1rem; border-left: 4px solid #d4af37; padding-left:1rem;">
-            <strong style="color:var(--primary);">🤖 AI-Generated Summary (Abstractive)</strong>
-            <p style="margin-top:0.5rem; line-height:1.8; font-size:1.05rem;">${aiSummary}</p>
-          </div>
-          <div style="margin-bottom:1rem;">
-            <strong style="color:var(--primary);">📌 Key Points Extracted</strong>
-            <ul style="margin-top:0.3rem; padding-left:1.5rem;">
-              ${keyPoints.map(p => `<li>${p}</li>`).join('')}
-            </ul>
-          </div>
-          <div style="display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center; color:var(--gray); font-size:0.85rem; border-top:1px solid var(--border); padding-top:0.8rem;">
-            <span>📊 Original: ${wordCount} words</span>
-            <span>|</span>
-            <span>📄 Summary: ${summaryWordCount} words</span>
-            <span>|</span>
-            <span>✂️ Reduced by ${Math.round(((wordCount - summaryWordCount) / wordCount) * 100)}%</span>
-            <span style="background:#28a745; color:white; padding:0.1rem 0.6rem; border-radius:12px; font-size:0.7rem;">✨ AI Mode</span>
-            <div style="display:flex; gap:0.3rem; margin-left:auto;">
-              <button class="btn btn-sm btn-primary" onclick="copySummary()"><i class="fas fa-copy"></i> Copy</button>
-              <button class="btn btn-sm btn-primary" onclick="downloadSummary()"><i class="fas fa-download"></i> Download</button>
-            </div>
-          </div>
-        `;
-        incrementStat('summaries');
-        return;
-
-      } catch (error) {
-        // ---- FALLBACK: Smart TF-IDF Extractive ----
-        console.warn('AI fallback triggered:', error.message);
-        const fallbackNote = `<div style="background:#fff3cd; padding:0.5rem; border-radius:4px; margin-bottom:1rem; color:#856404; font-size:0.85rem;">
-          ⚡ <strong>AI service unavailable</strong> – using local smart summarizer (still high quality).
-        </div>`;
-
-        const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-        const totalSentences = sentences.length;
-        const lengthSelect = document.getElementById('summaryLength');
-        const lengthOption = lengthSelect ? lengthSelect.value : 'medium';
-
-        let maxSentences;
-        if (lengthOption === 'short') maxSentences = Math.min(3, Math.ceil(totalSentences * 0.2));
-        else if (lengthOption === 'medium') maxSentences = Math.min(5, Math.ceil(totalSentences * 0.3));
-        else maxSentences = Math.min(8, Math.ceil(totalSentences * 0.4));
-        maxSentences = Math.max(1, maxSentences);
-
-        if (totalSentences <= maxSentences) {
-          const wordCount = text.split(/\s+/).length;
-          const summaryWordCount = text.split(/\s+/).length;
-          const keyPoints = extractKeyPoints(text);
-          resultDiv.innerHTML = fallbackNote + buildSummaryHTML(text, wordCount, summaryWordCount, keyPoints);
-          incrementStat('summaries');
-          return;
-        }
-
-        const { tfidf, docWords } = computeTFIDF(sentences);
-        const scoredSentences = sentences.map((sentence, idx) => {
-          const words = tokenize(sentence);
-          let score = 0;
-          const tfidfObj = tfidf[idx];
-          for (const w of words) score += tfidfObj[w] || 0;
-          const posBonus = (idx === 0) ? 1.5 : (idx === totalSentences - 1) ? 1.3 : 1.0;
-          score *= posBonus;
-          if (words.length > 0) score = score / Math.sqrt(words.length);
-          return { sentence: sentence.trim(), score, originalIndex: idx, words };
-        });
-        scoredSentences.sort((a, b) => b.score - a.score);
-
-        const selected = [];
-        for (const candidate of scoredSentences) {
-          let tooSimilar = false;
-          for (const sel of selected) {
-            if (sentenceSimilarity(candidate.sentence, sel.sentence) > 0.6) { tooSimilar = true; break; }
-          }
-          if (!tooSimilar) { selected.push(candidate); if (selected.length >= maxSentences) break; }
-        }
-        selected.sort((a, b) => a.originalIndex - b.originalIndex);
-
-        const summary = selected.map(s => s.sentence).join(' ');
-        const wordCount = text.split(/\s+/).length;
-        const summaryWordCount = summary.split(/\s+/).length;
-        const keyPoints = extractKeyPoints(text);
-
-        resultDiv.innerHTML = fallbackNote + buildSummaryHTML(summary, wordCount, summaryWordCount, keyPoints);
-        incrementStat('summaries');
-      }
     }
 
     // ============================================================
@@ -1892,6 +2208,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         displayAllRecipes();
         updateStats();
+        renderHistory();
     });
     </script>
 </body>
