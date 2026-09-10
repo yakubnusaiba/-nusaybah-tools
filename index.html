@@ -7,264 +7,124 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230a2463' rx='20'/><text x='50' y='50' text-anchor='middle' dy='.35em' font-size='40px' font-family='sans-serif' fill='%23d4af37' font-weight='bold'>N</text></svg>" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
-        /* ===== RESET & ROOT ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary: #0a2463;
-            --secondary: #d4af37;
-            --dark: #212529;
-            --gray: #6c757d;
-            --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-            --radius: 12px;
-            --header-height: 86px;
-            --nav-height: 48px;
+            --primary: #0a2463; --secondary: #d4af37; --dark: #212529; --gray: #6c757d;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.08); --radius: 12px;
+            --header-height: 86px; --nav-height: 48px;
             --total-top: calc(var(--header-height) + var(--nav-height));
-            --bg: #f9f9f9;
-            --card-bg: #ffffff;
-            --text: #212529;
-            --border: #ddd;
-            --output-bg: #f5f5f5;
-            --shadow-color: rgba(0,0,0,0.08);
+            --bg: #f9f9f9; --card-bg: #ffffff; --text: #212529; --border: #ddd;
+            --output-bg: #f5f5f5; --shadow-color: rgba(0,0,0,0.08);
         }
         body.dark-mode {
-            --bg: #121212;
-            --card-bg: #1e1e1e;
-            --text: #e0e0e0;
-            --border: #333;
-            --output-bg: #2a2a2a;
-            --shadow-color: rgba(0,0,0,0.3);
-            --gray: #aaa;
+            --bg: #121212; --card-bg: #1e1e1e; --text: #e0e0e0; --border: #333;
+            --output-bg: #2a2a2a; --shadow-color: rgba(0,0,0,0.3); --gray: #aaa;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            padding-top: var(--total-top);
-            transition: background 0.3s, color 0.3s;
+            background: var(--bg); color: var(--text); line-height: 1.6;
+            padding-top: var(--total-top); transition: background 0.3s, color 0.3s;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
 
-        /* ===== HEADER ===== */
         .header {
-            background: var(--primary);
-            color: white;
-            padding: 0.4rem 0;
+            background: var(--primary); color: white; padding: 0.4rem 0;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1100;
-            width: 100%;
-            height: var(--header-height);
-            display: flex;
-            align-items: center;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1100;
+            width: 100%; height: var(--header-height); display: flex; align-items: center;
             transition: background 0.3s;
         }
         .header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: nowrap;
-            gap: 0.5rem;
-            width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: nowrap; gap: 0.5rem; width: 100%;
         }
-        .header .logo-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-shrink: 0;
-        }
+        .header .logo-wrapper { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
         .header .logo-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2.5px solid var(--secondary);
-            flex-shrink: 0;
+            width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
+            border: 2.5px solid var(--secondary); flex-shrink: 0;
         }
-        .header .logo-text .brand {
-            font-size: 1.9rem;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-        .header .logo-text .brand span {
-            color: var(--secondary);
-        }
+        .header .logo-text .brand { font-size: 1.9rem; font-weight: 700; line-height: 1.2; }
+        .header .logo-text .brand span { color: var(--secondary); }
         .header .logo-text .tagline {
-            font-size: 0.75rem;
-            opacity: 0.85;
-            letter-spacing: 2px;
-            color: var(--secondary);
-            line-height: 1.2;
+            font-size: 0.75rem; opacity: 0.85; letter-spacing: 2px;
+            color: var(--secondary); line-height: 1.2;
         }
-        .header .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex-shrink: 0;
-        }
+        .header .header-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
         .header .tools-label {
-            font-size: 0.85rem;
-            background: rgba(255, 255, 255, 0.12);
-            padding: 0.3rem 1rem;
-            border-radius: 20px;
-            border: 1px solid var(--secondary);
-            white-space: nowrap;
+            font-size: 0.85rem; background: rgba(255, 255, 255, 0.12);
+            padding: 0.3rem 1rem; border-radius: 20px;
+            border: 1px solid var(--secondary); white-space: nowrap;
         }
         .header .dark-toggle {
-            background: rgba(255,255,255,0.15);
-            border: none;
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: rgba(255,255,255,0.15); border: none; color: white;
+            width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
+            font-size: 1.1rem; transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
         }
-        .header .dark-toggle:hover {
-            background: var(--secondary);
-            color: var(--primary);
-        }
+        .header .dark-toggle:hover { background: var(--secondary); color: var(--primary); }
 
-        /* ===== NAVIGATION ===== */
         .nav {
-            background: var(--dark);
-            padding: 0.3rem 0;
-            position: fixed;
-            top: var(--header-height);
-            left: 0;
-            right: 0;
-            z-index: 1050;
-            width: 100%;
-            height: var(--nav-height);
-            display: flex;
-            align-items: center;
-            overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
+            background: var(--dark); padding: 0.3rem 0;
+            position: fixed; top: var(--header-height); left: 0; right: 0;
+            z-index: 1050; width: 100%; height: var(--nav-height); display: flex; align-items: center;
+            overflow-x: auto; overflow-y: hidden;
+            -webkit-overflow-scrolling: touch; scrollbar-width: none;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         .nav::-webkit-scrollbar { display: none; }
         .nav .container {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            flex-wrap: nowrap;
-            gap: 0.25rem;
-            width: 100%;
-            padding: 0 1rem;
+            display: flex; justify-content: flex-start; align-items: center;
+            flex-wrap: nowrap; gap: 0.25rem; width: 100%; padding: 0 1rem;
         }
         .nav button {
-            background: transparent;
-            color: white;
-            border: none;
-            padding: 0.3rem 0.9rem;
-            font-size: 0.8rem;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.25s ease;
-            font-weight: 500;
-            white-space: nowrap;
-            flex-shrink: 0;
+            background: transparent; color: white; border: none;
+            padding: 0.3rem 0.9rem; font-size: 0.8rem; cursor: pointer;
+            border-radius: 5px; transition: all 0.25s ease; font-weight: 500;
+            white-space: nowrap; flex-shrink: 0;
         }
         .nav button i { margin-right: 4px; }
-        .nav button:hover, .nav button.active {
-            background: var(--secondary);
-            color: var(--primary);
-        }
+        .nav button:hover, .nav button.active { background: var(--secondary); color: var(--primary); }
 
-        /* ===== CONTENT ===== */
         .content { padding: 1.5rem 0 2rem 0; }
         .page { display: none; animation: fade 0.3s ease; }
         .page.active { display: block; }
         @keyframes fade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
-        /* ===== CARDS ===== */
         .card {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border-left: 4px solid var(--secondary);
-            margin-bottom: 1.5rem;
-            transition: background 0.3s, box-shadow 0.3s;
+            background: var(--card-bg); padding: 2rem; border-radius: var(--radius);
+            box-shadow: var(--shadow); border-left: 4px solid var(--secondary);
+            margin-bottom: 1.5rem; transition: background 0.3s, box-shadow 0.3s;
         }
-        .card h2 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            font-size: 1.8rem;
-        }
+        .card h2 { color: var(--primary); margin-bottom: 0.5rem; font-size: 1.8rem; }
         .card h2 i { color: var(--secondary); margin-right: 0.5rem; }
         .card p.sub { color: var(--gray); margin-bottom: 1.5rem; }
 
         .form-group { margin-bottom: 1rem; }
         .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.2rem;
-            color: var(--text);
-            font-size: 0.9rem;
+            display: block; font-weight: 600; margin-bottom: 0.2rem;
+            color: var(--text); font-size: 0.9rem;
         }
         .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border 0.3s;
-            background: var(--bg);
-            color: var(--text);
+            width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border);
+            border-radius: 8px; font-size: 1rem; transition: border 0.3s;
+            background: var(--bg); color: var(--text);
         }
         .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-            border-color: var(--secondary);
-            outline: none;
+            border-color: var(--secondary); outline: none;
         }
         .form-group .char-counter {
-            font-size: 0.75rem;
-            color: var(--gray);
-            text-align: right;
-            margin-top: 0.2rem;
+            font-size: 0.75rem; color: var(--gray);
+            text-align: right; margin-top: 0.2rem;
         }
 
         .btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.7rem 2rem;
-            border-radius: 50px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.95rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            background: var(--primary); color: white; border: none;
+            padding: 0.7rem 2rem; border-radius: 50px; font-weight: 700;
+            cursor: pointer; transition: all 0.3s; font-size: 0.95rem;
+            display: inline-flex; align-items: center; gap: 8px;
         }
-        .btn:hover {
-            background: var(--secondary);
-            color: var(--primary);
-            transform: scale(1.02);
-        }
-        .btn-outline {
-            background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
+        .btn:hover { background: var(--secondary); color: var(--primary); transform: scale(1.02); }
+        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
         .btn-outline:hover { background: var(--primary); color: white; }
         .btn-success { background: #28a745; }
         .btn-success:hover { background: #218838; color: white; }
@@ -277,373 +137,231 @@
         .btn-gold:hover { background: var(--primary); color: white; }
 
         .output-box {
-            background: var(--output-bg);
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            display: none;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'Segoe UI', sans-serif;
-            transition: background 0.3s;
-            position: relative;
+            background: var(--output-bg); padding: 1.5rem; border-radius: 8px;
+            margin-top: 1rem; display: none; white-space: pre-wrap; word-wrap: break-word;
+            font-family: 'Segoe UI', sans-serif; transition: background 0.3s; position: relative;
         }
         .output-box.show { display: block; }
         .output-box h4 { color: var(--primary); margin-bottom: 0.5rem; }
-        .output-box .toolbar {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-top: 0.5rem;
-        }
+        .output-box .toolbar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
         .output-box .toolbar button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 0.2rem 0.8rem;
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+            background: var(--primary); color: white; border: none;
+            border-radius: 5px; padding: 0.2rem 0.8rem; font-size: 0.7rem;
+            cursor: pointer; transition: 0.3s;
+            display: inline-flex; align-items: center; gap: 4px;
         }
         .output-box .toolbar button:hover { background: var(--secondary); color: var(--primary); }
         .output-box .toolbar .regenerate-btn { background: var(--secondary); color: var(--primary); }
         .output-box .toolbar .regenerate-btn:hover { background: var(--primary); color: white; }
 
-        /* ===== HOME GRID ===== */
         .home-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem; margin-top: 1.5rem;
         }
         .tool-card {
-            background: var(--card-bg);
-            padding: 1.8rem 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            text-align: center;
-            border-bottom: 4px solid var(--secondary);
-            cursor: pointer;
-            transition: all 0.3s;
+            background: var(--card-bg); padding: 1.8rem 1.5rem; border-radius: var(--radius);
+            box-shadow: var(--shadow); text-align: center;
+            border-bottom: 4px solid var(--secondary); cursor: pointer; transition: all 0.3s;
         }
         .tool-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px var(--shadow-color); }
         .tool-card i { font-size: 2.8rem; color: var(--primary); margin-bottom: 0.5rem; }
         .tool-card h3 { color: var(--primary); font-size: 1.1rem; }
         .tool-card p { color: var(--gray); font-size: 0.85rem; margin-top: 0.2rem; }
 
-        /* ===== FOOTER ===== */
         .footer {
-            background: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 2rem;
+            background: var(--dark); color: white; text-align: center;
+            padding: 2rem 0; margin-top: 2rem;
         }
         .footer p { opacity: 0.7; font-size: 0.9rem; }
         .footer .footer-contact {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin: 0.5rem 0 1rem 0;
+            display: flex; justify-content: center; gap: 2rem;
+            flex-wrap: wrap; margin: 0.5rem 0 1rem 0;
         }
         .footer .footer-contact a {
-            color: var(--secondary);
-            text-decoration: none;
-            font-size: 0.95rem;
-            opacity: 0.9;
-            transition: 0.3s;
+            color: var(--secondary); text-decoration: none; font-size: 0.95rem;
+            opacity: 0.9; transition: 0.3s;
         }
         .footer .footer-contact a:hover { opacity: 1; text-decoration: underline; }
         .footer .footer-contact i { margin-right: 6px; }
 
-        /* ===== RECIPE ===== */
         .recipe-card {
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 1rem;
-            border-left: 4px solid var(--secondary);
-            transition: background 0.3s;
+            background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius);
+            box-shadow: var(--shadow); margin-bottom: 1rem;
+            border-left: 4px solid var(--secondary); transition: background 0.3s;
         }
         .recipe-card h3 { color: var(--primary); font-size: 1.2rem; }
         .recipe-card .meta { color: var(--gray); font-size: 0.85rem; margin: 0.3rem 0; }
         .recipe-card ul { padding-left: 1.5rem; margin: 0.5rem 0; }
         .recipe-card ol { padding-left: 1.5rem; margin: 0.5rem 0; }
         .recipe-card .fav-btn {
-            background: transparent;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: var(--gray);
-            transition: 0.3s;
+            background: transparent; border: none; font-size: 1.2rem;
+            cursor: pointer; color: var(--gray); transition: 0.3s;
         }
         .recipe-card .fav-btn.fav { color: #e74c3c; }
-
         .recipe-list-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem; margin-top: 1rem;
         }
         .recipe-list-item {
-            background: var(--card-bg);
-            padding: 0.8rem 1.2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px var(--shadow-color);
-            border-left: 3px solid var(--secondary);
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: var(--card-bg); padding: 0.8rem 1.2rem; border-radius: 8px;
+            box-shadow: 0 2px 8px var(--shadow-color); border-left: 3px solid var(--secondary);
+            cursor: pointer; transition: all 0.3s;
+            display: flex; justify-content: space-between; align-items: center;
         }
         .recipe-list-item:hover { transform: translateX(4px); background: var(--output-bg); }
         .recipe-list-item .cuisine-tag {
-            background: var(--primary);
-            color: white;
-            padding: 0.1rem 0.6rem;
-            border-radius: 20px;
-            font-size: 0.65rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            background: var(--primary); color: white; padding: 0.1rem 0.6rem;
+            border-radius: 20px; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.5px;
         }
         .recipe-list-item .dish-name { font-weight: 500; font-size: 0.95rem; }
         .cuisine-group { margin-top: 1.5rem; }
         .cuisine-group h4 {
-            color: var(--primary);
-            font-size: 1.1rem;
+            color: var(--primary); font-size: 1.1rem;
             border-bottom: 2px solid var(--secondary);
-            padding-bottom: 0.3rem;
-            margin-bottom: 0.8rem;
+            padding-bottom: 0.3rem; margin-bottom: 0.8rem;
         }
         .recipe-list-wrapper { display: none; margin-top: 1rem; }
         .recipe-list-wrapper.show { display: block; }
 
-        /* ===== RESUME ===== */
         .resume-container {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.7;
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 12px var(--shadow-color);
-            max-width: 100%;
-            transition: background 0.3s;
+            line-height: 1.7; background: var(--card-bg); padding: 2rem;
+            border-radius: 8px; box-shadow: 0 2px 12px var(--shadow-color);
+            max-width: 100%; transition: background 0.3s;
         }
         .resume-container h3 { color: #0a2463; font-size: 1.6rem; margin-bottom: 0.2rem; }
         .resume-container .resume-title { font-size: 1.1rem; color: #0a2463; font-weight: 600; }
         .resume-container .resume-contact { color: var(--gray); font-size: 0.9rem; margin: 0.3rem 0 0.8rem 0; }
         .resume-container .resume-section { margin-top: 1rem; }
         .resume-container .resume-section h4 {
-            color: #0a2463;
-            border-bottom: 2px solid #d4af37;
-            padding-bottom: 0.2rem;
-            margin-bottom: 0.4rem;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #0a2463; border-bottom: 2px solid #d4af37;
+            padding-bottom: 0.2rem; margin-bottom: 0.4rem;
+            font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px;
         }
         .resume-container .resume-section p { margin: 0.2rem 0; }
         .resume-container .resume-photo {
-            float: right;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--secondary);
-            margin-left: 1rem;
+            float: right; width: 100px; height: 100px; border-radius: 50%;
+            object-fit: cover; border: 3px solid var(--secondary); margin-left: 1rem;
         }
         .resume-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin-top: 1.2rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
+            display: flex; flex-wrap: wrap; gap: 0.8rem;
+            margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--border);
         }
-        .resume-template-selector {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
+        .resume-template-selector { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
         .resume-template-selector button {
-            padding: 0.3rem 1rem;
-            border: 2px solid var(--border);
-            border-radius: 20px;
-            background: transparent;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: 0.3s;
-            color: var(--text);
+            padding: 0.3rem 1rem; border: 2px solid var(--border);
+            border-radius: 20px; background: transparent; cursor: pointer;
+            font-size: 0.8rem; transition: 0.3s; color: var(--text);
         }
         .resume-template-selector button.active {
-            border-color: var(--secondary);
-            background: var(--secondary);
-            color: var(--primary);
+            border-color: var(--secondary); background: var(--secondary); color: var(--primary);
         }
 
-        /* ===== STATS ===== */
         .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem; margin-top: 1rem;
         }
         .stat-card {
-            background: var(--card-bg);
-            padding: 1.2rem;
-            border-radius: var(--radius);
-            text-align: center;
-            box-shadow: var(--shadow);
-            transition: background 0.3s;
+            background: var(--card-bg); padding: 1.2rem; border-radius: var(--radius);
+            text-align: center; box-shadow: var(--shadow); transition: background 0.3s;
         }
         .stat-card .stat-number { font-size: 2rem; font-weight: 700; color: var(--secondary); }
         .stat-card .stat-label { font-size: 0.8rem; color: var(--gray); }
 
-        /* ===== BACK TO TOP ===== */
         .back-to-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--secondary);
-            color: var(--primary);
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transition: all 0.3s;
-            opacity: 0;
-            transform: translateY(20px);
-            pointer-events: none;
-            z-index: 999;
+            position: fixed; bottom: 2rem; right: 2rem; width: 44px; height: 44px;
+            border-radius: 50%; background: var(--secondary); color: var(--primary);
+            border: none; font-size: 1.2rem; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: all 0.3s;
+            opacity: 0; transform: translateY(20px); pointer-events: none; z-index: 999;
         }
-        .back-to-top.visible {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
+        .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
         .back-to-top:hover { transform: scale(1.1); }
 
-        /* ===== SHORTCUTS ===== */
         .shortcuts-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1200;
-            align-items: center;
-            justify-content: center;
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5); z-index: 1200;
+            align-items: center; justify-content: center;
         }
         .shortcuts-modal.show { display: flex; }
         .shortcuts-modal .modal-content {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: var(--radius);
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
+            background: var(--card-bg); padding: 2rem; border-radius: var(--radius);
+            max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto;
         }
         .shortcuts-modal .modal-content h3 { color: var(--primary); margin-bottom: 1rem; }
         .shortcuts-modal .modal-content kbd {
-            background: var(--output-bg);
-            padding: 0.1rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            border: 1px solid var(--border);
+            background: var(--output-bg); padding: 0.1rem 0.5rem;
+            border-radius: 4px; font-size: 0.8rem; border: 1px solid var(--border);
         }
         .shortcuts-modal .modal-content .shortcut-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.3rem 0;
-            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between;
+            padding: 0.3rem 0; border-bottom: 1px solid var(--border);
         }
 
-        /* ===== VOICE INPUT ===== */
         .voice-btn {
-            background: transparent;
-            border: none;
-            color: var(--secondary);
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0.2rem 0.5rem;
-            transition: 0.3s;
+            background: transparent; border: none; color: var(--secondary);
+            font-size: 1.2rem; cursor: pointer; padding: 0.2rem 0.5rem; transition: 0.3s;
         }
         .voice-btn:hover { color: var(--primary); }
         .voice-btn.listening { color: #e74c3c; animation: pulse 1s infinite; }
         @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
-        /* ===== SOCIAL SHARE ===== */
-        .share-buttons {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-top: 0.5rem;
-        }
+        .share-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
         .share-buttons button {
-            background: transparent;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0.2rem 0.5rem;
-            border-radius: 5px;
-            transition: 0.3s;
+            background: transparent; border: none; font-size: 1.2rem;
+            cursor: pointer; padding: 0.2rem 0.5rem; border-radius: 5px; transition: 0.3s;
         }
         .share-buttons button:hover { background: var(--output-bg); }
 
-        /* ===== HISTORY LIST ===== */
         .history-item {
-            background: var(--bg);
-            padding: 0.8rem 1rem;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 3px solid var(--secondary);
-            transition: background 0.3s;
-            cursor: pointer;
+            background: var(--bg); padding: 0.8rem 1rem; border-radius: 8px;
+            margin-bottom: 0.5rem; display: flex; justify-content: space-between;
+            align-items: center; border-left: 3px solid var(--secondary);
+            transition: background 0.3s; cursor: pointer;
         }
         .history-item:hover { background: var(--output-bg); }
-        .history-item .h-title {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--primary);
-        }
+        .history-item .h-title { font-weight: 600; font-size: 0.9rem; color: var(--primary); }
         .history-item .h-preview {
-            font-size: 0.8rem;
-            color: var(--gray);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 200px;
+            font-size: 0.8rem; color: var(--gray); white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; max-width: 200px;
         }
-        .history-item .h-date {
-            font-size: 0.7rem;
-            color: var(--gray);
-            margin-left: 1rem;
-        }
+        .history-item .h-date { font-size: 0.7rem; color: var(--gray); margin-left: 1rem; }
         .history-item .h-actions button {
-            background: transparent;
-            border: none;
-            color: var(--gray);
-            cursor: pointer;
-            padding: 0 0.3rem;
-            transition: 0.3s;
+            background: transparent; border: none; color: var(--gray);
+            cursor: pointer; padding: 0 0.3rem; transition: 0.3s;
         }
-        .history-item .h-actions button:hover { color: var(--danger, #dc3545); }
+        .history-item .h-actions button:hover { color: #dc3545; }
 
-        /* ===== RESPONSIVE ===== */
+        /* Password Strength Meter */
+        .strength-bar-container {
+            width: 100%; height: 8px; background: var(--border);
+            border-radius: 4px; margin-top: 0.5rem; overflow: hidden;
+        }
+        .strength-bar {
+            height: 100%; width: 0%;
+            transition: width 0.4s ease, background 0.4s ease;
+            border-radius: 4px;
+        }
+        .strength-label {
+            font-size: 0.8rem; margin-top: 0.3rem;
+            font-weight: 600; transition: color 0.3s;
+        }
+
+        /* File Upload Button */
+        .file-upload-btn {
+            background: var(--secondary); color: var(--primary);
+            padding: 0.4rem 1rem; border-radius: 20px; border: none;
+            cursor: pointer; font-size: 0.8rem; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 6px;
+            transition: 0.3s; margin-bottom: 0.5rem;
+        }
+        .file-upload-btn:hover { background: var(--primary); color: white; }
+        .file-upload-btn input[type="file"] { display: none; }
+        .file-status {
+            font-size: 0.75rem; color: var(--gray);
+            margin-left: 0.5rem; font-style: italic;
+        }
+
         @media (max-width: 992px) {
             :root { --header-height: 76px; --nav-height: 44px; }
             .header .logo-img { width: 68px; height: 68px; }
@@ -711,14 +429,13 @@
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
     <header class="header">
         <div class="container">
             <div class="logo-wrapper">
                 <img src="logo.webp" alt="Nusaybah Hub Logo" class="logo-img" id="logoImg" />
                 <div class="logo-text">
                     <div class="brand">Nusaybah <span>Hub</span></div>
-                    <div class="tagline">YOUR TRUSTED SHOPPING HUB</div>
+                    <div class="tagline">YOUR ALL-IN-ONE DIGITAL TOOLKIT</div>
                 </div>
             </div>
             <div class="header-actions">
@@ -729,7 +446,6 @@
         </div>
     </header>
 
-    <!-- ===== NAVIGATION ===== -->
     <nav class="nav" id="mainNav">
         <div class="container">
             <button class="active" data-page="home"><i class="fas fa-home"></i> Home</button>
@@ -745,7 +461,6 @@
         </div>
     </nav>
 
-    <!-- ===== SHORTCUTS MODAL ===== -->
     <div class="shortcuts-modal" id="shortcutsModal">
         <div class="modal-content">
             <h3><i class="fas fa-keyboard"></i> Keyboard Shortcuts</h3>
@@ -758,10 +473,8 @@
         </div>
     </div>
 
-    <!-- ===== CONTENT ===== -->
     <div class="container content">
 
-        <!-- ===== HOME ===== -->
         <div class="page active" id="page-home">
             <div class="card" style="border-left-color: var(--primary);">
                 <h2>🏠 Welcome to Nusaybah Hub</h2>
@@ -786,7 +499,6 @@
             </div>
         </div>
 
-        <!-- ===== STATS ===== -->
         <div class="page" id="page-stats">
             <div class="card" style="border-left-color: var(--primary);">
                 <h2><i class="fas fa-chart-bar"></i> Your Usage Dashboard</h2>
@@ -805,7 +517,6 @@
             </div>
         </div>
 
-        <!-- ===== RECIPE ===== -->
         <div class="page" id="page-recipe">
             <div class="card">
                 <h2><i class="fas fa-utensils"></i> Recipe Generator</h2>
@@ -839,7 +550,6 @@
             </div>
         </div>
 
-        <!-- ===== RESUME ===== -->
         <div class="page" id="page-resume">
             <div class="card">
                 <h2><i class="fas fa-file-alt"></i> Resume Builder</h2>
@@ -867,13 +577,23 @@
             </div>
         </div>
 
-        <!-- ===== CONTENT ===== -->
         <div class="page" id="page-content">
             <div class="card">
                 <h2><i class="fas fa-pen-fancy"></i> Content Writer</h2>
                 <p class="sub">Generate professional content for any purpose.</p>
                 <div class="form-group"><label>Topic</label><input id="contentTopic" placeholder="e.g., Why modest fashion is growing in Nigeria" /></div>
-                <div class="form-group"><label>Content Type</label><select id="contentType"><option value="Blog Post">📝 Blog Post</option><option value="Social Media Post">📱 Social Media Post</option><option value="Product Description">🛍️ Product Description</option><option value="Email Newsletter">📧 Email Newsletter</option><option value="Advertisement Copy">🔥 Advertisement Copy</option><option value="Press Release">📰 Press Release</option><option value="Case Study">📊 Case Study</option><option value="How-To Guide">📖 How-To Guide</option><option value="Video Script">🎬 Video Script</option><option value="Landing Page Copy">🌐 Landing Page Copy</option></select></div>
+                <div class="form-group"><label>Content Type</label><select id="contentType">
+                    <option value="Blog Post">📝 Blog Post</option>
+                    <option value="Social Media Post">📱 Social Media Post</option>
+                    <option value="Product Description">🛍️ Product Description</option>
+                    <option value="Email Newsletter">📧 Email Newsletter</option>
+                    <option value="Advertisement Copy">🔥 Advertisement Copy</option>
+                    <option value="Press Release">📰 Press Release</option>
+                    <option value="Case Study">📊 Case Study</option>
+                    <option value="How-To Guide">📖 How-To Guide</option>
+                    <option value="Video Script">🎬 Video Script</option>
+                    <option value="Landing Page Copy">🌐 Landing Page Copy</option>
+                </select></div>
                 <div class="form-group"><label>Tone</label><select id="contentTone"><option value="Professional">Professional</option><option value="Casual">Casual</option><option value="Inspiring">Inspiring</option><option value="Persuasive">Persuasive</option><option value="Warm">Warm</option><option value="Authoritative">Authoritative</option><option value="Playful">Playful</option><option value="Urgent">Urgent</option></select></div>
                 <div class="form-group"><label>Target Audience</label><input id="contentAudience" placeholder="e.g., Women aged 18-45, business owners" value="General audience" /></div>
                 <button class="btn" onclick="generateContent()"><i class="fas fa-pen-fancy"></i> Generate Content</button>
@@ -888,7 +608,6 @@
             </div>
         </div>
 
-        <!-- ===== LEADS ===== -->
         <div class="page" id="page-leads">
             <div class="card">
                 <h2><i class="fas fa-bullseye"></i> Lead Generator</h2>
@@ -909,7 +628,6 @@
             </div>
         </div>
 
-        <!-- ===== ASSISTANT ===== -->
         <div class="page" id="page-assistant">
             <div class="card">
                 <h2><i class="fas fa-robot"></i> Nusaybah Hub AI Assistant</h2>
@@ -927,7 +645,6 @@
             </div>
         </div>
 
-        <!-- ===== QR ===== -->
         <div class="page" id="page-qr">
             <div class="card">
                 <h2><i class="fas fa-qrcode"></i> QR Code Generator</h2>
@@ -945,7 +662,6 @@
             </div>
         </div>
 
-        <!-- ===== PASSWORD ===== -->
         <div class="page" id="page-password">
             <div class="card">
                 <h2><i class="fas fa-lock"></i> Password Generator</h2>
@@ -969,15 +685,19 @@
             </div>
         </div>
 
-        <!-- ===== SUMMARIZER ===== -->
         <div class="page" id="page-summarizer">
             <div class="card">
                 <h2><i class="fas fa-compress-alt"></i> Smart Summarizer</h2>
-                <p class="sub">Paste any text and get a professional, high-quality summary instantly. (100% local, no API needed)</p>
+                <p class="sub">Paste any text or upload a .txt file and get a professional, high-quality summary instantly. (100% local, no API needed)</p>
 
                 <div class="form-group">
                     <label>Enter Text to Summarize</label>
-                    <textarea id="summarizerInput" rows="8" placeholder="Paste your text here..."></textarea>
+                    <label class="file-upload-btn">
+                        <i class="fas fa-upload"></i> Upload .txt File
+                        <input type="file" id="summarizerFile" accept=".txt,text/plain" onchange="handleFileUpload(event)" />
+                    </label>
+                    <span class="file-status" id="fileStatus"></span>
+                    <textarea id="summarizerInput" rows="8" placeholder="Paste your text here, or upload a .txt file above..."></textarea>
                     <div class="char-counter"><span id="summarizerCharCount">0</span> characters</div>
                 </div>
 
@@ -1001,7 +721,6 @@
                 </div>
             </div>
 
-            <!-- ===== SUMMARY HISTORY DASHBOARD ===== -->
             <div class="card" style="border-left-color: var(--primary);">
                 <h3><i class="fas fa-clock"></i> 📜 Summary History</h3>
                 <p class="sub">Your previously generated summaries are saved locally in your browser. Click any item to reload it instantly.</p>
@@ -1014,10 +733,8 @@
 
     </div>
 
-    <!-- ===== BACK TO TOP ===== -->
     <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
 
-    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-contact">
@@ -1031,15 +748,8 @@
         </div>
     </footer>
 
-    <!-- ============================================================
-    JAVASCRIPT – ALL FEATURES INCLUDED (General Purpose)
-    ============================================================ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
-    // =============================================================
-    // SECURE: No API Key is used. All logic runs locally in your browser.
-    // =============================================================
-
     // ============================================================
     // DARK MODE
     // ============================================================
@@ -1055,17 +765,11 @@
         darkToggle.querySelector('i').className = 'fas fa-sun';
     }
 
-    // ============================================================
-    // BACK TO TOP
-    // ============================================================
     window.addEventListener('scroll', () => {
         const btn = document.getElementById('backToTop');
         btn.classList.toggle('visible', window.scrollY > 300);
     });
 
-    // ============================================================
-    // SHORTCUTS
-    // ============================================================
     document.getElementById('shortcutsToggle').addEventListener('click', () => {
         document.getElementById('shortcutsModal').classList.toggle('show');
     });
@@ -1080,9 +784,6 @@
         if (e.key === 'Escape') document.getElementById('shortcutsModal').classList.remove('show');
     });
 
-    // ============================================================
-    // NAVIGATION
-    // ============================================================
     document.querySelectorAll('.nav button').forEach(btn => {
         btn.addEventListener('click', function() {
             document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
@@ -1109,9 +810,6 @@
         el.classList.add('show');
     }
 
-    // ============================================================
-    // STATS
-    // ============================================================
     function getStats() {
         try { return JSON.parse(localStorage.getItem('nusaybah_stats')) || {}; } catch(e) { return {}; }
     }
@@ -1125,14 +823,9 @@
     function updateStats() {
         const stats = getStats();
         const map = {
-            'stat-recipes': 'recipes',
-            'stat-resumes': 'resumes',
-            'stat-content': 'content',
-            'stat-leads': 'leads',
-            'stat-assistant': 'assistant',
-            'stat-qr': 'qr',
-            'stat-passwords': 'passwords',
-            'stat-summaries': 'summaries'
+            'stat-recipes': 'recipes', 'stat-resumes': 'resumes', 'stat-content': 'content',
+            'stat-leads': 'leads', 'stat-assistant': 'assistant', 'stat-qr': 'qr',
+            'stat-passwords': 'passwords', 'stat-summaries': 'summaries'
         };
         Object.keys(map).forEach(id => {
             const el = document.getElementById(id);
@@ -1140,19 +833,9 @@
         });
     }
     function resetStats() {
-        if (confirm('Reset all usage stats?')) {
-            saveStats({});
-            updateStats();
-        }
+        if (confirm('Reset all usage stats?')) { saveStats({}); updateStats(); }
     }
-    document.addEventListener('DOMContentLoaded', () => {
-        updateStats();
-        renderHistory();
-    });
 
-    // ============================================================
-    // COPY OUTPUT
-    // ============================================================
     function copyOutput(id) {
         const el = document.getElementById(id);
         if (!el) return;
@@ -1168,16 +851,9 @@
             window.getSelection().removeAllRanges();
             window.getSelection().addRange(range);
             document.execCommand('copy');
-            const btn = el.closest('.output-box').querySelector('.copy-btn');
-            const orig = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-            setTimeout(() => btn.innerHTML = orig, 1500);
         });
     }
 
-    // ============================================================
-    // SHARE
-    // ============================================================
     function sharePage(platform) {
         const url = encodeURIComponent(window.location.href);
         const text = encodeURIComponent('Check out Nusaybah Hub – all-in-one tools for business and creativity!');
@@ -1190,9 +866,6 @@
         if (urls[platform]) window.open(urls[platform], '_blank', 'width=600,height=400');
     }
 
-    // ============================================================
-    // VOICE INPUT
-    // ============================================================
     function startVoiceInput() {
         const btn = document.getElementById('voiceBtn');
         if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
@@ -1302,18 +975,10 @@
                 <strong style="color:#0a2463;">Instructions:</strong>
                 <ol>${matchedRecipe.instructions.split('\n').filter(s => s.trim()).map(s => `<li>${s}</li>`).join('')}</ol>
                 <button class="btn btn-sm btn-gold" onclick="exportRecipeImage()" style="margin-top:0.5rem;"><i class="fas fa-image"></i> Export as Image</button>
-                <div class="share-buttons">
-                    <button onclick="shareRecipe('${matchedRecipe.name}')"><i class="fas fa-share-alt" style="color:var(--secondary);"></i> Share</button>
-                </div>
             </div>
         `;
         showOutput('recipeOutput', output);
         incrementStat('recipes');
-    }
-
-    function shareRecipe(name) {
-        const text = encodeURIComponent(`🍽️ Check out this recipe: ${name} from Nusaybah Hub!`);
-        window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(window.location.href)}`, '_blank', 'width=600,height=400');
     }
 
     function exportRecipeImage() {
@@ -1372,7 +1037,6 @@
     // ============================================================
     // RESUME
     // ============================================================
-    let currentResumeHTML = '';
     let selectedTemplate = 'classic';
     let resumePhotoData = null;
 
@@ -1423,20 +1087,9 @@
 
         let templateStyles = '';
         if (selectedTemplate === 'modern') {
-            templateStyles = `
-                .resume-container { background: #f8f4f0; border-radius: 16px; padding: 2.5rem; }
-                .resume-container h3 { color: #2c3e50; font-size: 2rem; }
-                .resume-container .resume-title { color: #e67e22; }
-                .resume-container .resume-section h4 { color: #2c3e50; border-bottom-color: #e67e22; text-transform: none; font-size: 1.1rem; }
-            `;
+            templateStyles = `.resume-container { background: #f8f4f0; border-radius: 16px; padding: 2.5rem; } .resume-container h3 { color: #2c3e50; font-size: 2rem; } .resume-container .resume-title { color: #e67e22; } .resume-container .resume-section h4 { color: #2c3e50; border-bottom-color: #e67e22; text-transform: none; font-size: 1.1rem; }`;
         } else if (selectedTemplate === 'minimal') {
-            templateStyles = `
-                .resume-container { background: white; border-radius: 4px; padding: 2rem; border: 1px solid #ddd; }
-                .resume-container h3 { color: #111; font-size: 1.8rem; }
-                .resume-container .resume-title { color: #555; font-weight: 400; }
-                .resume-container .resume-section h4 { color: #111; border-bottom: 1px solid #ccc; text-transform: none; font-size: 1rem; }
-                .resume-container .resume-contact { color: #888; }
-            `;
+            templateStyles = `.resume-container { background: white; border-radius: 4px; padding: 2rem; border: 1px solid #ddd; } .resume-container h3 { color: #111; font-size: 1.8rem; } .resume-container .resume-title { color: #555; font-weight: 400; } .resume-container .resume-section h4 { color: #111; border-bottom: 1px solid #ccc; text-transform: none; font-size: 1rem; } .resume-container .resume-contact { color: #888; }`;
         }
 
         const experienceHtml = experience.split('\n').filter(s => s.trim()).map(s => `<p>${s}</p>`).join('');
@@ -1462,19 +1115,10 @@
             <div class="resume-actions">
                 <button class="btn btn-success" onclick="downloadResumeHTML()"><i class="fas fa-file-download"></i> Download HTML</button>
                 <button class="btn btn-info" onclick="printResume()"><i class="fas fa-print"></i> Print / PDF</button>
-                <button class="btn" onclick="shareResume()" style="background:#1da1f2;"><i class="fas fa-share-alt"></i> Share</button>
             </div>
         `;
-
-        currentResumeHTML = resumeHTML;
         showOutput('resumeOutput', resumeHTML);
         incrementStat('resumes');
-    }
-
-    function shareResume() {
-        const name = document.getElementById('resumeName').value.trim() || 'Resume';
-        const text = encodeURIComponent(`📄 Check out my resume: ${name} built with Nusaybah Hub!`);
-        window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(window.location.href)}`, '_blank', 'width=600,height=400');
     }
 
     function downloadResumeHTML() {
@@ -1505,7 +1149,7 @@
     }
 
     // ============================================================
-    // CONTENT
+    // CONTENT WRITER (FIXED – ALL 10 TEMPLATES)
     // ============================================================
     function generateContent() {
         const topic = document.getElementById('contentTopic').value.trim();
@@ -1513,10 +1157,82 @@
         const tone = document.getElementById('contentTone').value;
         const audience = document.getElementById('contentAudience').value.trim() || 'General audience';
         if (!topic) { alert('Please enter a topic.'); return; }
+
+        const topicTitle = topic.charAt(0).toUpperCase() + topic.slice(1);
         const templates = {
-            'Blog Post': `<h3>📝 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Introduction</strong><br/>A ${tone.toLowerCase()} blog post on ${topic} is a powerful way to engage your audience.</p><p><strong>Body</strong><br/>${topic} is relevant because it addresses key challenges and opportunities.</p><p><strong>Conclusion</strong><br/>Wrap up with a strong conclusion that reinforces the main points.</p>`,
-            'Social Media Post': `<h3>📱 ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p>🌟 ${topic} is changing the way we think about [industry].</p><p>👉 <strong>Why it matters:</strong> ${topic} addresses [key need].</p><p>💬 <strong>Let's discuss:</strong> What's your experience? Drop a comment!</p><p>#${topic.replace(/ /g,'')} #Trending #NusaybahHub</p>`,
-            'Product Description': `<h3>🛍️ ${topic}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/><p><strong>Introducing ${topic}</strong></p><p>${topic} is designed with quality and affordability in mind.</p><ul><li>✅ Premium quality</li><li>✅ Affordable price</li><li>✅ Satisfaction guaranteed</li></ul><p>📞 <strong>Order Now:</strong> +234 810 525 7672</p>`
+            'Blog Post': `<h3>📝 ${topicTitle}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/>
+                <p><strong>Introduction</strong><br/>Have you ever wondered about ${topic}? In today's fast-changing world, understanding this topic has become essential for anyone who wants to stay ahead. This blog post will explore the key aspects that matter most.</p>
+                <p><strong>Why It Matters</strong><br/>${topicTitle} is not just a passing trend. It affects how we work, live, and make decisions. Whether you are a beginner or an expert, there is always something new to learn.</p>
+                <p><strong>Key Insights</strong><br/>Research shows that people who engage with ${topic} see tangible benefits. From improved outcomes to better decision-making, the value is clear.</p>
+                <p><strong>Practical Tips</strong><br/>1. Start small and stay consistent.<br/>2. Learn from experts and communities.<br/>3. Track your progress and adjust as needed.</p>
+                <p><strong>Conclusion</strong><br/>${topicTitle} is worth exploring. Take the first step today, and you'll be amazed at how quickly things improve.</p>`,
+
+            'Social Media Post': `<h3>📱 ${topicTitle}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/>
+                <p>🌟 <strong>Let's talk about ${topic}!</strong></p>
+                <p>It's changing the way we think, work, and connect. Here's why it matters:</p>
+                <p>✅ It saves time<br/>✅ It opens new opportunities<br/>✅ It brings people together</p>
+                <p>💬 What's your take? Drop a comment below!</p>
+                <p>#${topic.replace(/\s+/g,'')} #Trending #NusaybahHub</p>`,
+
+            'Product Description': `<h3>🛍️ ${topicTitle}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/>
+                <p><strong>Introducing ${topicTitle}</strong></p>
+                <p>Designed with quality, functionality, and affordability in mind. This is exactly what you have been looking for.</p>
+                <ul><li>✅ Premium quality</li><li>✅ Affordable price</li><li>✅ 100% Satisfaction guaranteed</li><li>✅ Fast delivery</li></ul>
+                <p>📞 <strong>Order Now:</strong> +234 810 525 7672</p>`,
+
+            'Email Newsletter': `<h3>📧 ${topicTitle} — Newsletter</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/>
+                <p><strong>Subject Line:</strong> 🎉 ${topicTitle} — Here's What You Need to Know</p>
+                <p><strong>Greeting:</strong><br/>Hello {{FirstName}},</p>
+                <p><strong>Opening:</strong><br/>We hope this message finds you well. We're excited to share some important updates about ${topic}.</p>
+                <p><strong>Main Content:</strong><br/>This week, we are focusing on ${topic}. It's a topic that affects many of us, and we've prepared resources to help you understand it better.</p>
+                <p><strong>Call to Action:</strong><br/>👉 Click here to learn more: <em>[Insert Link]</em></p>
+                <p><strong>Sign-off:</strong><br/>Warm regards,<br/>The Nusaybah Hub Team</p>`,
+
+            'Advertisement Copy': `<h3>🔥 ${topicTitle} — Advertisement</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/>
+                <p><strong>HEADLINE:</strong> 🚀 Struggling with ${topic}? We Have the Solution!</p>
+                <p><strong>SUBHEADLINE:</strong> Join thousands of satisfied customers who have transformed their lives with our proven approach.</p>
+                <p><strong>BODY:</strong><br/>Stop wasting time and money on ineffective solutions. Discover the fast, simple, and affordable way to succeed with ${topic}.</p>
+                <ul><li>⚡ Instant results</li><li>💰 Affordable pricing</li><li>⭐ Rated 5 stars by our customers</li></ul>
+                <p><strong>CALL TO ACTION:</strong> 📞 Call Now: +234 810 525 7672</p>`,
+
+            'Press Release': `<h3>📰 FOR IMMEDIATE RELEASE</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/>
+                <p><strong>Contact:</strong><br/>Nusaybah Hub<br/>📞 +234 810 525 7672<br/>📧 nusaybahpower@gmail.com</p>
+                <p><strong>HEADLINE:</strong> Nusaybah Hub Announces Major Development in ${topicTitle}</p>
+                <p><strong>Location:</strong> Jos, Nigeria — [Date]</p>
+                <p><strong>Body:</strong><br/>Nusaybah Hub is proud to announce a significant new development regarding ${topic}. This initiative reflects our ongoing commitment to innovation and customer satisfaction.</p>
+                <p>"We are excited about the opportunities this brings," said the management team. "This is a step toward a brighter future for everyone involved."</p>
+                <p><strong>About Nusaybah Hub:</strong><br/>Nusaybah Hub is a trusted provider of digital tools and services, helping businesses and individuals achieve more with less.</p>
+                <p><strong>Media Contact:</strong> 📧 nusaybahpower@gmail.com</p>`,
+
+            'Case Study': `<h3>📊 Case Study: ${topicTitle}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/>
+                <p><strong>Executive Summary:</strong><br/>This case study examines how ${topic} was successfully implemented, generating measurable results.</p>
+                <p><strong>The Challenge:</strong><br/>Before the intervention, the client faced significant obstacles related to ${topic}, causing delays and inefficiencies.</p>
+                <p><strong>The Solution:</strong><br/>By leveraging data-driven strategies and proven methodologies, a customized plan was developed to address the core issues.</p>
+                <p><strong>The Results:</strong><br/>📈 45% improvement in performance<br/>💰 32% reduction in costs<br/>⭐ 98% customer satisfaction</p>
+                <p><strong>Conclusion:</strong><br/>The success of this initiative demonstrates that ${topic} can be a powerful driver of growth when approached correctly.</p>`,
+
+            'How-To Guide': `<h3>📖 How To Master ${topicTitle}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/>
+                <p><strong>Introduction:</strong><br/>Whether you are new to ${topic} or want to improve your skills, this guide will walk you through it step-by-step.</p>
+                <p><strong>Step 1: Understand the Basics</strong><br/>Start by learning what ${topic} is and why it matters.</p>
+                <p><strong>Step 2: Prepare Your Tools</strong><br/>Gather everything you need before you begin.</p>
+                <p><strong>Step 3: Take Action</strong><br/>Follow proven techniques and stay consistent.</p>
+                <p><strong>Step 4: Track Your Progress</strong><br/>Monitor results and adjust as needed.</p>
+                <p><strong>Step 5: Keep Learning</strong><br/>Join communities, read books, and watch tutorials to stay ahead.</p>
+                <p><strong>Conclusion:</strong><br/>Mastering ${topic} takes time, but with the right approach, anyone can succeed.</p>`,
+
+            'Video Script': `<h3>🎬 Video Script: ${topicTitle}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/>
+                <p><strong>[SCENE 1 — HOOK — 0:00-0:05]</strong><br/>🎥 Close-up on host, energetic voice:<br/>"Have you ever wondered about ${topic}? Stay with me, because this will change how you see it!"</p>
+                <p><strong>[SCENE 2 — INTRO — 0:05-0:20]</strong><br/>Host speaks to camera:<br/>"Today we're diving into ${topic}. It's simpler than you think, and I'll show you exactly how it works."</p>
+                <p><strong>[SCENE 3 — MAIN CONTENT — 0:20-1:30]</strong><br/>Show b-roll footage with voiceover explaining the key points of ${topic}.</p>
+                <p><strong>[SCENE 4 — CALL TO ACTION — 1:30-2:00]</strong><br/>Host returns:<br/>"If you found this helpful, like, share, and subscribe. See you next time!"</p>`,
+
+            'Landing Page Copy': `<h3>🌐 Landing Page: ${topicTitle}</h3><p style="color:var(--gray);"><strong>Target Audience:</strong> ${audience} | <strong>Tone:</strong> ${tone}</p><hr/>
+                <p><strong>HEADLINE:</strong><br/>🚀 The Ultimate Solution for ${topicTitle}</p>
+                <p><strong>SUBHEADLINE:</strong><br/>Everything you need, in one powerful place. Start today and see the difference.</p>
+                <p><strong>BENEFITS:</strong></p>
+                <ul><li>✅ Save time and money</li><li>✅ Built for real results</li><li>✅ Trusted by thousands</li><li>✅ 100% Risk-free</li></ul>
+                <p><strong>SOCIAL PROOF:</strong><br/>⭐⭐⭐⭐⭐ "This changed everything for me!" — Happy Customer</p>
+                <p><strong>CALL TO ACTION:</strong><br/>👉 [Get Started Now]<br/>📞 +234 810 525 7672</p>`
         };
         const result = templates[type] || templates['Blog Post'];
         showOutput('contentOutput', `<div style="font-size:1rem; line-height:1.8;">${result}</div>`);
@@ -1568,14 +1284,17 @@
     }
 
     // ============================================================
-    // QR
+    // QR (With fallback error handling)
     // ============================================================
     function generateQR() {
         const text = document.getElementById('qrInput').value.trim();
         if (!text) { alert('Please enter some text or a URL.'); return; }
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(text)}`;
         const resultHtml = `
-            <img id="qrImage" src="${qrUrl}" alt="QR Code" style="max-width:300px; width:100%; margin:0 auto; display:block; border:2px solid #ddd; border-radius:8px;" />
+            <img id="qrImage" src="${qrUrl}" alt="QR Code" onerror="this.style.display='none'; document.getElementById('qrError').style.display='block';" style="max-width:300px; width:100%; margin:0 auto; display:block; border:2px solid #ddd; border-radius:8px;" />
+            <div id="qrError" style="display:none; padding:1rem; background:#f8d7da; color:#721c24; border-radius:8px; margin-top:1rem;">
+                ⚠️ The QR Code service is temporarily unavailable. Please try again in a moment.
+            </div>
             <div style="margin-top:1rem;">
                 <button class="btn" onclick="downloadQR()" style="background:var(--secondary); color:var(--primary);"><i class="fas fa-download"></i> Download QR Code</button>
             </div>
@@ -1586,7 +1305,7 @@
 
     function downloadQR() {
         const img = document.getElementById('qrImage');
-        if (!img) { alert('Please generate a QR code first.'); return; }
+        if (!img || img.style.display === 'none') { alert('Please generate a QR code first.'); return; }
         fetch(img.src, { mode: 'cors' }).then(res => res.blob()).then(blob => {
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
@@ -1608,7 +1327,7 @@
     }
 
     // ============================================================
-    // PASSWORD
+    // PASSWORD (With Strength Meter)
     // ============================================================
     let generatedPassword = '';
     function generatePassword() {
@@ -1626,11 +1345,32 @@
         let password = '';
         for (let i = 0; i < length; i++) password += chars.charAt(Math.floor(Math.random() * chars.length));
         generatedPassword = password;
+        
+        const strength = evaluatePasswordStrength(password);
+        
         showOutput('passOutput', `
             <div style="font-size:1.2rem; font-weight:bold; word-break:break-all; color:#0a2463;">${password}</div>
+            <div class="strength-bar-container">
+                <div class="strength-bar" id="strengthBar" style="width:${strength.percent}%; background:${strength.color};"></div>
+            </div>
+            <div class="strength-label" id="strengthLabel" style="color:${strength.color};">${strength.label} Password (${password.length} characters)</div>
             <button class="btn btn-sm" style="margin-top:0.5rem;" onclick="copyPassword()"><i class="fas fa-copy"></i> Copy</button>
         `);
         incrementStat('passwords');
+    }
+
+    function evaluatePasswordStrength(password) {
+        let score = 0;
+        if (password.length >= 8) score++;
+        if (password.length >= 12) score++;
+        if (password.length >= 16) score++;
+        if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score++;
+        if (/\d/.test(password)) score++;
+        if (/[^a-zA-Z0-9]/.test(password)) score++;
+
+        if (score <= 2) return { label: 'Weak', color: '#dc3545', percent: 33 };
+        if (score <= 4) return { label: 'Medium', color: '#ffc107', percent: 66 };
+        return { label: 'Strong', color: '#28a745', percent: 100 };
     }
 
     function copyPassword() {
@@ -1647,10 +1387,8 @@
     }
 
     // ============================================================
-    // 🎯 SMART SUMMARIZER (General Purpose) + HISTORY + PDF
+    // SMART SUMMARIZER + HISTORY + FILE UPLOAD + PDF
     // ============================================================
-
-    // Stopwords
     const STOPWORDS = new Set([
       'a','an','the','and','or','but','for','nor','on','at','to','by','in','of','with','without',
       'after','before','during','through','between','among','upon','about','above','below','under','over',
@@ -1742,7 +1480,34 @@
     }
 
     // ============================================================
-    // 📜 SUMMARY HISTORY
+    // FILE UPLOAD HANDLER
+    // ============================================================
+    function handleFileUpload(event) {
+        const file = event.target.files[0];
+        const status = document.getElementById('fileStatus');
+        if (!file) { status.textContent = ''; return; }
+        if (file.size > 2000000) {
+            alert('⚠️ File is too large (max 2MB). Please upload a smaller file.');
+            event.target.value = '';
+            return;
+        }
+        status.textContent = '⏳ Loading ' + file.name + '...';
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const content = e.target.result;
+            document.getElementById('summarizerInput').value = content;
+            document.getElementById('summarizerCharCount').textContent = content.length;
+            status.textContent = '✅ Loaded: ' + file.name + ' (' + Math.round(file.size / 1024) + ' KB)';
+        };
+        reader.onerror = function() {
+            status.textContent = '❌ Could not read file.';
+            alert('Could not read the file. Please try another .txt file.');
+        };
+        reader.readAsText(file);
+    }
+
+    // ============================================================
+    // HISTORY
     // ============================================================
     function getHistory() {
         try { return JSON.parse(localStorage.getItem('nusaybah_summary_history')) || []; } catch(e) { return []; }
@@ -1794,7 +1559,6 @@
         const item = history[index];
         const outputBox = document.getElementById('summarizerOutput');
         const resultDiv = document.getElementById('summarizerResult');
-        
         const summaryText = item.summary || item.snippet;
         
         resultDiv.innerHTML = `
@@ -1831,7 +1595,7 @@
     }
 
     // ============================================================
-    // 🏆 EXECUTIVE PDF EXPORT (General Purpose)
+    // EXECUTIVE PDF EXPORT
     // ============================================================
     function printSummary() {
       const content = document.getElementById('summarizerResult');
@@ -1839,158 +1603,60 @@
         alert('Please generate a summary first.');
         return;
       }
-
       const rawText = content.innerText || '';
       const summaryMatch = rawText.match(/📝 Smart Summary\s*([\s\S]*?)(?=📌 Extracted Key Points)/);
       const summaryBody = summaryMatch ? summaryMatch[1].trim() : rawText;
-      
       const keyPointsMatch = rawText.match(/📌 Extracted Key Points\s*([\s\S]*?)(?=📊 Original:)/);
       const keyPoints = keyPointsMatch ? keyPointsMatch[1].trim() : 'N/A';
-
       const projectTitle = prompt("📝 Enter the Title of your document (for the header):", "Document Summary") || "Document Summary";
-
       const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-
       const printWindow = window.open('', '_blank', 'width=900,height=700');
-      if (!printWindow) {
-        alert('Please allow popups to export the PDF.');
-        return;
-      }
-
+      if (!printWindow) { alert('Please allow popups to export the PDF.'); return; }
       printWindow.document.write(`
         <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Smart Summary - Nusaybah Hub</title>
+        <html><head><title>Smart Summary - Nusaybah Hub</title>
           <style>
             @page { margin: 2cm; }
-            body { 
-              font-family: 'Times New Roman', Times, serif; 
-              max-width: 800px; 
-              margin: 0 auto; 
-              padding: 2rem; 
-              background: white; 
-              color: #1a1a1a; 
-              line-height: 1.8; 
-              font-size: 12pt;
-            }
-            .letterhead {
-              text-align: center;
-              border-bottom: 3px double #d4af37;
-              padding-bottom: 1rem;
-              margin-bottom: 2rem;
-            }
-            .letterhead h1 {
-              color: #0a2463;
-              font-size: 24pt;
-              margin: 0;
-              letter-spacing: 1px;
-            }
+            body { font-family: 'Times New Roman', Times, serif; max-width: 800px; margin: 0 auto; padding: 2rem; background: white; color: #1a1a1a; line-height: 1.8; font-size: 12pt; }
+            .letterhead { text-align: center; border-bottom: 3px double #d4af37; padding-bottom: 1rem; margin-bottom: 2rem; }
+            .letterhead h1 { color: #0a2463; font-size: 24pt; margin: 0; letter-spacing: 1px; }
             .letterhead h1 span { color: #d4af37; }
-            .letterhead .sub {
-              color: #6c757d;
-              font-size: 10pt;
-              text-transform: uppercase;
-              letter-spacing: 3px;
-            }
-            .doc-title {
-              font-size: 18pt;
-              font-weight: bold;
-              text-align: center;
-              color: #0a2463;
-              margin: 1.5rem 0 0.5rem 0;
-              text-transform: uppercase;
-            }
-            .doc-meta {
-              text-align: center;
-              color: #555;
-              font-size: 11pt;
-              margin-bottom: 2rem;
-              border-bottom: 1px solid #ddd;
-              padding-bottom: 1rem;
-            }
-            .summary-body {
-              font-size: 12pt;
-              text-align: justify;
-              margin: 1.5rem 0;
-              padding: 1rem;
-              background: #f8f9fa;
-              border-left: 4px solid #d4af37;
-            }
-            .key-points {
-              margin: 1.5rem 0;
-              padding: 1rem 1.5rem;
-              background: #f0f4f8;
-              border-radius: 4px;
-            }
+            .letterhead .sub { color: #6c757d; font-size: 10pt; text-transform: uppercase; letter-spacing: 3px; }
+            .doc-title { font-size: 18pt; font-weight: bold; text-align: center; color: #0a2463; margin: 1.5rem 0 0.5rem 0; text-transform: uppercase; }
+            .doc-meta { text-align: center; color: #555; font-size: 11pt; margin-bottom: 2rem; border-bottom: 1px solid #ddd; padding-bottom: 1rem; }
+            .summary-body { font-size: 12pt; text-align: justify; margin: 1.5rem 0; padding: 1rem; background: #f8f9fa; border-left: 4px solid #d4af37; }
+            .key-points { margin: 1.5rem 0; padding: 1rem 1.5rem; background: #f0f4f8; border-radius: 4px; }
             .key-points h3 { color: #0a2463; margin-top: 0; }
-            .footer {
-              margin-top: 2.5rem;
-              border-top: 1px solid #ddd;
-              padding-top: 1rem;
-              font-size: 10pt;
-              color: #6c757d;
-              text-align: center;
-            }
-            .watermark {
-              position: fixed;
-              bottom: 2cm;
-              right: 2cm;
-              opacity: 0.08;
-              font-size: 48pt;
-              font-weight: bold;
-              color: #0a2463;
-              transform: rotate(-15deg);
-              pointer-events: none;
-              z-index: 999;
-            }
-          </style>
-        </head>
+            .footer { margin-top: 2.5rem; border-top: 1px solid #ddd; padding-top: 1rem; font-size: 10pt; color: #6c757d; text-align: center; }
+            .watermark { position: fixed; bottom: 2cm; right: 2cm; opacity: 0.08; font-size: 48pt; font-weight: bold; color: #0a2463; transform: rotate(-15deg); pointer-events: none; z-index: 999; }
+          </style></head>
         <body>
           <div class="watermark">NUSAYBAH HUB</div>
-
           <div class="letterhead">
             <h1>Nusaybah <span>Hub</span></h1>
-            <div class="sub">Your Trusted Shopping Hub • Productivity Division</div>
+            <div class="sub">Your All-In-One Digital Toolkit • Productivity Division</div>
           </div>
-
           <div class="doc-title">${projectTitle}</div>
           <div class="doc-meta">📅 Generated on ${date} • Smart Summary</div>
-
           <h3 style="color:#0a2463;">📝 Summary</h3>
           <div class="summary-body">${summaryBody}</div>
-
-          <div class="key-points">
-            <h3>📌 Extracted Key Points</h3>
-            ${keyPoints.replace(/\n/g, '<br/>')}
-          </div>
-
+          <div class="key-points"><h3>📌 Extracted Key Points</h3>${keyPoints.replace(/\n/g, '<br/>')}</div>
           <div class="footer">
-            <p>This document was generated automatically using the Nusaybah Hub Smart Summarizer. 
-            <br/>For the full report or to regenerate, visit the official tool.</p>
+            <p>This document was generated automatically using the Nusaybah Hub Smart Summarizer.</p>
             <p style="font-size:8pt; opacity:0.6;">© 2025 Nusaybah Hub — Built with ❤ by Nusaiba Yakub</p>
           </div>
-
-          <script>
-            window.onload = function() { 
-              setTimeout(function() { window.print(); }, 500); 
-            }
-          <\/script>
-        </body>
-        </html>
+          <script>window.onload = function() { setTimeout(function() { window.print(); }, 500); }<\/script>
+        </body></html>
       `);
       printWindow.document.close();
     }
 
     // ============================================================
-    // MAIN SUMMARIZE FUNCTION (With History Saving)
+    // MAIN SUMMARIZE FUNCTION
     // ============================================================
     function summarizeText() {
       const text = document.getElementById('summarizerInput').value.trim();
-      if (!text) {
-        alert('Please enter some text to summarize.');
-        return;
-      }
+      if (!text) { alert('Please enter some text to summarize.'); return; }
 
       const wordCountEstimate = text.split(/\s+/).length;
       if (wordCountEstimate > 8000) {
@@ -2003,12 +1669,7 @@
       const resultDiv = document.getElementById('summarizerResult');
       outputBox.classList.add('show');
 
-      resultDiv.innerHTML = `
-        <div style="text-align:center; padding:1.5rem;">
-          <i class="fas fa-spinner fa-spin" style="font-size:1.5rem; color:var(--secondary);"></i>
-          <p style="margin-top:0.5rem;">🧠 Analyzing your text...</p>
-        </div>
-      `;
+      resultDiv.innerHTML = `<div style="text-align:center; padding:1.5rem;"><i class="fas fa-spinner fa-spin" style="font-size:1.5rem; color:var(--secondary);"></i><p style="margin-top:0.5rem;">🧠 Analyzing your text...</p></div>`;
 
       setTimeout(() => {
         try {
@@ -2026,75 +1687,48 @@
           if (totalSentences <= maxSentences) {
             const wordCount = text.split(/\s+/).length;
             const keyPoints = extractKeyPoints(text);
-            const summary = text;
-            resultDiv.innerHTML = buildSummaryHTML(summary, wordCount, wordCount, keyPoints);
-            saveSummaryToHistory(summary, text);
+            resultDiv.innerHTML = buildSummaryHTML(text, wordCount, wordCount, keyPoints);
+            saveSummaryToHistory(text, text);
             incrementStat('summaries');
             return;
           }
 
           const { tfidf, docWords } = computeTFIDF(sentences);
-
-          // ---- SMART KEYWORD BOOST (General Purpose) ----
-          const smartKeywords = [
-            'conclusion', 'findings', 'results', 'study', 'research', 'analysis', 
-            'reveals', 'suggests', 'indicates', 'demonstrates', 'important',
-            'objective', 'aim', 'purpose', 'significant', 'key', 'impact',
-            'therefore', 'consequently', 'finally', 'overall', 'recommend'
-          ];
+          const smartKeywords = ['conclusion','findings','results','study','research','analysis','reveals','suggests','indicates','demonstrates','important','objective','aim','purpose','significant','key','impact','therefore','consequently','finally','overall','recommend'];
 
           const scoredSentences = sentences.map((sentence, idx) => {
             const words = tokenize(sentence);
             let score = 0;
             const tfidfObj = tfidf[idx];
             for (const w of words) score += tfidfObj[w] || 0;
-            
             let smartScore = 0;
             const lowerSentence = sentence.toLowerCase();
-            for (const keyword of smartKeywords) {
-              if (lowerSentence.includes(keyword)) smartScore += 0.5;
-            }
+            for (const keyword of smartKeywords) { if (lowerSentence.includes(keyword)) smartScore += 0.5; }
             if (words.length > 0 && words.length < 15) smartScore += 0.2;
-            
             const posBonus = (idx === 0) ? 1.6 : (idx === totalSentences - 1) ? 1.4 : 1.0;
             score = (score * 1.3) + smartScore;
             score *= posBonus;
-            
             if (words.length > 0) score = score / Math.sqrt(words.length);
             return { sentence: sentence.trim(), score, originalIndex: idx, words };
           });
 
           scoredSentences.sort((a, b) => b.score - a.score);
-
           const selected = [];
           for (const candidate of scoredSentences) {
             let tooSimilar = false;
             for (const sel of selected) {
-              if (sentenceSimilarity(candidate.sentence, sel.sentence) > 0.55) {
-                tooSimilar = true;
-                break;
-              }
+              if (sentenceSimilarity(candidate.sentence, sel.sentence) > 0.55) { tooSimilar = true; break; }
             }
-            if (!tooSimilar) {
-              selected.push(candidate);
-              if (selected.length >= maxSentences) break;
-            }
+            if (!tooSimilar) { selected.push(candidate); if (selected.length >= maxSentences) break; }
           }
-
           if (selected.length < maxSentences) {
             for (const candidate of scoredSentences) {
               if (selected.includes(candidate)) continue;
               let tooSimilar = false;
               for (const sel of selected) {
-                if (sentenceSimilarity(candidate.sentence, sel.sentence) > 0.7) {
-                  tooSimilar = true;
-                  break;
-                }
+                if (sentenceSimilarity(candidate.sentence, sel.sentence) > 0.7) { tooSimilar = true; break; }
               }
-              if (!tooSimilar) {
-                selected.push(candidate);
-                if (selected.length >= maxSentences) break;
-              }
+              if (!tooSimilar) { selected.push(candidate); if (selected.length >= maxSentences) break; }
             }
           }
 
@@ -2107,7 +1741,6 @@
           resultDiv.innerHTML = buildSummaryHTML(summary, wordCount, summaryWordCount, keyPoints);
           saveSummaryToHistory(summary, text);
           incrementStat('summaries');
-
         } catch (error) {
           console.error(error);
           resultDiv.innerHTML = `<div style="color:#dc3545; padding:1rem; background:#f8d7da; border-radius:4px;"><strong>⚠️ Error:</strong> Please try with a shorter section of text.</div>`;
@@ -2115,16 +1748,10 @@
       }, 150);
     }
 
-    // ============================================================
-    // HELPER FUNCTIONS FOR SUMMARIZER
-    // ============================================================
     function copySummary() {
       const resultDiv = document.getElementById('summarizerResult');
       const text = resultDiv.textContent || resultDiv.innerText;
-      if (!text || text.includes('Processing') || text.includes('Analyzing')) {
-        alert('Please generate a summary first.');
-        return;
-      }
+      if (!text || text.includes('Processing') || text.includes('Analyzing')) { alert('Please generate a summary first.'); return; }
       navigator.clipboard.writeText(text).then(() => alert('✅ Summary copied!')).catch(() => {
         const range = document.createRange();
         range.selectNode(resultDiv);
@@ -2138,10 +1765,7 @@
     function downloadSummary() {
       const resultDiv = document.getElementById('summarizerResult');
       const text = resultDiv.textContent || resultDiv.innerText;
-      if (!text || text.includes('Processing')) {
-        alert('Please generate a summary first.');
-        return;
-      }
+      if (!text || text.includes('Processing')) { alert('Please generate a summary first.'); return; }
       const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
@@ -2175,9 +1799,6 @@
         }
     });
 
-    // ============================================================
-    // CHARACTER COUNTERS
-    // ============================================================
     document.querySelectorAll('textarea').forEach(ta => {
         const counter = document.getElementById(ta.id + 'CharCount');
         if (counter) {
@@ -2186,9 +1807,6 @@
         }
     });
 
-    // ============================================================
-    // INIT
-    // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
         displayAllRecipes();
         updateStats();
